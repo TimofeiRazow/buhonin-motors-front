@@ -89,247 +89,350 @@ const RegisterPage = () => {
   };
 
   return (
-    <div style={{
-      maxWidth: '500px',
-      margin: '50px auto',
-      padding: '20px',
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-    }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>
-        Регистрация
-      </h1>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+      <div className="relative w-full max-w-2xl">
+        {/* Фоновые декоративные элементы */}
+        <div className="absolute -top-10 -left-10 w-20 h-20 border-4 border-orange-600 rotate-45 opacity-20"></div>
+        <div className="absolute -top-6 -right-6 w-12 h-12 bg-orange-600 rotate-12 opacity-30"></div>
+        <div className="absolute -bottom-8 -left-8 w-8 h-8 bg-white opacity-25"></div>
+        <div className="absolute -bottom-12 -right-12 w-16 h-16 border-2 border-white rotate-45 opacity-15"></div>
 
-      {errors.general && (
-        <div style={{
-          backgroundColor: '#f8d7da',
-          color: '#721c24',
-          padding: '12px',
-          borderRadius: '4px',
-          marginBottom: '20px',
-          border: '1px solid #f5c6cb'
-        }}>
-          {errors.general}
-        </div>
-      )}
+        {/* Основная форма */}
+        <div className="bg-black border-4 border-orange-600 p-8 relative overflow-hidden">
+          {/* Геометрические элементы формы */}
+          <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+          <div className="absolute bottom-0 right-0 w-full h-2 bg-white opacity-50"></div>
+          <div className="absolute top-6 right-6 w-6 h-6 bg-orange-600 rotate-45"></div>
+          <div className="absolute bottom-6 left-6 w-4 h-4 bg-white"></div>
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-              Имя *
-            </label>
-            <input
-              type="text"
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-              placeholder="Введите имя"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: `1px solid ${errors.first_name ? '#dc3545' : '#ddd'}`,
-                borderRadius: '4px',
-                fontSize: '16px',
-                boxSizing: 'border-box'
-              }}
-            />
-            {errors.first_name && (
-              <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>
-                {errors.first_name}
+          <div className="relative z-10">
+            {/* Заголовок */}
+            <div className="text-center mb-8">
+              <h1 className="text-4xl font-black text-white uppercase tracking-wider mb-4">
+                ПРИСОЕДИНЯЙСЯ К
+                <span className="block text-orange-500 text-3xl">BUHONIN MOTORS</span>
+              </h1>
+              <div className="w-20 h-1 bg-orange-600 mx-auto"></div>
+            </div>
+
+            {/* Общая ошибка */}
+            {errors.general && (
+              <div className="bg-red-600 border-2 border-black text-white p-4 mb-6 relative">
+                <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
+                <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
+                <p className="font-bold uppercase tracking-wide text-sm">
+                  ⚠️ {errors.general}
+                </p>
               </div>
             )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Имя и Фамилия */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="group">
+                  <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                    ИМЯ *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="first_name"
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      placeholder="ВВЕДИТЕ ИМЯ"
+                      className={`
+                        w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
+                        focus:outline-none focus:bg-black placeholder-gray-500
+                        ${errors.first_name 
+                          ? 'border-red-500 focus:border-red-400' 
+                          : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
+                        }
+                      `}
+                    />
+                    <div className={`
+                      absolute top-2 left-2 w-2 h-2 transition-colors duration-300
+                      ${errors.first_name ? 'bg-red-500' : 'bg-orange-600'}
+                    `}></div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+                      👤
+                    </div>
+                  </div>
+                  {errors.first_name && (
+                    <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                      <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                      {errors.first_name}
+                    </div>
+                  )}
+                </div>
+
+                <div className="group">
+                  <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                    ФАМИЛИЯ
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="last_name"
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      placeholder="ВВЕДИТЕ ФАМИЛИЮ"
+                      className="w-full p-4 bg-gray-900 text-white font-bold border-2 border-gray-700 focus:border-orange-500 hover:border-gray-600 focus:outline-none focus:bg-black placeholder-gray-500 transition-all duration-300"
+                    />
+                    <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+                      👥
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Номер телефона */}
+              <div className="group">
+                <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                  НОМЕР ТЕЛЕФОНА *
+                </label>
+                <div className="relative">
+                  <input
+                    type="tel"
+                    name="phone_number"
+                    value={formData.phone_number}
+                    onChange={handleChange}
+                    placeholder="+7 (777) 123-45-67"
+                    className={`
+                      w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
+                      focus:outline-none focus:bg-black placeholder-gray-500
+                      ${errors.phone_number 
+                        ? 'border-red-500 focus:border-red-400' 
+                        : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
+                      }
+                    `}
+                  />
+                  <div className={`
+                    absolute top-2 left-2 w-2 h-2 transition-colors duration-300
+                    ${errors.phone_number ? 'bg-red-500' : 'bg-orange-600'}
+                  `}></div>
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+                    📱
+                  </div>
+                </div>
+                {errors.phone_number && (
+                  <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                    <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                    {errors.phone_number}
+                  </div>
+                )}
+              </div>
+
+              {/* Email */}
+              <div className="group">
+                <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                  EMAIL <span className="text-gray-400">(НЕОБЯЗАТЕЛЬНО)</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="EXAMPLE@MAIL.COM"
+                    className={`
+                      w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
+                      focus:outline-none focus:bg-black placeholder-gray-500
+                      ${errors.email 
+                        ? 'border-red-500 focus:border-red-400' 
+                        : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
+                      }
+                    `}
+                  />
+                  <div className={`
+                    absolute top-2 left-2 w-2 h-2 transition-colors duration-300
+                    ${errors.email ? 'bg-red-500' : 'bg-orange-600'}
+                  `}></div>
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+                    ✉️
+                  </div>
+                </div>
+                {errors.email && (
+                  <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                    <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                    {errors.email}
+                  </div>
+                )}
+              </div>
+
+              {/* Пароли */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="group">
+                  <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                    ПАРОЛЬ *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="МИНИМУМ 6 СИМВОЛОВ"
+                      className={`
+                        w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
+                        focus:outline-none focus:bg-black placeholder-gray-500
+                        ${errors.password 
+                          ? 'border-red-500 focus:border-red-400' 
+                          : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
+                        }
+                      `}
+                    />
+                    <div className={`
+                      absolute top-2 left-2 w-2 h-2 transition-colors duration-300
+                      ${errors.password ? 'bg-red-500' : 'bg-orange-600'}
+                    `}></div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+                      🔒
+                    </div>
+                  </div>
+                  {errors.password && (
+                    <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                      <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                      {errors.password}
+                    </div>
+                  )}
+                </div>
+
+                <div className="group">
+                  <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                    ПОДТВЕРДИТЕ ПАРОЛЬ *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="password"
+                      name="confirm_password"
+                      value={formData.confirm_password}
+                      onChange={handleChange}
+                      placeholder="ПОВТОРИТЕ ПАРОЛЬ"
+                      className={`
+                        w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
+                        focus:outline-none focus:bg-black placeholder-gray-500
+                        ${errors.confirm_password 
+                          ? 'border-red-500 focus:border-red-400' 
+                          : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
+                        }
+                      `}
+                    />
+                    <div className={`
+                      absolute top-2 left-2 w-2 h-2 transition-colors duration-300
+                      ${errors.confirm_password ? 'bg-red-500' : 'bg-orange-600'}
+                    `}></div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+                      🔐
+                    </div>
+                  </div>
+                  {errors.confirm_password && (
+                    <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                      <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                      {errors.confirm_password}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Согласие с условиями */}
+              <div className="group">
+                <label className="flex items-start gap-4 cursor-pointer p-4 bg-gray-900 border-2 border-gray-700 hover:border-orange-500 transition-colors duration-300">
+                  <div className="relative mt-1">
+                    <input
+                      type="checkbox"
+                      name="agree_terms"
+                      checked={formData.agree_terms}
+                      onChange={handleChange}
+                      className="sr-only"
+                    />
+                    <div className={`w-6 h-6 border-2 flex items-center justify-center transition-colors duration-300 ${
+                      formData.agree_terms 
+                        ? 'bg-orange-600 border-orange-600' 
+                        : 'bg-gray-800 border-gray-600'
+                    }`}>
+                      {formData.agree_terms && (
+                        <span className="text-black font-black">✓</span>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-gray-300 font-bold text-sm leading-relaxed">
+                    Я СОГЛАСЕН С{' '}
+                    <a href="/terms" target="_blank" className="text-orange-500 hover:text-orange-400 underline">
+                      УСЛОВИЯМИ ИСПОЛЬЗОВАНИЯ
+                    </a>
+                    {' '}И{' '}
+                    <a href="/privacy" target="_blank" className="text-orange-500 hover:text-orange-400 underline">
+                      ПОЛИТИКОЙ КОНФИДЕНЦИАЛЬНОСТИ
+                    </a>
+                  </span>
+                </label>
+                {errors.agree_terms && (
+                  <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                    <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                    {errors.agree_terms}
+                  </div>
+                )}
+              </div>
+
+              {/* Кнопка регистрации */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`
+                  group relative w-full p-4 font-black uppercase tracking-wider text-lg
+                  transition-all duration-300 transform border-2
+                  ${isLoading
+                    ? 'bg-gray-600 border-gray-500 text-gray-300 cursor-not-allowed'
+                    : 'bg-orange-600 hover:bg-white text-black hover:text-black border-black hover:border-orange-600 hover:scale-105'
+                  }
+                `}
+              >
+                <span className="relative flex items-center justify-center">
+                  {isLoading ? (
+                    <>
+                      <div className="loading-spinner w-5 h-5 mr-3"></div>
+                      РЕГИСТРАЦИЯ...
+                    </>
+                  ) : (
+                    <>
+                      🚀 ЗАРЕГИСТРИРОВАТЬСЯ
+                    </>
+                  )}
+                </span>
+                
+                {!isLoading && (
+                  <>
+                    <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
+                    <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Разделитель */}
+            <div className="relative my-8">
+              <div className="h-px bg-gray-800"></div>
+              <div className="absolute top-0 left-1/4 w-12 h-px bg-orange-600"></div>
+              <div className="absolute top-0 right-1/4 w-16 h-px bg-white opacity-50"></div>
+            </div>
+
+            {/* Вход */}
+            <div className="text-center">
+              <p className="text-gray-400 font-bold uppercase tracking-wide text-sm mb-4">
+                УЖЕ ЕСТЬ АККАУНТ?
+              </p>
+              <Link 
+                to="/login"
+                className="group relative inline-block bg-gray-900 hover:bg-orange-600 text-white hover:text-black font-black px-8 py-3 border-2 border-orange-600 hover:border-black uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105 no-underline"
+              >
+                <span className="relative">ВОЙТИ</span>
+                <div className="absolute top-1 right-1 w-2 h-2 bg-orange-600 group-hover:bg-black transition-colors"></div>
+                <div className="absolute bottom-1 left-1 w-3 h-0.5 bg-orange-600 group-hover:bg-black transition-colors"></div>
+              </Link>
+            </div>
           </div>
-
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-              Фамилия
-            </label>
-            <input
-              type="text"
-              name="last_name"
-              value={formData.last_name}
-              onChange={handleChange}
-              placeholder="Введите фамилию"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-                fontSize: '16px',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
         </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-            Номер телефона *
-          </label>
-          <input
-            type="tel"
-            name="phone_number"
-            value={formData.phone_number}
-            onChange={handleChange}
-            placeholder="+7 (777) 123-45-67"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.phone_number ? '#dc3545' : '#ddd'}`,
-              borderRadius: '4px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.phone_number && (
-            <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>
-              {errors.phone_number}
-            </div>
-          )}
-        </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-            Email (необязательно)
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="example@mail.com"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.email ? '#dc3545' : '#ddd'}`,
-              borderRadius: '4px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.email && (
-            <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>
-              {errors.email}
-            </div>
-          )}
-        </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-            Пароль *
-          </label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Минимум 6 символов"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.password ? '#dc3545' : '#ddd'}`,
-              borderRadius: '4px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.password && (
-            <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>
-              {errors.password}
-            </div>
-          )}
-        </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-            Подтвердите пароль *
-          </label>
-          <input
-            type="password"
-            name="confirm_password"
-            value={formData.confirm_password}
-            onChange={handleChange}
-            placeholder="Повторите пароль"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.confirm_password ? '#dc3545' : '#ddd'}`,
-              borderRadius: '4px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.confirm_password && (
-            <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>
-              {errors.confirm_password}
-            </div>
-          )}
-        </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '8px',
-            cursor: 'pointer',
-            lineHeight: 1.4
-          }}>
-            <input
-              type="checkbox"
-              name="agree_terms"
-              checked={formData.agree_terms}
-              onChange={handleChange}
-              style={{ marginTop: '2px' }}
-            />
-            <span style={{ fontSize: '14px' }}>
-              Я согласен с{' '}
-              <a href="/terms" target="_blank" style={{ color: '#007bff' }}>
-                условиями использования
-              </a>
-              {' '}и{' '}
-              <a href="/privacy" target="_blank" style={{ color: '#007bff' }}>
-                политикой конфиденциальности
-              </a>
-            </span>
-          </label>
-          {errors.agree_terms && (
-            <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>
-              {errors.agree_terms}
-            </div>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          style={{
-            width: '100%',
-            padding: '12px',
-            backgroundColor: isLoading ? '#6c757d' : '#28a745',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            fontSize: '16px',
-            cursor: isLoading ? 'not-allowed' : 'pointer',
-            transition: 'background-color 0.2s'
-          }}
-        >
-          {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
-        </button>
-      </form>
-
-      <hr style={{ margin: '30px 0', border: 'none', borderTop: '1px solid #eee' }} />
-
-      <div style={{ textAlign: 'center', fontSize: '14px' }}>
-        Уже есть аккаунт?{' '}
-        <Link 
-          to="/login"
-          style={{ color: '#007bff', textDecoration: 'none', fontWeight: 'bold' }}
-        >
-          Войти
-        </Link>
       </div>
     </div>
   );

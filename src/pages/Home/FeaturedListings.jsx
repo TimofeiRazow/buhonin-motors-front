@@ -18,31 +18,22 @@ const FeaturedListings = () => {
   if (listingsData.length === 0) return null;
 
   return (
-    <section style={{ marginBottom: '40px' }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '20px'
-      }}>
-        <h2 style={{ margin: 0 }}>Рекомендуемые объявления</h2>
+    <section className="mb-16">
+      <div className="flex justify-between items-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-wider m-0">
+          РЕКОМЕНДУЕМЫЕ
+          <span className="text-orange-500"> АВТО</span>
+        </h2>
         <Link 
           to="/search?featured=true"
-          style={{
-            color: '#007bff',
-            textDecoration: 'none',
-            fontSize: '14px'
-          }}
+          className="group relative bg-orange-600 hover:bg-white text-black font-black px-6 py-3 text-sm uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
         >
-          Посмотреть все →
+          <div className="absolute inset-0 border-2 border-black group-hover:border-orange-600 transition-colors"></div>
+          <span className="relative group-hover:text-black">СМОТРЕТЬ ВСЕ →</span>
         </Link>
       </div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-        gap: '20px'
-      }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {listingsData.map(listing => (
           <ListingCard key={listing.listing_id} listing={listing} />
         ))}
@@ -53,7 +44,7 @@ const FeaturedListings = () => {
 
 const ListingCard = ({ listing }) => {
   const formatPrice = (price, currency) => {
-    if (!price) return 'Цена не указана';
+    if (!price) return 'ЦЕНА НЕ УКАЗАНА';
     return new Intl.NumberFormat('ru-KZ').format(price) + ' ' + (currency || '₸');
   };
 
@@ -64,132 +55,86 @@ const ListingCard = ({ listing }) => {
   return (
     <Link
       to={`/listings/${listing.listing_id}`}
-      style={{
-        textDecoration: 'none',
-        color: 'inherit',
-        display: 'block'
-      }}
+      className="group block text-white hover:text-white no-underline"
     >
-      <div style={{
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        overflow: 'hidden',
-        backgroundColor: 'white',
-        transition: 'box-shadow 0.2s',
-        cursor: 'pointer'
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = 'none';
-      }}
-      >
+      <div className="bg-gray-900 border-4 border-gray-700 hover:border-orange-500 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden">
         {/* Изображение */}
-        <div style={{
-          height: '200px',
-          backgroundColor: '#f5f5f5',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
+        <div className="relative h-48 bg-gray-800 overflow-hidden">
           <img
             src={getMainImage()}
             alt={listing.title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
-            }}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             onError={(e) => {
               e.target.src = '/placeholder-car.jpg';
             }}
           />
+          
+          {/* Overlay градиент */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+          
           {listing.is_featured && (
-            <div style={{
-              position: 'absolute',
-              top: '10px',
-              left: '10px',
-              backgroundColor: '#ffc107',
-              color: '#333',
-              padding: '4px 8px',
-              borderRadius: '4px',
-              fontSize: '12px',
-              fontWeight: 'bold'
-            }}>
-              VIP
+            <div className="absolute top-3 left-3 bg-orange-600 text-black font-black px-3 py-1 text-xs uppercase tracking-wider">
+              <div className="flex items-center">
+                <span className="w-2 h-2 bg-black mr-2"></span>
+                VIP
+              </div>
             </div>
           )}
+          
           {listing.images_count > 1 && (
-            <div style={{
-              position: 'absolute',
-              bottom: '10px',
-              right: '10px',
-              backgroundColor: 'rgba(0,0,0,0.7)',
-              color: 'white',
-              padding: '4px 8px',
-              borderRadius: '4px',
-              fontSize: '12px'
-            }}>
+            <div className="absolute bottom-3 right-3 bg-black bg-opacity-80 text-white font-bold px-3 py-1 text-xs border-2 border-orange-500">
               📷 {listing.images_count}
             </div>
           )}
+
+          {/* Геометрические элементы */}
+          <div className="absolute top-0 right-0 w-8 h-8 bg-orange-600 transform rotate-45 translate-x-4 -translate-y-4"></div>
         </div>
 
         {/* Информация */}
-        <div style={{ padding: '15px' }}>
-          <h3 style={{
-            margin: '0 0 8px 0',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            lineHeight: 1.3,
-            height: '40px',
-            overflow: 'hidden'
-          }}>
+        <div className="p-4 bg-gray-900">
+          <h3 className="font-black text-lg mb-3 text-white uppercase tracking-wide leading-tight h-12 overflow-hidden">
             {listing.title}
           </h3>
 
-          <div style={{
-            fontSize: '18px',
-            fontWeight: 'bold',
-            color: '#007bff',
-            marginBottom: '8px'
-          }}>
+          {/* Цена - брутальный блок */}
+          <div className="bg-orange-600 text-black font-black text-xl p-3 mb-4 relative">
+            <div className="absolute top-1 right-1 w-3 h-3 bg-black"></div>
             {formatPrice(listing.price, listing.currency_code)}
           </div>
 
-          <div style={{
-            fontSize: '14px',
-            color: '#666',
-            marginBottom: '8px'
-          }}>
-            {listing.year && `${listing.year} г.`}
-            {listing.year && listing.mileage && ' • '}
-            {listing.mileage && `${new Intl.NumberFormat('ru-KZ').format(listing.mileage)} км`}
+          {/* Характеристики */}
+          <div className="space-y-2 mb-4">
+            {(listing.year || listing.mileage) && (
+              <div className="flex items-center text-gray-300 font-bold text-sm">
+                <div className="w-2 h-2 bg-orange-500 mr-3"></div>
+                {listing.year && `${listing.year} Г.`}
+                {listing.year && listing.mileage && ' • '}
+                {listing.mileage && `${new Intl.NumberFormat('ru-KZ').format(listing.mileage)} КМ`}
+              </div>
+            )}
+            
+            <div className="flex items-center text-gray-300 font-bold text-sm">
+              <div className="w-2 h-2 bg-white mr-3"></div>
+              📍 {listing.city_name?.toUpperCase()}
+              {listing.region_name && `, ${listing.region_name?.toUpperCase()}`}
+            </div>
           </div>
 
-          <div style={{
-            fontSize: '14px',
-            color: '#666',
-            marginBottom: '8px'
-          }}>
-            📍 {listing.city_name}
-            {listing.region_name && `, ${listing.region_name}`}
-          </div>
-
-          <div style={{
-            fontSize: '12px',
-            color: '#999',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
-            <span>
+          {/* Нижняя секция */}
+          <div className="flex justify-between items-center pt-3 border-t-2 border-gray-700">
+            <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
               {new Date(listing.published_date).toLocaleDateString('ru-RU')}
             </span>
-            <span>
-              👁 {listing.view_count || 0}
-            </span>
+            <div className="flex items-center bg-black px-2 py-1 border border-orange-500">
+              <span className="text-orange-500 font-bold text-xs">
+                👁 {listing.view_count || 0}
+              </span>
+            </div>
           </div>
+
+          {/* Декоративная линия */}
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-orange-600 via-white to-orange-600"></div>
         </div>
       </div>
     </Link>

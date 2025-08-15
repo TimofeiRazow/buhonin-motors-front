@@ -120,140 +120,131 @@ const FavoritesPage = () => {
 
   const getStatusText = (status) => {
     const statuses = {
-      active: 'Активное',
-      sold: 'Продано',
-      expired: 'Истек срок',
-      archived: 'В архиве',
-      rejected: 'Отклонено'
+      active: 'АКТИВНОЕ',
+      sold: 'ПРОДАНО',
+      expired: 'ИСТЕК СРОК',
+      archived: 'В АРХИВЕ',
+      rejected: 'ОТКЛОНЕНО'
     };
     return statuses[status] || status;
   };
 
   const getStatusColor = (status) => {
     const colors = {
-      active: '#28a745',
-      sold: '#007bff',
-      expired: '#ffc107',
-      archived: '#6c757d',
-      rejected: '#dc3545'
+      active: 'bg-green-600',
+      sold: 'bg-blue-600',
+      expired: 'bg-yellow-600',
+      archived: 'bg-gray-600',
+      rejected: 'bg-red-600'
     };
-    return colors[status] || '#333';
+    return colors[status] || 'bg-gray-600';
   };
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto relative">
+      {/* Фоновые декоративные элементы */}
+      <div className="absolute top-10 right-10 w-8 h-8 border-2 border-orange-600 rotate-45 opacity-20"></div>
+      <div className="absolute top-1/3 left-10 w-4 h-4 bg-orange-600 rotate-12 opacity-30"></div>
+
       {/* Заголовок */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '30px'
-      }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: '28px' }}>Избранное</h1>
+      <div className="bg-black border-4 border-orange-600 p-6 mb-8 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+        <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+        <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
+        <div className="absolute bottom-4 right-4 w-4 h-4 bg-orange-600 rotate-45"></div>
+        
+        <div className="relative z-10 flex justify-between items-center">
+          <div>
+            <h1 className="text-4xl font-black text-white uppercase tracking-wider mb-2 flex items-center">
+              ❤️ ИЗБРАННОЕ
+            </h1>
+            {favoritesData.length > 0 && (
+              <p className="text-orange-300 font-bold uppercase tracking-wide text-sm">
+                СОХРАНЕНО {favoritesData.length} ОБЪЯВЛЕНИЙ
+              </p>
+            )}
+          </div>
+
           {favoritesData.length > 0 && (
-            <p style={{ margin: '5px 0 0 0', color: '#666' }}>
-              Сохранено {favoritesData.length} объявлений
-            </p>
+            <Link
+              to="/search"
+              className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+            >
+              <span className="relative">🔍 НАЙТИ ЕЩЕ</span>
+              <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
+              <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
+            </Link>
           )}
         </div>
-
-        {favoritesData.length > 0 && (
-          <Link to="/search">
-            <button style={{
-              padding: '12px 24px',
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              textDecoration: 'none'
-            }}>
-              Найти еще
-            </button>
-          </Link>
-        )}
       </div>
 
       {/* Загрузка */}
       {isLoading && (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '60px' }}>
+        <div className="bg-black border-4 border-orange-600 p-16 text-center">
+          <div className="text-6xl mb-6">❤️</div>
+          <p className="text-orange-100 font-black uppercase tracking-wider text-xl mb-6">
+            ЗАГРУЖАЕМ ИЗБРАННОЕ...
+          </p>
           <LoadingSpinner />
         </div>
       )}
 
       {/* Ошибка */}
       {error && (
-        <div style={{
-          padding: '40px',
-          textAlign: 'center',
-          backgroundColor: '#f8d7da',
-          color: '#721c24',
-          borderRadius: '8px',
-          border: '1px solid #f5c6cb'
-        }}>
-          <h3>Ошибка загрузки</h3>
-          <p>Не удалось загрузить избранные объявления.</p>
+        <div className="bg-red-600 border-4 border-black p-8 text-center relative">
+          <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
+          <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
+          
+          <div className="text-5xl mb-4">💔</div>
+          <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
+            ОШИБКА ЗАГРУЗКИ
+          </h3>
+          <p className="text-white font-bold mb-6 uppercase">
+            НЕ УДАЛОСЬ ЗАГРУЗИТЬ ИЗБРАННЫЕ ОБЪЯВЛЕНИЯ
+          </p>
           <button
             onClick={() => window.location.reload()}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#dc3545',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
+            className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
           >
-            Попробовать снова
+            <span className="relative">🔄 ПОПРОБОВАТЬ СНОВА</span>
+            <div className="absolute top-1 left-1 w-3 h-3 bg-red-600 group-hover:bg-black transition-colors"></div>
           </button>
         </div>
       )}
 
       {/* Пустое состояние */}
       {!isLoading && !error && favoritesData.length === 0 && (
-        <div style={{
-          padding: '80px 40px',
-          textAlign: 'center',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          border: '1px solid #ddd'
-        }}>
-          <div style={{ fontSize: '64px', marginBottom: '20px' }}>💙</div>
-          <h3 style={{ marginBottom: '15px', fontSize: '24px' }}>В избранном пока пусто</h3>
-          <p style={{ color: '#666', marginBottom: '30px', fontSize: '16px' }}>
-            Добавляйте понравившиеся объявления в избранное, нажимая на ❤️
+        <div className="bg-black border-4 border-orange-600 p-16 text-center relative">
+          <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+          <div className="absolute bottom-0 right-0 w-full h-2 bg-white opacity-50"></div>
+          <div className="absolute top-6 right-6 w-6 h-6 bg-orange-600 rotate-45"></div>
+          <div className="absolute bottom-6 left-6 w-4 h-4 bg-white"></div>
+          
+          <div className="text-8xl mb-8">💙</div>
+          <h3 className="text-4xl font-black text-white uppercase tracking-wider mb-6">
+            В ИЗБРАННОМ
+            <span className="block text-orange-500">ПОКА ПУСТО</span>
+          </h3>
+          <p className="text-orange-300 font-bold uppercase tracking-wide text-lg mb-12">
+            ДОБАВЛЯЙТЕ ПОНРАВИВШИЕСЯ ОБЪЯВЛЕНИЯ<br />
+            В ИЗБРАННОЕ, НАЖИМАЯ НА ❤️
           </p>
           
-          <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
-            <Link to="/search">
-              <button style={{
-                padding: '15px 30px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '16px',
-                textDecoration: 'none'
-              }}>
-                Найти автомобиль
-              </button>
+          <div className="flex gap-6 justify-center">
+            <Link
+              to="/search"
+              className="group relative bg-orange-600 hover:bg-white text-black font-black px-10 py-6 text-lg border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+            >
+              <span className="relative">🚗 НАЙТИ АВТОМОБИЛЬ</span>
+              <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
             </Link>
             
-            <Link to="/">
-              <button style={{
-                padding: '15px 30px',
-                backgroundColor: 'white',
-                color: '#007bff',
-                border: '2px solid #007bff',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '16px',
-                textDecoration: 'none'
-              }}>
-                На главную
-              </button>
+            <Link
+              to="/"
+              className="group relative bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black font-black px-10 py-6 text-lg border-2 border-orange-600 hover:border-black uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+            >
+              <span className="relative">🏠 НА ГЛАВНУЮ</span>
+              <div className="absolute top-1 right-1 w-3 h-3 bg-orange-600 group-hover:bg-black transition-colors"></div>
             </Link>
           </div>
         </div>
@@ -263,221 +254,211 @@ const FavoritesPage = () => {
       {!isLoading && !error && favoritesData.length > 0 && (
         <>
           {/* Панель управления */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '20px',
-            padding: '15px 20px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #ddd'
-          }}>
-            {/* Массовые операции */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <input
-                  type="checkbox"
-                  checked={selectedItems.size === paginatedData.length && paginatedData.length > 0}
-                  onChange={handleSelectAll}
-                />
-                <span style={{ fontSize: '14px' }}>
-                  Выбрать все ({selectedItems.size})
-                </span>
-              </label>
+          <div className="bg-black border-4 border-orange-600 p-6 mb-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="absolute bottom-4 left-4 w-3 h-3 bg-white"></div>
+            
+            <div className="relative z-10 flex justify-between items-center">
+              {/* Массовые операции */}
+              <div className="flex items-center gap-6">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.size === paginatedData.length && paginatedData.length > 0}
+                      onChange={handleSelectAll}
+                      className="sr-only"
+                    />
+                    <div className={`w-6 h-6 border-2 flex items-center justify-center transition-colors duration-300 ${
+                      selectedItems.size === paginatedData.length && paginatedData.length > 0
+                        ? 'bg-orange-600 border-orange-600' 
+                        : 'bg-gray-800 border-gray-600'
+                    }`}>
+                      {selectedItems.size === paginatedData.length && paginatedData.length > 0 && (
+                        <span className="text-black font-black">✓</span>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-orange-100 font-bold uppercase tracking-wide text-sm">
+                    ВЫБРАТЬ ВСЕ ({selectedItems.size})
+                  </span>
+                </label>
 
-              {selectedItems.size > 0 && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                {selectedItems.size > 0 && (
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <select
+                        value={bulkAction}
+                        onChange={(e) => setBulkAction(e.target.value)}
+                        className="bg-gray-900 text-orange-100 font-bold border-2 border-gray-700 focus:border-orange-500 p-3 focus:outline-none appearance-none cursor-pointer uppercase tracking-wide text-sm"
+                      >
+                        <option value="">ДЕЙСТВИЕ</option>
+                        <option value="remove">УДАЛИТЬ ИЗ ИЗБРАННОГО</option>
+                      </select>
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-orange-500"></div>
+                      </div>
+                      <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
+                    </div>
+                    
+                    <button
+                      onClick={handleBulkAction}
+                      disabled={!bulkAction || bulkRemoveMutation.isLoading}
+                      className={`group relative font-black px-6 py-3 border-2 uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105 ${
+                        bulkAction && !bulkRemoveMutation.isLoading
+                          ? 'bg-red-600 hover:bg-white text-white hover:text-black border-black hover:border-red-600 cursor-pointer'
+                          : 'bg-gray-600 border-gray-500 text-gray-300 cursor-not-allowed'
+                      }`}
+                    >
+                      <span className="relative">
+                        {bulkRemoveMutation.isLoading ? '🗑️ УДАЛЕНИЕ...' : '🗑️ ВЫПОЛНИТЬ'}
+                      </span>
+                      {bulkAction && !bulkRemoveMutation.isLoading && (
+                        <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-red-600 transition-colors"></div>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Сортировка */}
+              <div className="flex items-center gap-4">
+                <label className="text-orange-100 font-black uppercase tracking-wider text-sm">
+                  СОРТИРОВКА:
+                </label>
+                <div className="relative">
                   <select
-                    value={bulkAction}
-                    onChange={(e) => setBulkAction(e.target.value)}
-                    style={{ padding: '6px 10px', border: '1px solid #ddd', borderRadius: '4px' }}
+                    value={sortBy}
+                    onChange={(e) => handleSortChange(e.target.value)}
+                    className="bg-gray-900 text-orange-100 font-bold border-2 border-gray-700 focus:border-orange-500 p-3 focus:outline-none appearance-none cursor-pointer uppercase tracking-wide text-sm"
                   >
-                    <option value="">Действие</option>
-                    <option value="remove">Удалить из избранного</option>
+                    <option value="date_desc">ПО ДАТЕ (НОВЫЕ)</option>
+                    <option value="date_asc">ПО ДАТЕ (СТАРЫЕ)</option>
+                    <option value="price_asc">ПО ЦЕНЕ (ДЕШЕВЫЕ)</option>
+                    <option value="price_desc">ПО ЦЕНЕ (ДОРОГИЕ)</option>
+                    <option value="year_desc">ПО ГОДУ (НОВЫЕ)</option>
+                    <option value="mileage_asc">ПО ПРОБЕГУ (МЕНЬШЕ)</option>
                   </select>
-                  
-                  <button
-                    onClick={handleBulkAction}
-                    disabled={!bulkAction || bulkRemoveMutation.isLoading}
-                    style={{
-                      padding: '6px 12px',
-                      backgroundColor: '#dc3545',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: bulkAction ? 'pointer' : 'not-allowed',
-                      opacity: bulkAction ? 1 : 0.6
-                    }}
-                  >
-                    {bulkRemoveMutation.isLoading ? 'Удаление...' : 'Выполнить'}
-                  </button>
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                    <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-orange-500"></div>
+                  </div>
+                  <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
                 </div>
-              )}
-            </div>
-
-            {/* Сортировка */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <label style={{ fontSize: '14px', color: '#666' }}>Сортировка:</label>
-              <select
-                value={sortBy}
-                onChange={(e) => handleSortChange(e.target.value)}
-                style={{
-                  padding: '8px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  backgroundColor: 'white'
-                }}
-              >
-                <option value="date_desc">По дате добавления (новые)</option>
-                <option value="date_asc">По дате добавления (старые)</option>
-                <option value="price_asc">По цене (дешевые)</option>
-                <option value="price_desc">По цене (дорогие)</option>
-                <option value="year_desc">По году (новые)</option>
-                <option value="mileage_asc">По пробегу (меньше)</option>
-              </select>
+              </div>
             </div>
           </div>
 
           {/* Статистика по статусам */}
           {Object.keys(groupedFavorites).length > 1 && (
-            <div style={{
-              display: 'flex',
-              gap: '15px',
-              marginBottom: '20px',
-              flexWrap: 'wrap'
-            }}>
+            <div className="flex gap-4 mb-6 flex-wrap">
               {Object.entries(groupedFavorites).map(([status, items]) => (
                 <div
                   key={status}
-                  style={{
-                    padding: '8px 16px',
-                    backgroundColor: 'white',
-                    border: '1px solid #ddd',
-                    borderRadius: '20px',
-                    fontSize: '14px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}
+                  className="flex items-center gap-3 p-4 bg-gray-900 border-2 border-gray-700 relative"
                 >
-                  <span
-                    style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      backgroundColor: getStatusColor(status)
-                    }}
-                  />
-                  {getStatusText(status)}: {items.length}
+                  <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
+                  <span className={`w-4 h-4 ${getStatusColor(status)}`}></span>
+                  <span className="text-orange-100 font-bold uppercase tracking-wide text-sm">
+                    {getStatusText(status)}: {items.length}
+                  </span>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Список объявлений с чекбоксами */}
-          <div style={{ marginBottom: '30px' }}>
+          {/* Список объявлений */}
+          <div className="space-y-4 mb-8">
             {paginatedData.map((listing) => (
               <div
                 key={listing.listing_id}
-                style={{
-                  display: 'flex',
-                  gap: '15px',
-                  padding: '20px',
-                  backgroundColor: 'white',
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  marginBottom: '15px',
-                  position: 'relative'
-                }}
+                className="bg-black border-4 border-gray-700 hover:border-orange-600 p-6 relative overflow-hidden transition-all duration-300"
               >
-                {/* Чекбокс */}
-                <input
-                  type="checkbox"
-                  checked={selectedItems.has(listing.listing_id)}
-                  onChange={() => handleSelectItem(listing.listing_id)}
-                  style={{ marginTop: '5px' }}
-                />
-
-                {/* Изображение */}
-                <div style={{ width: '120px', height: '90px', flexShrink: 0 }}>
-                  <Link to={`/listings/${listing.listing_id}`}>
-                    <img
-                      src={listing.main_image_url || '/placeholder-car.jpg'}
-                      alt={listing.title}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        borderRadius: '6px'
-                      }}
+                <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
+                <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white"></div>
+                
+                <div className="relative z-10 flex gap-6">
+                  {/* Чекбокс */}
+                  <div className="relative mt-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.has(listing.listing_id)}
+                      onChange={() => handleSelectItem(listing.listing_id)}
+                      className="sr-only"
                     />
-                  </Link>
-                </div>
-
-                {/* Информация */}
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div>
-                      <Link
-                        to={`/listings/${listing.listing_id}`}
-                        style={{ textDecoration: 'none', color: '#333' }}
-                      >
-                        <h4 style={{ margin: '0 0 5px 0', fontSize: '16px' }}>
-                          {listing.title}
-                        </h4>
-                      </Link>
-                      
-                      <p style={{ 
-                        margin: '0 0 10px 0', 
-                        fontSize: '18px', 
-                        fontWeight: 'bold',
-                        color: '#007bff'
-                      }}>
-                        {listing.price?.toLocaleString()} {listing.currency_code || '₸'}
-                      </p>
-
-                      <div style={{ fontSize: '14px', color: '#666' }}>
-                        <span>{listing.city_name}</span>
-                        {listing.year && <span> • {listing.year} г.</span>}
-                        {listing.mileage && <span> • {listing.mileage.toLocaleString()} км</span>}
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      {/* Статус */}
-                      <span style={{
-                        padding: '4px 8px',
-                        fontSize: '12px',
-                        borderRadius: '4px',
-                        backgroundColor: getStatusColor(listing.status),
-                        color: 'white'
-                      }}>
-                        {getStatusText(listing.status)}
-                      </span>
-
-                      {/* Кнопка удаления */}
-                      <button
-                        onClick={() => handleRemoveFavorite(listing.listing_id)}
-                        disabled={removeFavoriteMutation.isLoading}
-                        style={{
-                          padding: '6px 12px',
-                          backgroundColor: '#dc3545',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          fontSize: '12px'
-                        }}
-                        title="Удалить из избранного"
-                      >
-                        🗑️
-                      </button>
+                    <div className={`w-6 h-6 border-2 flex items-center justify-center cursor-pointer transition-colors duration-300 ${
+                      selectedItems.has(listing.listing_id)
+                        ? 'bg-orange-600 border-orange-600' 
+                        : 'bg-gray-800 border-gray-600'
+                    }`}>
+                      {selectedItems.has(listing.listing_id) && (
+                        <span className="text-black font-black">✓</span>
+                      )}
                     </div>
                   </div>
 
-                  <div style={{ fontSize: '12px', color: '#999', marginTop: '10px' }}>
-                    Добавлено в избранное: {new Date(listing.favorite_date).toLocaleDateString('ru-RU')}
+                  {/* Изображение */}
+                  <div className="w-32 h-24 flex-shrink-0 relative">
+                    <Link to={`/listings/${listing.listing_id}`}>
+                      <img
+                        src={listing.main_image_url || '/placeholder-car.jpg'}
+                        alt={listing.title}
+                        className="w-full h-full object-cover border-2 border-gray-600 hover:border-orange-500 transition-colors"
+                      />
+                    </Link>
+                    <div className="absolute top-1 right-1 w-2 h-2 bg-orange-600"></div>
+                  </div>
+
+                  {/* Информация */}
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <Link
+                          to={`/listings/${listing.listing_id}`}
+                          className="text-orange-100 hover:text-orange-300 no-underline transition-colors"
+                        >
+                          <h4 className="text-lg font-black uppercase tracking-wide mb-2">
+                            {listing.title}
+                          </h4>
+                        </Link>
+                        
+                        <div className="bg-orange-600 text-black font-black text-xl p-2 mb-3 inline-block">
+                          {listing.price?.toLocaleString()} {listing.currency_code || '₸'}
+                        </div>
+
+                        <div className="text-orange-300 font-bold text-sm flex items-center">
+                          <div className="w-2 h-2 bg-orange-500 mr-3"></div>
+                          <span className="uppercase tracking-wide">
+                            {listing.city_name}
+                            {listing.year && ` • ${listing.year} Г.`}
+                            {listing.mileage && ` • ${listing.mileage.toLocaleString()} КМ`}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        {/* Статус */}
+                        <span className={`${getStatusColor(listing.status)} text-white font-black px-3 py-1 text-xs uppercase tracking-wider border-2 border-black`}>
+                          {getStatusText(listing.status)}
+                        </span>
+
+                        {/* Кнопка удаления */}
+                        <button
+                          onClick={() => handleRemoveFavorite(listing.listing_id)}
+                          disabled={removeFavoriteMutation.isLoading}
+                          className="group relative bg-red-600 hover:bg-white text-white hover:text-black font-black px-4 py-2 border-2 border-black hover:border-red-600 transition-all duration-300 transform hover:scale-105"
+                          title="УДАЛИТЬ ИЗ ИЗБРАННОГО"
+                        >
+                          <span className="relative">🗑️</span>
+                          <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-red-600 transition-colors"></div>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="text-orange-400 font-bold text-xs uppercase tracking-wider mt-3 flex items-center">
+                      <div className="w-1 h-1 bg-orange-500 mr-2"></div>
+                      ДОБАВЛЕНО В ИЗБРАННОЕ: {new Date(listing.favorite_date).toLocaleDateString('ru-RU')}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -486,27 +467,41 @@ const FavoritesPage = () => {
 
           {/* Пагинация */}
           {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={goToPage}
-            />
+            <div className="mb-8">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={goToPage}
+              />
+            </div>
           )}
 
           {/* Советы */}
-          <div style={{
-            marginTop: '40px',
-            padding: '20px',
-            backgroundColor: '#e7f3ff',
-            borderRadius: '8px',
-            border: '1px solid #b3d9ff'
-          }}>
-            <h4 style={{ marginTop: 0, color: '#0066cc' }}>💡 Полезные советы:</h4>
-            <ul style={{ margin: 0, paddingLeft: '20px', color: '#0066cc' }}>
-              <li>Регулярно проверяйте избранные объявления - цены могут измениться</li>
-              <li>Свяжитесь с продавцом как можно скорее, если объявление вас заинтересовало</li>
-              <li>Настройте уведомления о снижении цен в настройках профиля</li>
-              <li>Удаляйте неактуальные объявления, чтобы список оставался релевантным</li>
+          <div className="bg-blue-900 border-4 border-blue-600 p-6 relative">
+            <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
+            
+            <h4 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center">
+              💡 ПОЛЕЗНЫЕ СОВЕТЫ
+            </h4>
+            <ul className="text-blue-200 font-bold space-y-2">
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                РЕГУЛЯРНО ПРОВЕРЯЙТЕ ИЗБРАННЫЕ - ЦЕНЫ МОГУТ ИЗМЕНИТЬСЯ
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                СВЯЖИТЕСЬ С ПРОДАВЦОМ КАК МОЖНО СКОРЕЕ
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                НАСТРОЙТЕ УВЕДОМЛЕНИЯ О СНИЖЕНИИ ЦЕН
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                УДАЛЯЙТЕ НЕАКТУАЛЬНЫЕ ОБЪЯВЛЕНИЯ
+              </li>
             </ul>
           </div>
         </>
