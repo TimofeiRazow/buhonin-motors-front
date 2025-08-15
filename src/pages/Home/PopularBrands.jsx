@@ -14,6 +14,7 @@ const PopularBrands = () => {
   if (error) return null;
 
   const brandsData = brands?.data || [];
+  console.log("Проблема в PopularBrands", brandsData)
 
   if (brandsData.length === 0) return null;
 
@@ -43,15 +44,18 @@ const PopularBrands = () => {
         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
         gap: '15px'
       }}>
-        {brandsData.map(brand => (
+
+        {brandsData.data ? brandsData.data.map(brand => (
           <BrandCard key={brand.brand_id} brand={brand} />
-        ))}
+        ))
+      : <></>}
       </div>
     </section>
   );
 };
 
 const BrandCard = ({ brand }) => {
+  console.log("Проблема в BrandCard", brand)
   return (
     <Link
       to={`/search?brand_id=${brand.brand_id}`}

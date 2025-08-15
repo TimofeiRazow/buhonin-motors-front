@@ -16,6 +16,7 @@ const SearchSection = () => {
 
   // Загружаем справочные данные
   const { data: brands } = useQuery('brands', () => api.get('/api/cars/brands'));
+  console.log("Проблема в SearchSection", brands)
   const { data: models } = useQuery(
     ['models', filters.brand_id], 
     () => api.get(`/api/cars/brands/${filters.brand_id}/models`),
@@ -77,7 +78,7 @@ const SearchSection = () => {
               }}
             >
               <option value="">Любая марка</option>
-              {brands?.data?.map(brand => (
+              {brands?.data?.data?.map(brand => (
                 <option key={brand.brand_id} value={brand.brand_id}>
                   {brand.brand_name}
                 </option>

@@ -90,7 +90,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           }}
         >
           <option value="">Любая марка</option>
-          {brands?.data?.map(brand => (
+          {brands?.data?.data?.map(brand => (
             <option key={brand.brand_id} value={brand.brand_id}>
               {brand.brand_name}
             </option>
