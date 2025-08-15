@@ -248,7 +248,7 @@ const CreateListingPage = () => {
                   }}
                 >
                   <option value="">Выберите марку</option>
-                  {brands?.data?.map(brand => (
+                  {brands?.data?.data?.map(brand => (
                     <option key={brand.brand_id} value={brand.brand_id}>
                       {brand.brand_name}
                     </option>

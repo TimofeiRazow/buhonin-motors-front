@@ -277,13 +277,13 @@ const useCreateListing = () => {
 const useCarSelection = () => {
   const brands = useQuery('brands', () => api.get('/api/cars/brands'));
   
-  const getModels = (brandId) => 
+  const useModels = (brandId) => 
     useQuery(['models', brandId], 
       () => api.get(`/api/cars/brands/${brandId}/models`),
       { enabled: !!brandId }
     );
   
-  const getGenerations = (modelId) =>
+  const useGenerations = (modelId) =>
     useQuery(['generations', modelId],
       () => api.get(`/api/cars/models/${modelId}/generations`),
       { enabled: !!modelId }
@@ -409,8 +409,10 @@ const useAuth = () => {
 
   const login = async (credentials) => {
     const response = await api.post('/api/auth/login', credentials);
-    const { access_token, user } = response.data;
-    
+    const { access_token, user } = response.data.data;
+
+    console.log(response)
+
     localStorage.setItem('token', access_token);
     setToken(access_token);
     setUser(user);
@@ -475,25 +477,25 @@ const useNotifications = () => {
 const useLocations = () => {
   const countries = useQuery('countries', () => api.get('/api/locations/countries'));
   
-  const getRegions = (countryId) =>
+  const useRegions = (countryId) =>
     useQuery(['regions', countryId],
       () => api.get(`/api/locations/regions?country_id=${countryId}`),
       { enabled: !!countryId }
     );
 
-  const getCities = (regionId) =>
+  const useCities = (regionId) =>
     useQuery(['cities', regionId],
       () => api.get(`/api/locations/regions/${regionId}/cities`),
       { enabled: !!regionId }
     );
 
-  const searchCities = (query) =>
+  const useSearchCities = (query) =>
     useQuery(['cities-search', query],
       () => api.get(`/api/locations/cities/search?q=${query}`),
       { enabled: query.length > 2 }
     );
 
-  return { countries, getRegions, getCities, searchCities };
+  return { countries, useRegions, useCities, useSearchCities };
 };
 ```
 

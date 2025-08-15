@@ -3,8 +3,8 @@ import React from 'react';
 import { useCars } from '../../hooks/api/useCars';
 
 const ModelSelector = ({ brandId, value, onChange, placeholder = "Выберите модель" }) => {
-  const { getModels } = useCars();
-  const { data: models, isLoading } = getModels(brandId);
+  const { useModels } = useCars();
+  const { data: models, isLoading } = useModels(brandId);
 
   if (!brandId) {
     return (

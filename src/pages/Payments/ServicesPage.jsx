@@ -5,6 +5,8 @@ import { usePayments } from '../../hooks/api/usePayments';
 const ServicesPage = () => {
   const { services, promoteListing } = usePayments();
 
+  console.log(services)
+
   const handlePurchaseService = async (serviceId, listingId) => {
     try {
       await promoteListing.mutateAsync({
@@ -18,7 +20,7 @@ const ServicesPage = () => {
     }
   };
 
-  const formatPrice = (price, currency) => {
+  const formatPrice = (price, currency = "Тенге") => {
     return `${price.toLocaleString()} ${currency}`;
   };
 
@@ -32,18 +34,18 @@ const ServicesPage = () => {
       <p>Увеличьте количество просмотров ваших объявлений с помощью наших услуг продвижения</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-        {services.data?.data?.map((service) => (
+        {services.data?.data.data.map((service) => (
           <div key={service.service_id} style={{
             border: '1px solid #ddd',
             borderRadius: '8px',
             padding: '20px',
             textAlign: 'center'
           }}>
-            <h3>{service.service_name}</h3>
+            <h3>{service.name}</h3>
             <p style={{ color: '#666', marginBottom: '15px' }}>{service.description}</p>
             
             <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#007bff', marginBottom: '10px' }}>
-              {formatPrice(service.price, service.currency_code)}
+              {formatPrice(service.price)}
             </div>
             
             {service.duration_days && (

@@ -20,13 +20,13 @@ const useCreateListing = () => {
 const useCarSelection = () => {
   const brands = useQuery('brands', () => api.get('/api/cars/brands'));
   
-  const getModels = (brandId) => 
+  const useModels = (brandId) => 
     useQuery(['models', brandId], 
       () => api.get(`/api/cars/brands/${brandId}/models`),
       { enabled: !!brandId }
     );
   
-  const getGenerations = (modelId) =>
+  const useGenerations = (modelId) =>
     useQuery(['generations', modelId],
       () => api.get(`/api/cars/models/${modelId}/generations`),
       { enabled: !!modelId }

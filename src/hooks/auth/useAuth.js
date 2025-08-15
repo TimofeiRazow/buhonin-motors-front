@@ -16,9 +16,6 @@ export const AuthProvider = ({ children }) => {
           setUser(response.data);
         } catch (error) {
           console.error('Auth initialization failed:', error);
-          localStorage.removeItem('token');
-          localStorage.removeItem('refresh_token');
-          setToken(null);
         }
       }
       setLoading(false);
@@ -31,14 +28,18 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post('/api/auth/login', credentials);
       console.log(response);
-      const { access_token, refresh_token, user } = response.data.data;
-      
-      localStorage.setItem('token', access_token);
-      if (refresh_token) {
-        localStorage.setItem('refresh_token', refresh_token);
+      const { tokens, user } = response.data.data;
+      console.log(tokens);
+      console.log(user);
+      if (tokens){
+        localStorage.setItem('token', tokens.access_token);
+        setToken(tokens.access_token);
+      }
+      if (tokens) {
+        localStorage.setItem('refresh_token', tokens.refresh_token);
       }
       
-      setToken(access_token);
+      
       setUser(user);
       
       return user;
@@ -50,14 +51,19 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await api.post('/api/auth/register', userData);
-      const { access_token, refresh_token, user } = response.data;
-      
-      localStorage.setItem('token', access_token);
-      if (refresh_token) {
-        localStorage.setItem('refresh_token', refresh_token);
+      const { tokens, user } = response.data.data;
+      console.log(tokens);
+      console.log(user);
+      if (tokens){
+        localStorage.setItem('token', tokens.access_token);
+        setToken(tokens.access_token);
+      }
+      if (tokens) {
+        localStorage.setItem('refresh_token', tokens.refresh_token);
       }
       
-      setToken(access_token);
+      
+      setUser(user);
       setUser(user);
       
       return user;

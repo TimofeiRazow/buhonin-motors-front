@@ -1,15 +1,16 @@
 // src/components/Common/LocationSelector.jsx
 import React, { useState, useEffect } from 'react';
-import { useLocations } from '../../hooks/api/useLocations';
+import useLocations from '../../hooks/api/useLocations';
+
 
 const LocationSelector = ({ value, onChange, level = 'city' }) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
   const [selectedCity, setSelectedCity] = useState(value || '');
 
-  const { countries, getRegions, getCities } = useLocations();
-  const regions = getRegions(selectedCountry);
-  const cities = getCities(selectedRegion);
+  const { countries, useRegions, useCities } = useLocations();
+  const regions = useRegions(selectedCountry);
+  const cities = useCities(selectedRegion);
 
   useEffect(() => {
     if (value && cities.data) {
