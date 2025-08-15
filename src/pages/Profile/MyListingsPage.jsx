@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import api from '../../services/api';
-import LoadingSpinner from '../../components/UI/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
 import Pagination from '../../components/Common/Pagination';
 
 const MyListingsPage = () => {

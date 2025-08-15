@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth/useAuth';
-import LoadingSpinner from '../../components/UI/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
 import ImageGallery from '../../components/Listings/ImageGallery';
 import ContactButtons from '../../components/Listings/ContactButtons';
 

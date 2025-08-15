@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth/useAuth';
-import LoadingSpinner from '../UI/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../UI/LoadingSpinner';
 
 const AdminRoute = ({ children }) => {
   const { user, loading, isAuthenticated } = useAuth();

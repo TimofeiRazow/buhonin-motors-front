@@ -1,4 +1,4 @@
-// src/pages/Messages/ConversationsPage.jsx
+// src/pages/Messages/ConversationsPage.jsx (исправленная версия)
 import React, { useState } from 'react';
 import ConversationsList from '../../components/Messages/ConversationsList';
 import MessageThread from '../../components/Messages/MessageThread';
@@ -7,9 +7,9 @@ import { useMessages } from '../../hooks/api/useMessages';
 
 const ConversationsPage = () => {
   const [selectedConversationId, setSelectedConversationId] = useState(null);
-  const { sendMessage, getConversationMessages } = useMessages();
+  const { sendMessage, useConversationMessages } = useMessages();
 
-  const { data: messages, isLoading: messagesLoading } = getConversationMessages(selectedConversationId);
+  const { data: messages, isLoading: messagesLoading } = useConversationMessages(selectedConversationId);
 
   const handleSendMessage = async (messageText) => {
     if (!selectedConversationId) return;

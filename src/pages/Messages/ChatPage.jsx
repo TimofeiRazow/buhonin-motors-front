@@ -1,20 +1,22 @@
-// src/pages/Messages/ChatPage.jsx
+// src/pages/Messages/ChatPage.jsx (исправленная версия)
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import MessageThread from '../../components/Messages/MessageThread';
 import MessageInput from '../../components/Messages/MessageInput';
 import { useMessages } from '../../hooks/api/useMessages';
+import api from '../../services/api';
 
 const ChatPage = () => {
   const { conversationId } = useParams();
-  const { sendMessage, getConversationMessages } = useMessages();
+  const { sendMessage, useConversationMessages } = useMessages();
 
   const { data: conversation } = useQuery(
     ['conversation', conversationId],
     () => api.get(`/api/conversations/${conversationId}`)
   );
 
-  const { data: messages, isLoading } = getConversationMessages(conversationId);
+  const { data: messages, isLoading } = useConversationMessages(conversationId);
 
   const handleSendMessage = async (messageText) => {
     try {

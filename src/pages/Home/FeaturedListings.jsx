@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import LoadingSpinner from '../../components/UI/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
 const FeaturedListings = () => {
   const { data: listings, isLoading, error } = useQuery(

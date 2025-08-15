@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import api from '../../services/api';
-import LoadingSpinner from '../../components/UI/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
 const CreateListingPage = () => {
   const [formData, setFormData] = useState({
