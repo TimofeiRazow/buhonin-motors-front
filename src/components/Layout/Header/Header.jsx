@@ -6,6 +6,7 @@ import UserMenu from './UserMenu';
 
 const Header = () => {
   const { user, isAuthenticated } = useAuth();
+  console.log(user)
   const navigate = useNavigate();
 
   return (
