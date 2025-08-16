@@ -3,6 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth/useAuth';
+import {
+  Phone,
+  MessageCircle,
+  Loader2,
+  User,
+  Smartphone,
+  Send,
+  Shield,
+  Share2,
+  Printer
+} from 'lucide-react';
 
 const ContactButtons = ({ listing }) => {
   const [showPhone, setShowPhone] = useState(false);
@@ -69,7 +80,7 @@ const ContactButtons = ({ listing }) => {
       <ContactButtonRedesigned
         onClick={handleShowPhone}
         variant="primary"
-        icon="📞"
+        icon={<Phone size={22} />}
         size="large"
       >
         {showPhone ? formatPhone(phoneNumber) : 'ПОКАЗАТЬ ТЕЛЕФОН'}
@@ -80,7 +91,7 @@ const ContactButtons = ({ listing }) => {
         onClick={handleSendMessage}
         disabled={isCreatingConversation}
         variant="secondary"
-        icon={isCreatingConversation ? '⏳' : '💬'}
+        icon={isCreatingConversation ? <Loader2 size={22} className="animate-spin" /> : <MessageCircle size={22} />}
         size="large"
         loading={isCreatingConversation}
       >
@@ -158,7 +169,7 @@ const ContactButtonRedesigned = ({
 
       {loading && (
         <div className="absolute inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-          <div className="w-6 h-6 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+          <Loader2 size={24} className="animate-spin text-white" />
         </div>
       )}
     </button>
@@ -176,8 +187,8 @@ const ContactOptionsRedesigned = ({ phoneNumber, listing, contactName }) => {
       <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white opacity-50"></div>
       
       <div className="relative z-10">
-        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4">
-          📱 СПОСОБЫ СВЯЗИ
+        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
+          <Smartphone size={16} /> СПОСОБЫ СВЯЗИ
         </h4>
         <div className="w-12 h-0.5 bg-orange-600 mb-4"></div>
 
@@ -189,7 +200,7 @@ const ContactOptionsRedesigned = ({ phoneNumber, listing, contactName }) => {
           >
             <ContactButtonRedesigned
               variant="success"
-              icon="📞"
+              icon={<Phone size={20} />}
               size="medium"
             >
               ПОЗВОНИТЬ СЕЙЧАС
@@ -203,7 +214,7 @@ const ContactOptionsRedesigned = ({ phoneNumber, listing, contactName }) => {
           >
             <ContactButtonRedesigned
               variant="info"
-              icon="📱"
+              icon={<Smartphone size={20} />}
               size="medium"
             >
               ОТПРАВИТЬ SMS
@@ -219,7 +230,7 @@ const ContactOptionsRedesigned = ({ phoneNumber, listing, contactName }) => {
           >
             <ContactButtonRedesigned
               variant="whatsapp"
-              icon="📱"
+              icon={<Send size={20} />}
               size="medium"
             >
               НАПИСАТЬ В WHATSAPP
@@ -246,12 +257,12 @@ const ContactInfoRedesigned = ({ contactName }) => {
       <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600"></div>
       <div className="absolute bottom-0.5 right-0.5 w-2 h-0.5 bg-white opacity-50"></div>
       
-      <div className="relative z-10 text-center">
+      <div className="relative z-10 text-center flex items-center justify-center gap-2">
         <div className="text-gray-400 font-bold uppercase tracking-wide text-xs mb-1">
           КОНТАКТНОЕ ЛИЦО:
         </div>
-        <div className="text-white font-black uppercase tracking-wider text-sm">
-          👤 {contactName}
+        <div className="text-white font-black uppercase tracking-wider text-sm flex items-center gap-1">
+          <User size={16} /> {contactName}
         </div>
       </div>
     </div>
@@ -266,9 +277,9 @@ const SafetyTipsRedesigned = () => {
     <div className="mt-4">
       <button
         onClick={() => setShowTips(!showTips)}
-        className="w-full p-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 hover:border-orange-500 text-gray-300 hover:text-white font-bold uppercase text-xs tracking-wide transition-all duration-300"
+        className="w-full p-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 hover:border-orange-500 text-gray-300 hover:text-white font-bold uppercase text-xs tracking-wide transition-all duration-300 flex items-center gap-2 justify-center"
       >
-        🛡️ СОВЕТЫ ПО БЕЗОПАСНОСТИ {showTips ? '▲' : '▼'}
+        <Shield size={16} /> СОВЕТЫ ПО БЕЗОПАСНОСТИ {showTips ? '▲' : '▼'}
       </button>
 
       {showTips && (
@@ -326,18 +337,18 @@ const QuickActionsRedesigned = ({ listing }) => {
     <div className="flex gap-2 mt-4">
       <button
         onClick={handleShare}
-        className="flex-1 p-2 bg-gray-800 hover:bg-orange-600 border border-gray-600 hover:border-black text-white hover:text-black font-bold uppercase text-xs tracking-wide transition-all duration-300"
+        className="flex-1 p-2 bg-gray-800 hover:bg-orange-600 border border-gray-600 hover:border-black text-white hover:text-black font-bold uppercase text-xs tracking-wide transition-all duration-300 flex items-center justify-center"
         title="ПОДЕЛИТЬСЯ"
       >
-        📤
+        <Share2 size={18} />
       </button>
       
       <button
         onClick={handlePrint}
-        className="flex-1 p-2 bg-gray-800 hover:bg-orange-600 border border-gray-600 hover:border-black text-white hover:text-black font-bold uppercase text-xs tracking-wide transition-all duration-300"
+        className="flex-1 p-2 bg-gray-800 hover:bg-orange-600 border border-gray-600 hover:border-black text-white hover:text-black font-bold uppercase text-xs tracking-wide transition-all duration-300 flex items-center justify-center"
         title="ПЕЧАТЬ"
       >
-        🖨️
+        <Printer size={18} />
       </button>
     </div>
   );

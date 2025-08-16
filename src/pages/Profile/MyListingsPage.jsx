@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import {
+  Plus,
+  Calendar,
+  Eye,
+  Heart,
+  Clock,
+  Edit,
+  Pause,
+  Check,
+  Send,
+  RotateCcw,
+  Trash2,
+  FileText
+} from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 import Pagination from '../../components/Common/Pagination';
@@ -96,10 +110,14 @@ const MyListingsPage = () => {
             color: 'white',
             textDecoration: 'none',
             borderRadius: '4px',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px'
           }}
         >
-          ➕ Подать объявление
+          <Plus size={16} />
+          Подать объявление
         </Link>
       </div>
 
@@ -166,7 +184,9 @@ const MyListingsPage = () => {
           borderRadius: '8px',
           border: '1px solid #ddd'
         }}>
-          <div style={{ fontSize: '48px', marginBottom: '15px' }}>📋</div>
+          <div style={{ marginBottom: '15px', display: 'flex', justifyContent: 'center' }}>
+            <FileText size={48} color="#666" />
+          </div>
           <h3 style={{ marginBottom: '10px' }}>
             {statusFilter === 'all' ? 'У вас нет объявлений' : `Нет объявлений со статусом "${statusFilter}"`}
           </h3>
@@ -176,7 +196,9 @@ const MyListingsPage = () => {
           <Link
             to="/create-listing"
             style={{
-              display: 'inline-block',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
               padding: '12px 24px',
               backgroundColor: '#28a745',
               color: 'white',
@@ -185,6 +207,7 @@ const MyListingsPage = () => {
               fontWeight: 'bold'
             }}
           >
+            <Plus size={16} />
             Создать объявление
           </Link>
         </div>
@@ -336,11 +359,23 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
             color: '#666',
             marginBottom: '15px'
           }}>
-            <span>📅 {formatDate(listing.created_date)}</span>
-            <span>👁 {listing.view_count || 0} просмотров</span>
-            <span>❤️ {listing.favorite_count || 0} в избранном</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Calendar size={14} />
+              {formatDate(listing.created_date)}
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Eye size={14} />
+              {listing.view_count || 0} просмотров
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Heart size={14} />
+              {listing.favorite_count || 0} в избранном
+            </span>
             {listing.expires_date && (
-              <span>⏰ До {formatDate(listing.expires_date)}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Clock size={14} />
+                До {formatDate(listing.expires_date)}
+              </span>
             )}
           </div>
 
@@ -355,10 +390,14 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                fontSize: '12px'
+                fontSize: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
               }}
             >
-              👁 Посмотреть
+              <Eye size={12} />
+              Посмотреть
             </button>
 
             {(listing.status === 'active' || listing.status === 'draft') && (
@@ -371,10 +410,14 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
                   border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  fontSize: '12px'
+                  fontSize: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}
               >
-                ✏️ Редактировать
+                <Edit size={12} />
+                Редактировать
               </button>
             )}
 
@@ -389,10 +432,14 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
                     border: 'none',
                     borderRadius: '4px',
                     cursor: 'pointer',
-                    fontSize: '12px'
+                    fontSize: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
                   }}
                 >
-                  ⏸ Снять с публикации
+                  <Pause size={12} />
+                  Снять с публикации
                 </button>
                 <button
                   onClick={() => onAction(listing.listing_id, 'mark_sold', 'Отметить как проданное?')}
@@ -403,10 +450,14 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
                     border: 'none',
                     borderRadius: '4px',
                     cursor: 'pointer',
-                    fontSize: '12px'
+                    fontSize: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
                   }}
                 >
-                  ✅ Продано
+                  <Check size={12} />
+                  Продано
                 </button>
               </>
             )}
@@ -421,10 +472,14 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
                   border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  fontSize: '12px'
+                  fontSize: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}
               >
-                📤 Опубликовать
+                <Send size={12} />
+                Опубликовать
               </button>
             )}
 
@@ -438,10 +493,14 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
                   border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  fontSize: '12px'
+                  fontSize: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
                 }}
               >
-                🔄 Продлить
+                <RotateCcw size={12} />
+                Продлить
               </button>
             )}
 
@@ -454,10 +513,14 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                fontSize: '12px'
+                fontSize: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
               }}
             >
-              🗑 Удалить
+              <Trash2 size={12} />
+              Удалить
             </button>
           </div>
         </div>

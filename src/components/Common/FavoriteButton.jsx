@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../hooks/auth/useAuth';
 import api from '../../services/api';
+import { Heart, HeartOff } from 'lucide-react';
 
 const FavoriteButton = ({ listingId, isFavorite, onToggle }) => {
   const { isAuthenticated } = useAuth();
@@ -30,6 +31,7 @@ const FavoriteButton = ({ listingId, isFavorite, onToggle }) => {
     <button 
       onClick={handleToggle} 
       disabled={loading}
+<<<<<<< HEAD
       className={`
         group relative w-14 h-14 border-4 transition-all duration-300 transform
         ${loading 
@@ -70,6 +72,27 @@ const FavoriteButton = ({ listingId, isFavorite, onToggle }) => {
       {/* Пульс эффект при активном состоянии */}
       {favorite && !loading && (
         <div className="absolute inset-0 border-4 border-orange-500 animate-pulse opacity-50"></div>
+=======
+      style={{
+        background: 'none',
+        border: 'none',
+        cursor: loading ? 'not-allowed' : 'pointer',
+        fontSize: '20px',
+        padding: 0,
+        display: 'flex',
+        alignItems: 'center'
+      }}
+      aria-label={favorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+    >
+      {loading ? (
+        <span style={{ fontSize: '20px' }}>...</span>
+      ) : (
+        favorite ? (
+          <Heart color="#e63946" fill="#e63946" size={24} />
+        ) : (
+          <HeartOff color="#222" size={24} />
+        )
+>>>>>>> 0593c2272dc54756eb84593a00f8aecbb9408f28
       )}
     </button>
   );

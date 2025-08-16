@@ -2,6 +2,24 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { 
+  Edit3, 
+  Eye, 
+  List, 
+  RefreshCw, 
+  AlertTriangle, 
+  Ban, 
+  Bomb, 
+  Info, 
+  X, 
+  Clock, 
+  Archive, 
+  CheckCircle, 
+  Rocket, 
+  Trash2, 
+  Zap,
+  Loader2
+} from 'lucide-react';
 import api from '../../services/api';
 import ListingForm from '../../components/Listings/ListingForm';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -146,7 +164,7 @@ const EditListingPage = () => {
   if (isLoading) {
     return (
       <div className="bg-black border-4 border-orange-600 p-8 sm:p-16 text-center">
-        <div className="text-5xl sm:text-6xl mb-6">✏️</div>
+        <Edit3 className="w-16 h-16 text-orange-500 mx-auto mb-6" />
         <p className="text-orange-100 font-black uppercase tracking-wider text-lg sm:text-xl mb-6">
           ЗАГРУЖАЕМ ОБЪЯВЛЕНИЕ...
         </p>
@@ -162,7 +180,7 @@ const EditListingPage = () => {
         <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
         <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
         
-        <div className="text-5xl sm:text-6xl mb-6">💥</div>
+        <Bomb className="w-16 h-16 text-white mx-auto mb-6" />
         <h2 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-wider mb-4">
           ОШИБКА ЗАГРУЗКИ
         </h2>
@@ -174,13 +192,19 @@ const EditListingPage = () => {
             onClick={() => window.location.reload()}
             className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-6 py-3 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
           >
-            <span className="relative">🔄 ПОПРОБОВАТЬ СНОВА</span>
+            <span className="relative flex items-center justify-center">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              ПОПРОБОВАТЬ СНОВА
+            </span>
           </button>
           <button
             onClick={() => navigate('/my-listings')}
             className="group relative bg-gray-900 hover:bg-red-600 text-white font-black px-6 py-3 border-2 border-red-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
           >
-            <span className="relative">📋 К МОИМ ОБЪЯВЛЕНИЯМ</span>
+            <span className="relative flex items-center justify-center">
+              <List className="w-4 h-4 mr-2" />
+              К МОИМ ОБЪЯВЛЕНИЯМ
+            </span>
           </button>
         </div>
       </div>
@@ -194,7 +218,7 @@ const EditListingPage = () => {
         <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
         <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
         
-        <div className="text-5xl sm:text-6xl mb-6">🚫</div>
+        <Ban className="w-16 h-16 text-white mx-auto mb-6" />
         <h2 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-wider mb-4">
           НЕТ ДОСТУПА
         </h2>
@@ -206,7 +230,10 @@ const EditListingPage = () => {
           onClick={() => navigate('/my-listings')}
           className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
         >
-          <span className="relative">📋 К МОИМ ОБЪЯВЛЕНИЯМ</span>
+          <span className="relative flex items-center justify-center">
+            <List className="w-4 h-4 mr-2" />
+            К МОИМ ОБЪЯВЛЕНИЯМ
+          </span>
         </button>
       </div>
     );
@@ -254,7 +281,10 @@ const EditListingPage = () => {
                 }}
                 className="group relative bg-gray-900 hover:bg-orange-600 text-white hover:text-black font-black px-4 py-3 border-2 border-orange-600 hover:border-black uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105"
               >
-                <span className="relative">👁️ ПРОСМОТР</span>
+                <span className="relative flex items-center justify-center">
+                  <Eye className="w-4 h-4 mr-2" />
+                  ПРОСМОТР
+                </span>
               </button>
               
               <button
@@ -266,7 +296,10 @@ const EditListingPage = () => {
                 }}
                 className="group relative bg-orange-600 hover:bg-white text-black font-black px-4 py-3 border-2 border-black hover:border-orange-600 uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105"
               >
-                <span className="relative">📋 К МОИМ</span>
+                <span className="relative flex items-center justify-center">
+                  <List className="w-4 h-4 mr-2" />
+                  К МОИМ
+                </span>
               </button>
             </div>
           </div>
@@ -278,7 +311,8 @@ const EditListingPage = () => {
         <div className="bg-yellow-600 border-4 border-black p-4 mb-6 relative">
           <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
           <p className="text-black font-black uppercase tracking-wide text-sm flex items-center">
-            ⚠️ У ВАС ЕСТЬ НЕСОХРАНЕННЫЕ ИЗМЕНЕНИЯ
+            <AlertTriangle className="w-4 h-4 mr-2" />
+            У ВАС ЕСТЬ НЕСОХРАНЕННЫЕ ИЗМЕНЕНИЯ
           </p>
         </div>
       )}
@@ -286,8 +320,9 @@ const EditListingPage = () => {
       {listingData.status === 'moderation' && (
         <div className="bg-blue-600 border-4 border-black p-4 mb-6 relative">
           <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
-          <p className="text-white font-black uppercase tracking-wide text-sm">
-            ℹ️ ОБЪЯВЛЕНИЕ НА МОДЕРАЦИИ.<br className="sm:hidden" />
+          <p className="text-white font-black uppercase tracking-wide text-sm flex items-center">
+            <Info className="w-4 h-4 mr-2" />
+            ОБЪЯВЛЕНИЕ НА МОДЕРАЦИИ.<br className="sm:hidden" />
             <span className="sm:ml-2">ПОСЛЕ ИЗМЕНЕНИЙ ПОТРЕБУЕТСЯ ПОВТОРНАЯ ПРОВЕРКА.</span>
           </p>
         </div>
@@ -297,8 +332,9 @@ const EditListingPage = () => {
         <div className="bg-red-600 border-4 border-black p-4 mb-6 relative">
           <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
           <div className="text-white">
-            <p className="font-black uppercase tracking-wide text-sm mb-2">
-              ❌ ОБЪЯВЛЕНИЕ ОТКЛОНЕНО МОДЕРАТОРОМ
+            <p className="font-black uppercase tracking-wide text-sm mb-2 flex items-center">
+              <X className="w-4 h-4 mr-2" />
+              ОБЪЯВЛЕНИЕ ОТКЛОНЕНО МОДЕРАТОРОМ
             </p>
             <p className="font-bold text-sm">
               ИСПРАВЬТЕ УКАЗАННЫЕ ЗАМЕЧАНИЯ И СОХРАНИТЕ ИЗМЕНЕНИЯ
@@ -316,8 +352,9 @@ const EditListingPage = () => {
       {listingData.status === 'expired' && (
         <div className="bg-yellow-600 border-4 border-black p-4 mb-6 relative">
           <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
-          <p className="text-black font-black uppercase tracking-wide text-sm">
-            ⏰ СРОК ДЕЙСТВИЯ ИСТЕК.<br className="sm:hidden" />
+          <p className="text-black font-black uppercase tracking-wide text-sm flex items-center">
+            <Clock className="w-4 h-4 mr-2" />
+            СРОК ДЕЙСТВИЯ ИСТЕК.<br className="sm:hidden" />
             <span className="sm:ml-2">ПОСЛЕ СОХРАНЕНИЯ БУДЕТ ПРОДЛЕНО.</span>
           </p>
         </div>
@@ -366,7 +403,8 @@ const EditListingPage = () => {
         
         <div className="relative z-10">
           <h2 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
-            ✏️ ФОРМА РЕДАКТИРОВАНИЯ
+            <Edit3 className="w-5 h-5 mr-3" />
+            ФОРМА РЕДАКТИРОВАНИЯ
             <div className="w-8 sm:w-12 h-1 bg-orange-600 ml-4"></div>
           </h2>
           <ListingForm
@@ -374,7 +412,12 @@ const EditListingPage = () => {
             onSubmit={handleFormSubmit}
             onChange={handleFormChange}
             loading={updateListingMutation.isLoading}
-            submitButtonText={updateListingMutation.isLoading ? 'СОХРАНЯЕМ...' : 'СОХРАНИТЬ ИЗМЕНЕНИЯ'}
+            submitButtonText={updateListingMutation.isLoading ? (
+              <span className="flex items-center justify-center">
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                СОХРАНЯЕМ...
+              </span>
+            ) : 'СОХРАНИТЬ ИЗМЕНЕНИЯ'}
           />
         </div>
       </div>
@@ -386,8 +429,9 @@ const EditListingPage = () => {
         <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
         
         <div className="relative z-10">
-          <h3 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider mb-4 sm:mb-6">
-            ⚡ ДОПОЛНИТЕЛЬНЫЕ ДЕЙСТВИЯ
+          <h3 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider mb-4 sm:mb-6 flex items-center">
+            <Zap className="w-5 h-5 mr-3" />
+            ДОПОЛНИТЕЛЬНЫЕ ДЕЙСТВИЯ
           </h3>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -405,7 +449,10 @@ const EditListingPage = () => {
                 }}
                 className="group relative bg-yellow-600 hover:bg-white text-black font-black px-4 py-3 border-2 border-black hover:border-yellow-600 uppercase tracking-wider text-xs sm:text-sm transition-all duration-300 transform hover:scale-105"
               >
-                <span className="relative">📦 СНЯТЬ</span>
+                <span className="relative flex items-center justify-center">
+                  <Archive className="w-4 h-4 mr-2" />
+                  СНЯТЬ
+                </span>
                 <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-yellow-600 transition-colors"></div>
               </button>
             )}
@@ -424,7 +471,10 @@ const EditListingPage = () => {
                 }}
                 className="group relative bg-green-600 hover:bg-white text-white hover:text-black font-black px-4 py-3 border-2 border-black hover:border-green-600 uppercase tracking-wider text-xs sm:text-sm transition-all duration-300 transform hover:scale-105"
               >
-                <span className="relative">✅ ПРОДАНО</span>
+                <span className="relative flex items-center justify-center">
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  ПРОДАНО
+                </span>
                 <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-green-600 transition-colors"></div>
               </button>
             )}
@@ -433,7 +483,10 @@ const EditListingPage = () => {
               onClick={() => navigate(`/payments/services?listing_id=${listingId}`)}
               className="group relative bg-blue-600 hover:bg-white text-white hover:text-black font-black px-4 py-3 border-2 border-black hover:border-blue-600 uppercase tracking-wider text-xs sm:text-sm transition-all duration-300 transform hover:scale-105"
             >
-              <span className="relative">🚀 ПРОДВИНУТЬ</span>
+              <span className="relative flex items-center justify-center">
+                <Rocket className="w-4 h-4 mr-2" />
+                ПРОДВИНУТЬ
+              </span>
               <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-blue-600 transition-colors"></div>
             </button>
 
@@ -450,7 +503,10 @@ const EditListingPage = () => {
               }}
               className="group relative bg-red-600 hover:bg-white text-white hover:text-black font-black px-4 py-3 border-2 border-black hover:border-red-600 uppercase tracking-wider text-xs sm:text-sm transition-all duration-300 transform hover:scale-105"
             >
-              <span className="relative">🗑️ УДАЛИТЬ</span>
+              <span className="relative flex items-center justify-center">
+                <Trash2 className="w-4 h-4 mr-2" />
+                УДАЛИТЬ
+              </span>
               <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-red-600 transition-colors"></div>
             </button>
           </div>

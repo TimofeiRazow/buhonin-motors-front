@@ -2,6 +2,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { 
+  ArrowLeft, 
+  AlertTriangle, 
+  MessageCircle, 
+  User, 
+  CheckCheck, 
+  Check, 
+  Paperclip, 
+  Smile, 
+  Rocket 
+} from 'lucide-react';
 import { useMessages } from '../../hooks/api/useMessages';
 import api from '../../services/api';
 
@@ -80,7 +91,7 @@ const ChatPage = () => {
               onClick={handleBack}
               className="group p-2 bg-gray-900 hover:bg-orange-600 border-2 border-gray-700 hover:border-black transition-all duration-300 transform hover:scale-110"
             >
-              <span className="text-white group-hover:text-black font-black text-lg">←</span>
+              <ArrowLeft className="text-white group-hover:text-black w-5 h-5" />
               <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-hover:bg-black transition-colors"></div>
             </button>
             
@@ -99,8 +110,8 @@ const ChatPage = () => {
               <span className="text-gray-400 font-bold uppercase text-xs tracking-wider">ОНЛАЙН</span>
             </div>
             
-            <button className="group p-2 bg-gray-900 hover:bg-red-600 border-2 border-gray-700 hover:border-black transition-all duration-300">
-              <span className="text-white group-hover:text-black font-black">⚠️</span>
+            <button className="group p-2 bg-gray-900 hover:bg-red-600 border-2 border-gray-700 hover:border-black transition-all duration-300 relative">
+              <AlertTriangle className="text-white group-hover:text-black w-5 h-5" />
               <div className="absolute top-0.5 right-0.5 w-1 h-1 bg-red-600 group-hover:bg-black transition-colors"></div>
             </button>
           </div>
@@ -178,7 +189,7 @@ const MessageThreadRedesigned = ({ messages, loading }) => {
   if (!messages?.length) {
     return (
       <div className="flex flex-col items-center justify-center h-32 text-center">
-        <div className="text-4xl mb-4">💬</div>
+        <MessageCircle className="w-12 h-12 mb-4 text-gray-400" />
         <div className="text-gray-400 font-black uppercase tracking-wider text-lg mb-2">
           НЕТ СООБЩЕНИЙ
         </div>
@@ -225,7 +236,7 @@ const MessageGroupRedesigned = ({ messages, isOwnMessage }) => {
         {!isOwnMessage && (
           <div className="flex items-center mb-2">
             <div className="w-8 h-8 bg-orange-600 border-2 border-black flex items-center justify-center mr-3">
-              <span className="text-black font-black text-sm">👤</span>
+              <User className="text-black w-4 h-4" />
             </div>
             <span className="text-gray-400 font-bold uppercase tracking-wide text-sm">
               {messages[0].sender_name || 'ПОЛЬЗОВАТЕЛЬ'}
@@ -274,7 +285,11 @@ const MessageGroupRedesigned = ({ messages, isOwnMessage }) => {
                   
                   {isOwnMessage && (
                     <span className="flex items-center">
-                      {message.is_read ? '✓✓' : '✓'}
+                      {message.is_read ? (
+                        <CheckCheck className="w-4 h-4" />
+                      ) : (
+                        <Check className="w-4 h-4" />
+                      )}
                     </span>
                   )}
                 </div>
@@ -356,19 +371,19 @@ const MessageInputRedesigned = ({ onSendMessage, disabled }) => {
           {/* Кнопки дополнительных действий */}
           <button
             type="button"
-            className="group p-2 bg-gray-800 hover:bg-orange-600 border-2 border-gray-600 hover:border-black transition-all duration-300"
+            className="group p-2 bg-gray-800 hover:bg-orange-600 border-2 border-gray-600 hover:border-black transition-all duration-300 relative"
             title="Прикрепить файл"
           >
-            <span className="text-gray-400 group-hover:text-black">📎</span>
+            <Paperclip className="text-gray-400 group-hover:text-black w-5 h-5" />
             <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-hover:bg-black transition-colors"></div>
           </button>
           
           <button
             type="button"
-            className="group p-2 bg-gray-800 hover:bg-orange-600 border-2 border-gray-600 hover:border-black transition-all duration-300"
+            className="group p-2 bg-gray-800 hover:bg-orange-600 border-2 border-gray-600 hover:border-black transition-all duration-300 relative"
             title="Эмодзи"
           >
-            <span className="text-gray-400 group-hover:text-black">😊</span>
+            <Smile className="text-gray-400 group-hover:text-black w-5 h-5" />
             <div className="absolute top-0.5 right-0.5 w-1 h-1 bg-orange-600 group-hover:bg-black transition-colors"></div>
           </button>
         </div>
@@ -393,7 +408,8 @@ const MessageInputRedesigned = ({ onSendMessage, disabled }) => {
               </>
             ) : (
               <>
-                🚀 ОТПРАВИТЬ
+                <Rocket className="w-4 h-4 mr-2" />
+                ОТПРАВИТЬ
               </>
             )}
           </span>

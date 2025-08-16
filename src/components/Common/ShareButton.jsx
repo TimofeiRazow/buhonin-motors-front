@@ -1,9 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
+import {
+  Share2,
+  Clipboard,
+  Check,
+  Send,
+  MessageCircle,
+  Paperclip,
+  Mail,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Reddit,
+  Vk,
+  BarChart2
+} from 'lucide-react';
 
-const ShareButton = ({ 
-  url, 
-  title, 
-  description, 
+const ShareButton = ({
+  url,
+  title,
+  description,
   variant = 'default', // default, compact, icon-only
   position = 'bottom-right', // bottom-right, bottom-left, top-right, top-left
   customPlatforms = null,
@@ -21,11 +36,14 @@ const ShareButton = ({
     url: url || window.location.href
   };
 
-  // Закрытие меню при клике вне его
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) && 
-          buttonRef.current && !buttonRef.current.contains(event.target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
         setShowMenu(false);
       }
     };
@@ -34,7 +52,6 @@ const ShareButton = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Сброс состояния копирования
   useEffect(() => {
     if (copySuccess) {
       const timer = setTimeout(() => setCopySuccess(false), 2000);
@@ -43,14 +60,16 @@ const ShareButton = ({
   }, [copySuccess]);
 
   const handleNativeShare = async () => {
-    if (navigator.share && /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    if (
+      navigator.share &&
+      /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    ) {
       setIsSharing(true);
       try {
         await navigator.share(shareData);
         onShare?.('native', shareData);
       } catch (error) {
         console.error('Error sharing:', error);
-        // Если нативный шаринг не удался, показываем меню
         setShowMenu(!showMenu);
       } finally {
         setIsSharing(false);
@@ -65,7 +84,6 @@ const ShareButton = ({
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(shareData.url);
       } else {
-        // Fallback для старых браузеров
         const textArea = document.createElement('textarea');
         textArea.value = shareData.url;
         document.body.appendChild(textArea);
@@ -73,11 +91,10 @@ const ShareButton = ({
         document.execCommand('copy');
         document.body.removeChild(textArea);
       }
-      
+
       setCopySuccess(true);
       onShare?.('clipboard', shareData);
-      
-      // Закрываем меню через небольшую задержку
+
       setTimeout(() => setShowMenu(false), 1000);
     } catch (error) {
       console.error('Error copying to clipboard:', error);
@@ -106,7 +123,7 @@ const ShareButton = ({
       } else {
         window.open(urls[platform], '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
       }
-      
+
       onShare?.(platform, shareData);
       setShowMenu(false);
     }
@@ -124,18 +141,18 @@ const ShareButton = ({
 
     switch (variant) {
       case 'icon-only':
-        return '📤';
+        return <Share2 size={22} />;
       case 'compact':
         return (
           <>
-            <span className="text-lg mr-2">📤</span>
+            <Share2 size={20} className="mr-2" />
             ПОДЕЛИТЬСЯ
           </>
         );
       default:
         return (
           <>
-            <span className="text-lg mr-2">📤</span>
+            <Share2 size={20} className="mr-2" />
             ПОДЕЛИТЬСЯ
           </>
         );
@@ -153,18 +170,19 @@ const ShareButton = ({
   };
 
   const platforms = customPlatforms || [
-    { id: 'clipboard', name: 'КОПИРОВАТЬ ССЫЛКУ', icon: '📋', action: copyToClipboard },
-    { id: 'whatsapp', name: 'WHATSAPP', icon: '💬', action: () => shareToSocial('whatsapp') },
-    { id: 'telegram', name: 'TELEGRAM', icon: '✈️', action: () => shareToSocial('telegram') },
-    { id: 'vk', name: 'VKONTAKTE', icon: '📘', action: () => shareToSocial('vk') },
-    { id: 'facebook', name: 'FACEBOOK', icon: '📘', action: () => shareToSocial('facebook') },
-    { id: 'twitter', name: 'TWITTER', icon: '🐦', action: () => shareToSocial('twitter') },
-    { id: 'email', name: 'EMAIL', icon: '✉️', action: () => shareToSocial('email') }
+    { id: 'clipboard', name: 'КОПИРОВАТЬ ССЫЛКУ', icon: <Clipboard size={20} />, action: copyToClipboard },
+    { id: 'whatsapp', name: 'WHATSAPP', icon: <MessageCircle size={20} />, action: () => shareToSocial('whatsapp') },
+    { id: 'telegram', name: 'TELEGRAM', icon: <Send size={20} />, action: () => shareToSocial('telegram') },
+    { id: 'vk', name: 'VKONTAKTE', icon: <Vk size={20} />, action: () => shareToSocial('vk') },
+    { id: 'facebook', name: 'FACEBOOK', icon: <Facebook size={20} />, action: () => shareToSocial('facebook') },
+    { id: 'twitter', name: 'TWITTER', icon: <Twitter size={20} />, action: () => shareToSocial('twitter') },
+    { id: 'linkedin', name: 'LINKEDIN', icon: <Linkedin size={20} />, action: () => shareToSocial('linkedin') },
+    { id: 'reddit', name: 'REDDIT', icon: <Reddit size={20} />, action: () => shareToSocial('reddit') },
+    { id: 'email', name: 'EMAIL', icon: <Mail size={20} />, action: () => shareToSocial('email') }
   ];
 
   return (
     <div className="relative inline-block">
-      {/* Основная кнопка */}
       <button
         ref={buttonRef}
         onClick={handleNativeShare}
@@ -188,7 +206,6 @@ const ShareButton = ({
         <span className="relative flex items-center">
           {getButtonContent()}
         </span>
-        
         {!isSharing && (
           <>
             <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-hover:bg-black transition-colors"></div>
@@ -199,31 +216,26 @@ const ShareButton = ({
         )}
       </button>
 
-      {/* Меню платформ */}
       {showMenu && (
         <>
-          {/* Фон для закрытия */}
-          <div 
+          <div
             className="fixed inset-0 z-40"
             onClick={() => setShowMenu(false)}
           />
-          
-          {/* Меню */}
-          <div 
+          <div
             ref={menuRef}
             className={`
               absolute ${getMenuPosition()} z-50 bg-black border-4 border-orange-600 
               min-w-64 overflow-hidden animate-menuSlideIn
             `}
           >
-            {/* Геометрические элементы меню */}
             <div className="absolute top-0 left-0 w-full h-1 bg-orange-600"></div>
             <div className="absolute top-2 right-2 w-2 h-2 bg-orange-600 rotate-45"></div>
             <div className="absolute bottom-2 left-2 w-1 h-1 bg-white"></div>
 
             <div className="relative z-10 p-4">
-              <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4">
-                📤 ПОДЕЛИТЬСЯ ЧЕРЕЗ:
+              <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4 flex items-center">
+                <Share2 size={18} className="mr-2" /> ПОДЕЛИТЬСЯ ЧЕРЕЗ:
               </h4>
               <div className="w-12 h-0.5 bg-orange-600 mb-4"></div>
 
@@ -237,10 +249,9 @@ const ShareButton = ({
                 ))}
               </div>
 
-              {/* Дополнительная информация */}
               <div className="mt-4 pt-4 border-t border-gray-700">
-                <div className="text-gray-400 font-bold uppercase text-xs text-center">
-                  📊 СТАТИСТИКА БУДЕТ СОХРАНЕНА
+                <div className="text-gray-400 font-bold uppercase text-xs text-center flex items-center justify-center">
+                  <BarChart2 size={16} className="mr-2" /> СТАТИСТИКА БУДЕТ СОХРАНЕНА
                 </div>
               </div>
             </div>
@@ -248,7 +259,6 @@ const ShareButton = ({
         </>
       )}
 
-      {/* Уведомление об успешном копировании */}
       {copySuccess && (
         <CopySuccessNotificationRedesigned />
       )}
@@ -256,7 +266,6 @@ const ShareButton = ({
   );
 };
 
-// Компонент кнопки платформы
 const SharePlatformButtonRedesigned = ({ platform, copySuccess }) => {
   const [isClicked, setIsClicked] = useState(false);
 
@@ -281,12 +290,11 @@ const SharePlatformButtonRedesigned = ({ platform, copySuccess }) => {
       `}
     >
       <span className="text-xl mr-3 flex-shrink-0">
-        {copySuccess ? '✅' : platform.icon}
+        {copySuccess ? <Check size={20} /> : platform.icon}
       </span>
       <span className="font-black uppercase tracking-wide text-sm">
         {copySuccess ? 'ССЫЛКА СКОПИРОВАНА!' : platform.name}
       </span>
-      
       {!copySuccess && (
         <>
           <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-hover:bg-black transition-colors"></div>
@@ -297,13 +305,12 @@ const SharePlatformButtonRedesigned = ({ platform, copySuccess }) => {
   );
 };
 
-// Уведомление об успешном копировании
 const CopySuccessNotificationRedesigned = () => {
   return (
     <div className="fixed bottom-4 right-4 z-60 bg-green-600 border-2 border-black text-white p-4 animate-notificationSlide">
       <div className="absolute top-0.5 left-0.5 w-2 h-2 bg-black"></div>
       <div className="flex items-center">
-        <span className="text-xl mr-3">✅</span>
+        <span className="text-xl mr-3"><Check size={20} /></span>
         <span className="font-black uppercase tracking-wide text-sm">
           ССЫЛКА СКОПИРОВАНА!
         </span>
@@ -312,13 +319,12 @@ const CopySuccessNotificationRedesigned = () => {
   );
 };
 
-// Расширенная версия с аналитикой
-export const ShareButtonWithAnalytics = ({ 
-  url, 
-  title, 
-  description, 
-  entityId, 
-  entityType = 'listing' 
+export const ShareButtonWithAnalytics = ({
+  url,
+  title,
+  description,
+  entityId,
+  entityType = 'listing'
 }) => {
   const trackShare = async (platform, shareData) => {
     try {
@@ -344,7 +350,6 @@ export const ShareButtonWithAnalytics = ({
   );
 };
 
-// Мини версия для использования в списках
 export const ShareButtonMini = ({ url, title, description }) => {
   return (
     <ShareButton
@@ -357,7 +362,6 @@ export const ShareButtonMini = ({ url, title, description }) => {
   );
 };
 
-// Компактная версия для мобильных
 export const ShareButtonCompact = ({ url, title, description }) => {
   return (
     <ShareButton
@@ -370,17 +374,17 @@ export const ShareButtonCompact = ({ url, title, description }) => {
   );
 };
 
-// Кастомная версия с выбранными платформами
-export const ShareButtonCustom = ({ 
-  url, 
-  title, 
-  description, 
-  platforms = ['whatsapp', 'telegram', 'clipboard'] 
+export const ShareButtonCustom = ({
+  url,
+  title,
+  description,
+  platforms = ['whatsapp', 'telegram', 'clipboard']
 }) => {
+  // Use lucide icons for custom platforms
   const customPlatforms = [
-    { id: 'clipboard', name: 'КОПИРОВАТЬ', icon: '📋', action: copyToClipboard },
-    { id: 'whatsapp', name: 'WHATSAPP', icon: '💬', action: () => shareToSocial('whatsapp') },
-    { id: 'telegram', name: 'TELEGRAM', icon: '✈️', action: () => shareToSocial('telegram') }
+    { id: 'clipboard', name: 'КОПИРОВАТЬ', icon: <Clipboard size={20} />, action: copyToClipboard },
+    { id: 'whatsapp', name: 'WHATSAPP', icon: <MessageCircle size={20} />, action: () => shareToSocial('whatsapp') },
+    { id: 'telegram', name: 'TELEGRAM', icon: <Send size={20} />, action: () => shareToSocial('telegram') }
   ].filter(platform => platforms.includes(platform.id));
 
   return (
@@ -393,7 +397,6 @@ export const ShareButtonCustom = ({
   );
 };
 
-// Добавляем CSS анимации
 const styles = `
   @keyframes menuSlideIn {
     from {
@@ -434,7 +437,6 @@ const styles = `
   }
 `;
 
-// Инжектируем стили
 if (typeof document !== 'undefined' && !document.getElementById('share-button-styles')) {
   const styleSheet = document.createElement('style');
   styleSheet.id = 'share-button-styles';

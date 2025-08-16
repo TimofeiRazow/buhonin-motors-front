@@ -1,16 +1,16 @@
-// src/components/Layout/Header/Navigation.jsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Home, Search, Plus, Heart, MessageCircle } from 'lucide-react';
 
 const Navigation = () => {
   const location = useLocation();
 
   const menuItems = [
-    { path: '/', label: 'Главная', icon: '🏠' },
-    { path: '/search', label: 'Поиск', icon: '🔍' },
-    { path: '/create-listing', label: 'Подать объявление', icon: '+' },
-    { path: '/favorites', label: 'Избранное', icon: '❤️' },
-    { path: '/messages', label: 'Сообщения', icon: '💬' }
+    { path: '/', label: 'Главная', icon: <Home size={18} /> },
+    { path: '/search', label: 'Поиск', icon: <Search size={18} /> },
+    { path: '/create-listing', label: 'Подать объявление', icon: <Plus size={18} /> },
+    { path: '/favorites', label: 'Избранное', icon: <Heart size={18} /> },
+    { path: '/messages', label: 'Сообщения', icon: <MessageCircle size={18} /> }
   ];
 
   return (

@@ -2,6 +2,20 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
+import { 
+  Heart, 
+  Search, 
+  Trash2, 
+  Check, 
+  ChevronDown, 
+  RefreshCw, 
+  Car, 
+  Home, 
+  Lightbulb,
+  MapPin,
+  Calendar,
+  Gauge
+} from 'lucide-react';
 import api from '../../services/api';
 import ListingGrid from '../../components/Listings/ListingGrid';
 import Pagination from '../../components/Common/Pagination';
@@ -155,8 +169,9 @@ const FavoritesPage = () => {
         
         <div className="relative z-10 flex justify-between items-center">
           <div>
-            <h1 className="text-4xl font-black text-white uppercase tracking-wider mb-2 flex items-center">
-              ❤️ ИЗБРАННОЕ
+            <h1 className="text-4xl font-black text-white uppercase tracking-wider mb-2 flex items-center gap-3">
+              <Heart className="w-10 h-10 text-red-500 fill-current" />
+              ИЗБРАННОЕ
             </h1>
             {favoritesData.length > 0 && (
               <p className="text-orange-300 font-bold uppercase tracking-wide text-sm">
@@ -168,9 +183,10 @@ const FavoritesPage = () => {
           {favoritesData.length > 0 && (
             <Link
               to="/search"
-              className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+              className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
             >
-              <span className="relative">🔍 НАЙТИ ЕЩЕ</span>
+              <Search className="w-5 h-5" />
+              <span className="relative">НАЙТИ ЕЩЁ</span>
               <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
               <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
             </Link>
@@ -181,7 +197,7 @@ const FavoritesPage = () => {
       {/* Загрузка */}
       {isLoading && (
         <div className="bg-black border-4 border-orange-600 p-16 text-center">
-          <div className="text-6xl mb-6">❤️</div>
+          <Heart className="w-16 h-16 text-red-500 mx-auto mb-6" />
           <p className="text-orange-100 font-black uppercase tracking-wider text-xl mb-6">
             ЗАГРУЖАЕМ ИЗБРАННОЕ...
           </p>
@@ -195,7 +211,7 @@ const FavoritesPage = () => {
           <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
           <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
           
-          <div className="text-5xl mb-4">💔</div>
+          <Heart className="w-12 h-12 text-white mx-auto mb-4" />
           <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
             ОШИБКА ЗАГРУЗКИ
           </h3>
@@ -204,9 +220,10 @@ const FavoritesPage = () => {
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
+            className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto"
           >
-            <span className="relative">🔄 ПОПРОБОВАТЬ СНОВА</span>
+            <RefreshCw className="w-5 h-5" />
+            <span className="relative">ПОПРОБОВАТЬ СНОВА</span>
             <div className="absolute top-1 left-1 w-3 h-3 bg-red-600 group-hover:bg-black transition-colors"></div>
           </button>
         </div>
@@ -220,30 +237,32 @@ const FavoritesPage = () => {
           <div className="absolute top-6 right-6 w-6 h-6 bg-orange-600 rotate-45"></div>
           <div className="absolute bottom-6 left-6 w-4 h-4 bg-white"></div>
           
-          <div className="text-8xl mb-8">💙</div>
+          <Heart className="w-20 h-20 text-blue-400 mx-auto mb-8" />
           <h3 className="text-4xl font-black text-white uppercase tracking-wider mb-6">
             В ИЗБРАННОМ
             <span className="block text-orange-500">ПОКА ПУСТО</span>
           </h3>
-          <p className="text-orange-300 font-bold uppercase tracking-wide text-lg mb-12">
+          <p className="text-orange-300 font-bold uppercase tracking-wide text-lg mb-12 flex items-center justify-center gap-2">
             ДОБАВЛЯЙТЕ ПОНРАВИВШИЕСЯ ОБЪЯВЛЕНИЯ<br />
-            В ИЗБРАННОЕ, НАЖИМАЯ НА ❤️
+            В ИЗБРАННОЕ, НАЖИМАЯ НА <Heart className="w-5 h-5 text-red-400" />
           </p>
           
           <div className="flex gap-6 justify-center">
             <Link
               to="/search"
-              className="group relative bg-orange-600 hover:bg-white text-black font-black px-10 py-6 text-lg border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+              className="group relative bg-orange-600 hover:bg-white text-black font-black px-10 py-6 text-lg border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105 flex items-center gap-3"
             >
-              <span className="relative">🚗 НАЙТИ АВТОМОБИЛЬ</span>
+              <Car className="w-6 h-6" />
+              <span className="relative">НАЙТИ АВТОМОБИЛЬ</span>
               <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
             </Link>
             
             <Link
               to="/"
-              className="group relative bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black font-black px-10 py-6 text-lg border-2 border-orange-600 hover:border-black uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+              className="group relative bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black font-black px-10 py-6 text-lg border-2 border-orange-600 hover:border-black uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105 flex items-center gap-3"
             >
-              <span className="relative">🏠 НА ГЛАВНУЮ</span>
+              <Home className="w-6 h-6" />
+              <span className="relative">НА ГЛАВНУЮ</span>
               <div className="absolute top-1 right-1 w-3 h-3 bg-orange-600 group-hover:bg-black transition-colors"></div>
             </Link>
           </div>
@@ -276,7 +295,7 @@ const FavoritesPage = () => {
                         : 'bg-gray-800 border-gray-600'
                     }`}>
                       {selectedItems.size === paginatedData.length && paginatedData.length > 0 && (
-                        <span className="text-black font-black">✓</span>
+                        <Check className="w-4 h-4 text-black" />
                       )}
                     </div>
                   </div>
@@ -297,7 +316,7 @@ const FavoritesPage = () => {
                         <option value="remove">УДАЛИТЬ ИЗ ИЗБРАННОГО</option>
                       </select>
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-orange-500"></div>
+                        <ChevronDown className="w-4 h-4 text-orange-500" />
                       </div>
                       <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
                     </div>
@@ -305,14 +324,15 @@ const FavoritesPage = () => {
                     <button
                       onClick={handleBulkAction}
                       disabled={!bulkAction || bulkRemoveMutation.isLoading}
-                      className={`group relative font-black px-6 py-3 border-2 uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105 ${
+                      className={`group relative font-black px-6 py-3 border-2 uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                         bulkAction && !bulkRemoveMutation.isLoading
                           ? 'bg-red-600 hover:bg-white text-white hover:text-black border-black hover:border-red-600 cursor-pointer'
                           : 'bg-gray-600 border-gray-500 text-gray-300 cursor-not-allowed'
                       }`}
                     >
+                      <Trash2 className="w-4 h-4" />
                       <span className="relative">
-                        {bulkRemoveMutation.isLoading ? '🗑️ УДАЛЕНИЕ...' : '🗑️ ВЫПОЛНИТЬ'}
+                        {bulkRemoveMutation.isLoading ? 'УДАЛЕНИЕ...' : 'ВЫПОЛНИТЬ'}
                       </span>
                       {bulkAction && !bulkRemoveMutation.isLoading && (
                         <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-red-600 transition-colors"></div>
@@ -341,7 +361,7 @@ const FavoritesPage = () => {
                     <option value="mileage_asc">ПО ПРОБЕГУ (МЕНЬШЕ)</option>
                   </select>
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                    <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-orange-500"></div>
+                    <ChevronDown className="w-4 h-4 text-orange-500" />
                   </div>
                   <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
                 </div>
@@ -392,7 +412,7 @@ const FavoritesPage = () => {
                         : 'bg-gray-800 border-gray-600'
                     }`}>
                       {selectedItems.has(listing.listing_id) && (
-                        <span className="text-black font-black">✓</span>
+                        <Check className="w-4 h-4 text-black" />
                       )}
                     </div>
                   </div>
@@ -426,13 +446,23 @@ const FavoritesPage = () => {
                           {listing.price?.toLocaleString()} {listing.currency_code || '₸'}
                         </div>
 
-                        <div className="text-orange-300 font-bold text-sm flex items-center">
-                          <div className="w-2 h-2 bg-orange-500 mr-3"></div>
-                          <span className="uppercase tracking-wide">
-                            {listing.city_name}
-                            {listing.year && ` • ${listing.year} Г.`}
-                            {listing.mileage && ` • ${listing.mileage.toLocaleString()} КМ`}
-                          </span>
+                        <div className="text-orange-300 font-bold text-sm flex items-center gap-4">
+                          <div className="flex items-center gap-1">
+                            <MapPin className="w-3 h-3 text-orange-500" />
+                            <span className="uppercase tracking-wide">{listing.city_name}</span>
+                          </div>
+                          {listing.year && (
+                            <div className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3 text-orange-500" />
+                              <span className="uppercase tracking-wide">{listing.year} Г.</span>
+                            </div>
+                          )}
+                          {listing.mileage && (
+                            <div className="flex items-center gap-1">
+                              <Gauge className="w-3 h-3 text-orange-500" />
+                              <span className="uppercase tracking-wide">{listing.mileage.toLocaleString()} КМ</span>
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -449,7 +479,7 @@ const FavoritesPage = () => {
                           className="group relative bg-red-600 hover:bg-white text-white hover:text-black font-black px-4 py-2 border-2 border-black hover:border-red-600 transition-all duration-300 transform hover:scale-105"
                           title="УДАЛИТЬ ИЗ ИЗБРАННОГО"
                         >
-                          <span className="relative">🗑️</span>
+                          <Trash2 className="w-4 h-4" />
                           <div className="absolute top-1 left-1 w-2 h-2 bg-black group-hover:bg-red-600 transition-colors"></div>
                         </button>
                       </div>
@@ -482,8 +512,9 @@ const FavoritesPage = () => {
             <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
             <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
             
-            <h4 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center">
-              💡 ПОЛЕЗНЫЕ СОВЕТЫ
+            <h4 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Lightbulb className="w-6 h-6 text-yellow-400" />
+              ПОЛЕЗНЫЕ СОВЕТЫ
             </h4>
             <ul className="text-blue-200 font-bold space-y-2">
               <li className="flex items-center">

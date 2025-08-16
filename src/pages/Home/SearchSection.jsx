@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { Search } from 'lucide-react';
 import api from '../../services/api';
 
 const SearchSection = () => {
@@ -208,9 +209,9 @@ const SearchSection = () => {
           >
             <div className="absolute inset-0 border-4 border-black group-hover:border-orange-600 transition-colors"></div>
             <span className="relative group-hover:text-black flex items-center justify-center">
-              <span className="mr-3">🔍</span>
+              <Search className="mr-3" size={24} />
               НАЙТИ АВТОМОБИЛИ
-              <span className="ml-3">🔍</span>
+              <Search className="ml-3" size={24} />
             </span>
             
             {/* Декоративные элементы кнопки */}

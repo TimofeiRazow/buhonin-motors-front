@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/auth/useAuth';
+import { User, Car, MessageCircle, Settings, Wrench, LogOut } from 'lucide-react';
 
 const UserMenu = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,7 +63,7 @@ const UserMenu = ({ user }) => {
               onClick={() => setIsOpen(false)}
               className="group flex items-center gap-3 p-4 text-white hover:bg-orange-600 hover:text-black no-underline font-bold uppercase tracking-wider text-sm border-b-2 border-gray-800 hover:border-black transition-all duration-300"
             >
-              <span className="text-lg">👤</span>
+              <span className="text-lg"><User size={20} /></span>
               МОЙ ПРОФИЛЬ
               <div className="ml-auto w-2 h-2 bg-orange-600 group-hover:bg-black transition-colors"></div>
             </Link>
@@ -72,7 +73,7 @@ const UserMenu = ({ user }) => {
               onClick={() => setIsOpen(false)}
               className="group flex items-center gap-3 p-4 text-white hover:bg-orange-600 hover:text-black no-underline font-bold uppercase tracking-wider text-sm border-b-2 border-gray-800 hover:border-black transition-all duration-300"
             >
-              <span className="text-lg">🚗</span>
+              <span className="text-lg"><Car size={20} /></span>
               МОИ ОБЪЯВЛЕНИЯ
               <div className="ml-auto w-2 h-2 bg-orange-600 group-hover:bg-black transition-colors"></div>
             </Link>
@@ -82,7 +83,7 @@ const UserMenu = ({ user }) => {
               onClick={() => setIsOpen(false)}
               className="group flex items-center gap-3 p-4 text-white hover:bg-orange-600 hover:text-black no-underline font-bold uppercase tracking-wider text-sm border-b-2 border-gray-800 hover:border-black transition-all duration-300"
             >
-              <span className="text-lg">💬</span>
+              <span className="text-lg"><MessageCircle size={20} /></span>
               СООБЩЕНИЯ
               <div className="ml-auto w-2 h-2 bg-orange-600 group-hover:bg-black transition-colors"></div>
             </Link>
@@ -92,7 +93,7 @@ const UserMenu = ({ user }) => {
               onClick={() => setIsOpen(false)}
               className="group flex items-center gap-3 p-4 text-white hover:bg-orange-600 hover:text-black no-underline font-bold uppercase tracking-wider text-sm border-b-2 border-gray-800 hover:border-black transition-all duration-300"
             >
-              <span className="text-lg">⚙️</span>
+              <span className="text-lg"><Settings size={20} /></span>
               НАСТРОЙКИ
               <div className="ml-auto w-2 h-2 bg-orange-600 group-hover:bg-black transition-colors"></div>
             </Link>
@@ -104,7 +105,7 @@ const UserMenu = ({ user }) => {
                 onClick={() => setIsOpen(false)}
                 className="group flex items-center gap-3 p-4 text-white hover:bg-orange-600 hover:text-black no-underline font-bold uppercase tracking-wider text-sm border-b-2 border-gray-800 hover:border-black transition-all duration-300"
               >
-                <span className="text-lg">🛠️</span>
+                <span className="text-lg"><Wrench size={20} /></span>
                 АДМИН-ПАНЕЛЬ
                 <div className="ml-auto w-2 h-2 bg-orange-600 group-hover:bg-black transition-colors"></div>
               </Link>
@@ -113,9 +114,9 @@ const UserMenu = ({ user }) => {
             {/* Кнопка выхода */}
             <button
               onClick={handleLogout}
-              className="group w-full flex items-center gap-3 p-4 bg-gray-900 hover:bg-red-600 text-white hover:text-white font-black uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105"
+              className="group w-full flex items-center gap-3 p-4 bg-gray-900 hover:bg-red-600 text-white hover:text-white font-black uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105 relative"
             >
-              <span className="text-lg">🚪</span>
+              <span className="text-lg"><LogOut size={20} /></span>
               ВЫЙТИ
               <div className="ml-auto">
                 <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-red-500 group-hover:border-t-white"></div>

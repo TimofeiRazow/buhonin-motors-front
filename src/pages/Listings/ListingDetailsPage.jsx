@@ -1,6 +1,27 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import {
+  Car,
+  AlertTriangle,
+  Search,
+  MapPin,
+  ChevronRight,
+  Camera,
+  FileText,
+  Settings,
+  User,
+  Star,
+  Edit,
+  Heart,
+  Share2,
+  BarChart3,
+  Eye,
+  Calendar,
+  RefreshCw,
+  Zap,
+  Crown
+} from 'lucide-react';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth/useAuth';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -56,7 +77,7 @@ const ListingDetailsPage = () => {
   if (isLoading) {
     return (
       <div className="bg-black border-4 border-orange-600 p-16 text-center">
-        <div className="text-6xl mb-6">🚗</div>
+        <Car className="w-16 h-16 text-orange-500 mx-auto mb-6" />
         <p className="text-orange-100 font-black uppercase tracking-wider text-xl mb-6">
           ЗАГРУЖАЕМ ОБЪЯВЛЕНИЕ...
         </p>
@@ -71,7 +92,7 @@ const ListingDetailsPage = () => {
         <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
         <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
         
-        <div className="text-6xl mb-6">💥</div>
+        <AlertTriangle className="w-16 h-16 text-white mx-auto mb-6" />
         <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
           ОБЪЯВЛЕНИЕ
           <span className="block">НЕ НАЙДЕНО</span>
@@ -82,9 +103,10 @@ const ListingDetailsPage = () => {
         </p>
         <Link 
           to="/search"
-          className="group relative inline-block bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+          className="group relative inline-flex items-center gap-2 bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
         >
-          <span className="relative">🔍 ВЕРНУТЬСЯ К ПОИСКУ</span>
+          <Search className="w-5 h-5" />
+          <span className="relative">ВЕРНУТЬСЯ К ПОИСКУ</span>
           <div className="absolute top-1 left-1 w-3 h-3 bg-red-600 group-hover:bg-black transition-colors"></div>
         </Link>
       </div>
@@ -118,15 +140,15 @@ const ListingDetailsPage = () => {
       {/* Breadcrumbs */}
       <nav className="mb-6 p-4 bg-gray-900 border-2 border-orange-600 relative">
         <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
-        <div className="text-orange-300 font-bold uppercase tracking-wider text-sm">
+        <div className="text-orange-300 font-bold uppercase tracking-wider text-sm flex items-center">
           <Link to="/" className="text-orange-400 hover:text-orange-200 no-underline transition-colors">
             ГЛАВНАЯ
           </Link>
-          <span className="text-white mx-2">▶</span>
+          <ChevronRight className="w-4 h-4 text-white mx-2" />
           <Link to="/search" className="text-orange-400 hover:text-orange-200 no-underline transition-colors">
             ПОИСК
           </Link>
-          <span className="text-white mx-2">▶</span>
+          <ChevronRight className="w-4 h-4 text-white mx-2" />
           <span className="text-orange-100">{listingData.title.toUpperCase()}</span>
         </div>
       </nav>
@@ -148,13 +170,15 @@ const ListingDetailsPage = () => {
                 {(listingData.is_featured || listingData.is_urgent) && (
                   <div className="flex gap-2">
                     {listingData.is_featured && (
-                      <span className="bg-orange-600 text-black font-black px-3 py-1 text-xs uppercase tracking-wider border-2 border-black">
-                        ⭐ VIP
+                      <span className="bg-orange-600 text-black font-black px-3 py-1 text-xs uppercase tracking-wider border-2 border-black flex items-center gap-1">
+                        <Crown className="w-3 h-3" />
+                        VIP
                       </span>
                     )}
                     {listingData.is_urgent && (
-                      <span className="bg-red-600 text-white font-black px-3 py-1 text-xs uppercase tracking-wider border-2 border-black">
-                        🔥 СРОЧНО
+                      <span className="bg-red-600 text-white font-black px-3 py-1 text-xs uppercase tracking-wider border-2 border-black flex items-center gap-1">
+                        <Zap className="w-3 h-3" />
+                        СРОЧНО
                       </span>
                     )}
                   </div>
@@ -168,7 +192,8 @@ const ListingDetailsPage = () => {
 
               <div className="text-orange-300 font-bold text-lg flex items-center">
                 <div className="w-2 h-2 bg-orange-500 mr-3"></div>
-                📍 {listingData.city_name?.toUpperCase()}
+                <MapPin className="w-5 h-5 mr-2" />
+                {listingData.city_name?.toUpperCase()}
                 {listingData.region_name && `, ${listingData.region_name?.toUpperCase()}`}
               </div>
             </div>
@@ -182,7 +207,8 @@ const ListingDetailsPage = () => {
             
             <div className="relative z-10">
               <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
-                📷 ФОТОГРАФИИ
+                <Camera className="w-6 h-6 mr-2" />
+                ФОТОГРАФИИ
                 <div className="w-12 h-1 bg-orange-600 ml-4"></div>
               </h3>
               <ImageGallery images={listingData.images || []} />
@@ -198,7 +224,8 @@ const ListingDetailsPage = () => {
               
               <div className="relative z-10">
                 <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
-                  📝 ОПИСАНИЕ
+                  <FileText className="w-6 h-6 mr-2" />
+                  ОПИСАНИЕ
                   <div className="w-12 h-1 bg-orange-600 ml-4"></div>
                 </h3>
                 <div className="text-orange-100 font-medium leading-relaxed whitespace-pre-wrap">
@@ -217,7 +244,8 @@ const ListingDetailsPage = () => {
               
               <div className="relative z-10">
                 <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
-                  ⚙️ ХАРАКТЕРИСТИКИ
+                  <Settings className="w-6 h-6 mr-2" />
+                  ХАРАКТЕРИСТИКИ
                   <div className="w-12 h-1 bg-orange-600 ml-4"></div>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -247,8 +275,9 @@ const ListingDetailsPage = () => {
             <div className="absolute top-4 right-4 w-3 h-3 bg-white"></div>
             
             <div className="relative z-10">
-              <h3 className="text-xl font-black text-white uppercase tracking-wider mb-6">
-                👤 ПРОДАВЕЦ
+              <h3 className="text-xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
+                <User className="w-5 h-5 mr-2" />
+                ПРОДАВЕЦ
               </h3>
               
               <div className="flex items-center gap-4 mb-6">
@@ -262,7 +291,8 @@ const ListingDetailsPage = () => {
                   {listingData.seller?.rating_average > 0 && (
                     <div className="text-orange-300 font-bold text-sm flex items-center">
                       <div className="w-2 h-2 bg-orange-500 mr-2"></div>
-                      ⭐ {listingData.seller.rating_average.toFixed(1)} 
+                      <Star className="w-3 h-3 text-yellow-500 mr-1" />
+                      {listingData.seller.rating_average.toFixed(1)} 
                       ({listingData.seller.reviews_count} ОТЗЫВОВ)
                     </div>
                   )}
@@ -274,9 +304,10 @@ const ListingDetailsPage = () => {
               {isOwner && (
                 <Link
                   to={`/edit-listing/${listingData.listing_id}`}
-                  className="group relative block w-full bg-orange-600 hover:bg-white text-black font-black py-4 text-center border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
+                  className="group relative flex items-center justify-center gap-2 w-full bg-orange-600 hover:bg-white text-black font-black py-4 text-center border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
                 >
-                  <span className="relative">✏️ РЕДАКТИРОВАТЬ</span>
+                  <Edit className="w-5 h-5" />
+                  <span className="relative">РЕДАКТИРОВАТЬ</span>
                   <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
                   <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
                 </Link>
@@ -295,14 +326,15 @@ const ListingDetailsPage = () => {
                 <button
                   onClick={handleFavoriteClick}
                   disabled={favoriteMutation.isLoading}
-                  className={`group relative w-full py-4 font-black uppercase tracking-wider border-2 transition-all duration-300 transform hover:scale-105 ${
+                  className={`group relative w-full py-4 font-black uppercase tracking-wider border-2 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 ${
                     listingData.is_favorite 
                       ? 'bg-red-600 text-white border-black' 
                       : 'bg-gray-900 text-red-400 border-red-600 hover:bg-red-600 hover:text-white'
                   }`}
                 >
+                  <Heart className={`w-5 h-5 ${listingData.is_favorite ? 'fill-current' : ''}`} />
                   <span className="relative">
-                    {listingData.is_favorite ? '❤️ В ИЗБРАННОМ' : '🤍 В ИЗБРАННОЕ'}
+                    {listingData.is_favorite ? 'В ИЗБРАННОМ' : 'В ИЗБРАННОЕ'}
                   </span>
                   <div className={`absolute top-1 right-1 w-3 h-3 transition-colors ${
                     listingData.is_favorite ? 'bg-black' : 'bg-red-600 group-hover:bg-black'
@@ -318,9 +350,10 @@ const ListingDetailsPage = () => {
                     }) :
                     navigator.clipboard.writeText(window.location.href)
                   }
-                  className="group relative w-full bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black py-4 font-black uppercase tracking-wider border-2 border-orange-600 hover:border-black transition-all duration-300 transform hover:scale-105"
+                  className="group relative w-full bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black py-4 font-black uppercase tracking-wider border-2 border-orange-600 hover:border-black transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
                 >
-                  <span className="relative">📤 ПОДЕЛИТЬСЯ</span>
+                  <Share2 className="w-5 h-5" />
+                  <span className="relative">ПОДЕЛИТЬСЯ</span>
                   <div className="absolute top-1 left-1 w-3 h-3 bg-orange-600 group-hover:bg-black transition-colors"></div>
                 </button>
               </div>
@@ -335,20 +368,30 @@ const ListingDetailsPage = () => {
             <div className="absolute bottom-4 right-4 w-2 h-2 bg-orange-600"></div>
             
             <div className="relative z-10">
-              <h4 className="text-xl font-black text-white uppercase tracking-wider mb-6">
-                📊 СТАТИСТИКА
+              <h4 className="text-xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
+                <BarChart3 className="w-5 h-5 mr-2" />
+                СТАТИСТИКА
               </h4>
               <div className="space-y-3">
                 <div className="flex justify-between items-center p-3 bg-gray-900 border-2 border-gray-700">
-                  <span className="text-orange-300 font-bold uppercase text-sm">ПРОСМОТРОВ:</span>
+                  <div className="flex items-center gap-2">
+                    <Eye className="w-4 h-4 text-orange-300" />
+                    <span className="text-orange-300 font-bold uppercase text-sm">ПРОСМОТРОВ:</span>
+                  </div>
                   <span className="text-orange-100 font-black">{listingData.view_count || 0}</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-900 border-2 border-gray-700">
-                  <span className="text-orange-300 font-bold uppercase text-sm">ДОБАВЛЕНО:</span>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-orange-300" />
+                    <span className="text-orange-300 font-bold uppercase text-sm">ДОБАВЛЕНО:</span>
+                  </div>
                   <span className="text-orange-100 font-black text-xs">{formatDate(listingData.created_date)}</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-900 border-2 border-gray-700">
-                  <span className="text-orange-300 font-bold uppercase text-sm">ОБНОВЛЕНО:</span>
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="w-4 h-4 text-orange-300" />
+                    <span className="text-orange-300 font-bold uppercase text-sm">ОБНОВЛЕНО:</span>
+                  </div>
                   <span className="text-orange-100 font-black text-xs">{formatDate(listingData.updated_date)}</span>
                 </div>
               </div>

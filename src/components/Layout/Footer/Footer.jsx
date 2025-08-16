@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Phone, Mail } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -136,7 +137,7 @@ const Footer = () => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  📞 +7 (727) 300-00-00
+                  <Phone size={16} className="mr-2" /> +7 (727) 300-00-00
                 </a>
               </li>
               <li className="group">
@@ -145,7 +146,7 @@ const Footer = () => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  ✉️ SUPPORT@BUHONINMOTORS.KZ
+                  <Mail size={16} className="mr-2" /> SUPPORT@BUHONINMOTORS.KZ
                 </a>
               </li>
             </ul>

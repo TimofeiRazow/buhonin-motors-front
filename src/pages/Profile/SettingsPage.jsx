@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { 
+  Bell, 
+  Lock, 
+  User, 
+  Shield, 
+  Globe, 
+  Firefox, 
+  Compass, 
+  Monitor,
+  Trash2
+} from 'lucide-react';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth/useAuth';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -122,16 +133,33 @@ const SettingsPage = () => {
     });
   };
 
+  // Функция для определения иконки браузера
+  const getBrowserIcon = () => {
+    const userAgent = navigator.userAgent;
+    if (userAgent.includes('Chrome')) return <Globe size={16} />;
+    if (userAgent.includes('Firefox')) return <Firefox size={16} />;
+    if (userAgent.includes('Safari')) return <Compass size={16} />;
+    return <Monitor size={16} />;
+  };
+
+  const getBrowserName = () => {
+    const userAgent = navigator.userAgent;
+    if (userAgent.includes('Chrome')) return 'Chrome';
+    if (userAgent.includes('Firefox')) return 'Firefox';
+    if (userAgent.includes('Safari')) return 'Safari';
+    return 'Браузер';
+  };
+
   if (isLoading) return <LoadingSpinner text="Загружаем настройки..." />;
 
   const settingsData = settings?.data || {};
   const notificationsData = notificationSettings?.data || {};
 
   const tabs = [
-    { id: 'notifications', name: 'Уведомления', icon: '🔔' },
-    { id: 'privacy', name: 'Приватность', icon: '🔒' },
-    { id: 'account', name: 'Аккаунт', icon: '👤' },
-    { id: 'security', name: 'Безопасность', icon: '🛡️' }
+    { id: 'notifications', name: 'Уведомления', icon: <Bell size={16} /> },
+    { id: 'privacy', name: 'Приватность', icon: <Lock size={16} /> },
+    { id: 'account', name: 'Аккаунт', icon: <User size={16} /> },
+    { id: 'security', name: 'Безопасность', icon: <Shield size={16} /> }
   ];
 
   return (
@@ -167,7 +195,7 @@ const SettingsPage = () => {
                 gap: '10px'
               }}
             >
-              <span>{tab.icon}</span>
+              {tab.icon}
               <span>{tab.name}</span>
             </button>
           ))}
@@ -514,11 +542,15 @@ const SettingsPage = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontWeight: 'bold' }}>Текущее устройство</div>
-                      <div style={{ fontSize: '14px', color: '#666' }}>
-                        {navigator.userAgent.includes('Chrome') ? '🌐 Chrome' : 
-                         navigator.userAgent.includes('Firefox') ? '🦊 Firefox' : 
-                         navigator.userAgent.includes('Safari') ? '🧭 Safari' : '💻 Браузер'}
-                        {' • Активна сейчас'}
+                      <div style={{ 
+                        fontSize: '14px', 
+                        color: '#666',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}>
+                        {getBrowserIcon()}
+                        {getBrowserName()} • Активна сейчас
                       </div>
                     </div>
                     <div style={{
@@ -566,7 +598,10 @@ const SettingsPage = () => {
                     color: 'white',
                     border: 'none',
                     borderRadius: '4px',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
                   }}
                   onClick={() => {
                     if (window.confirm('Вы уверены, что хотите удалить аккаунт? Это действие нельзя отменить!')) {
@@ -577,7 +612,8 @@ const SettingsPage = () => {
                     }
                   }}
                 >
-                  🗑 Удалить аккаунт
+                  <Trash2 size={16} />
+                  Удалить аккаунт
                 </button>
               </div>
             </div>

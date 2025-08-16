@@ -2,6 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import {
+  Filter,
+  Search,
+  ChevronDown,
+  Crown,
+  Zap,
+  DollarSign,
+  Car,
+  Loader,
+  AlertTriangle,
+  RefreshCw,
+  Trash2,
+  Plus,
+  Lightbulb
+} from 'lucide-react';
 import api from '../../services/api';
 import SearchFilters from '../../components/Listings/SearchFilters';
 import ListingGrid from '../../components/Listings/ListingGrid';
@@ -92,7 +107,8 @@ const SearchPage = () => {
           <div className="absolute top-4 right-4 w-3 h-3 bg-orange-600 rotate-45"></div>
           
           <div className="relative z-10">
-            <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-6">
+            <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+              <Filter className="w-6 h-6 text-orange-500" />
               ФИЛЬТРЫ
               <span className="block text-orange-500 text-lg">ПОИСКА</span>
             </h2>
@@ -118,14 +134,16 @@ const SearchPage = () => {
           
           <div className="relative z-10 flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-black text-white uppercase tracking-wider mb-2">
+              <h1 className="text-3xl font-black text-white uppercase tracking-wider mb-2 flex items-center gap-2">
                 {filters.q ? (
                   <>
+                    <Search className="w-8 h-8 text-orange-500" />
                     ПОИСК:
                     <span className="block text-orange-500 text-2xl">"{filters.q}"</span>
                   </>
                 ) : (
                   <>
+                    <Car className="w-8 h-8 text-orange-500" />
                     ВСЕ
                     <span className="text-orange-500"> ОБЪЯВЛЕНИЯ</span>
                   </>
@@ -161,7 +179,7 @@ const SearchPage = () => {
                   </select>
                   {/* Кастомная стрелка */}
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                    <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-orange-500"></div>
+                    <ChevronDown className="w-4 h-4 text-orange-500" />
                   </div>
                   <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
                 </div>
@@ -175,15 +193,14 @@ const SearchPage = () => {
           <div className="flex gap-3 mb-6 flex-wrap">
             <button
               onClick={() => handleFilterChange({ ...filters, featured: filters.featured ? '' : 'true' })}
-              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 ${
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                 filters.featured 
                   ? 'bg-orange-600 border-black text-black' 
                   : 'bg-gray-900 border-orange-600 text-orange-100 hover:bg-orange-600 hover:text-black'
               }`}
             >
-              <span className="relative flex items-center">
-                ⭐ РЕКОМЕНДУЕМЫЕ
-              </span>
+              <Crown className="w-4 h-4" />
+              <span className="relative">РЕКОМЕНДУЕМЫЕ</span>
               <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
                 filters.featured ? 'bg-black' : 'bg-orange-600 group-hover:bg-black'
               }`}></div>
@@ -191,15 +208,14 @@ const SearchPage = () => {
             
             <button
               onClick={() => handleFilterChange({ ...filters, urgent: filters.urgent ? '' : 'true' })}
-              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 ${
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                 filters.urgent 
                   ? 'bg-red-600 border-black text-white' 
                   : 'bg-gray-900 border-red-600 text-red-400 hover:bg-red-600 hover:text-white'
               }`}
             >
-              <span className="relative flex items-center">
-                🔥 СРОЧНО
-              </span>
+              <Zap className="w-4 h-4" />
+              <span className="relative">СРОЧНО</span>
               <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
                 filters.urgent ? 'bg-black' : 'bg-red-600 group-hover:bg-black'
               }`}></div>
@@ -207,15 +223,14 @@ const SearchPage = () => {
 
             <button
               onClick={() => handleFilterChange({ ...filters, price_to: filters.price_to ? '' : '2000000' })}
-              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 ${
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                 filters.price_to === '2000000' 
                   ? 'bg-green-600 border-black text-white' 
                   : 'bg-gray-900 border-green-600 text-green-400 hover:bg-green-600 hover:text-white'
               }`}
             >
-              <span className="relative flex items-center">
-                💰 ДО 2 МЛН
-              </span>
+              <DollarSign className="w-4 h-4" />
+              <span className="relative">ДО 2 МЛН</span>
               <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
                 filters.price_to === '2000000' ? 'bg-black' : 'bg-green-600 group-hover:bg-black'
               }`}></div>
@@ -223,15 +238,14 @@ const SearchPage = () => {
 
             <button
               onClick={() => handleFilterChange({ ...filters, year_from: filters.year_from ? '' : '2015' })}
-              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 ${
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                 filters.year_from === '2015' 
                   ? 'bg-blue-600 border-black text-white' 
                   : 'bg-gray-900 border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white'
               }`}
             >
-              <span className="relative flex items-center">
-                🚗 ОТ 2015 ГОДА
-              </span>
+              <Car className="w-4 h-4" />
+              <span className="relative">ОТ 2015 ГОДА</span>
               <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
                 filters.year_from === '2015' ? 'bg-black' : 'bg-blue-600 group-hover:bg-black'
               }`}></div>
@@ -242,7 +256,7 @@ const SearchPage = () => {
         {/* Загрузка */}
         {isLoading && (
           <div className="bg-black border-4 border-orange-600 p-16 text-center">
-            <div className="text-5xl mb-4">⚡</div>
+            <Loader className="w-12 h-12 text-orange-500 mx-auto mb-4 animate-spin" />
             <p className="text-orange-100 font-black uppercase tracking-wider text-lg">
               ЗАГРУЖАЕМ ОБЪЯВЛЕНИЯ...
             </p>
@@ -256,7 +270,7 @@ const SearchPage = () => {
             <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
             <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
             
-            <div className="text-5xl mb-4">💥</div>
+            <AlertTriangle className="w-12 h-12 text-white mx-auto mb-4" />
             <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
               ОШИБКА ЗАГРУЗКИ
             </h3>
@@ -265,9 +279,10 @@ const SearchPage = () => {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
+              className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto"
             >
-              <span className="relative">🔄 ОБНОВИТЬ</span>
+              <RefreshCw className="w-5 h-5" />
+              <span className="relative">ОБНОВИТЬ</span>
               <div className="absolute top-1 left-1 w-3 h-3 bg-red-600 group-hover:bg-black transition-colors"></div>
             </button>
           </div>
@@ -281,7 +296,7 @@ const SearchPage = () => {
             <div className="absolute top-4 right-4 w-4 h-4 bg-orange-600 rotate-45"></div>
             <div className="absolute bottom-4 left-4 w-3 h-3 bg-white"></div>
             
-            <div className="text-6xl mb-6">🔍</div>
+            <Search className="w-16 h-16 text-orange-500 mx-auto mb-6" />
             <h3 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
               ОБЪЯВЛЕНИЯ
               <span className="block text-orange-500">НЕ НАЙДЕНЫ</span>
@@ -297,17 +312,19 @@ const SearchPage = () => {
                   setSearchParams(new URLSearchParams());
                   setCurrentPage(1);
                 }}
-                className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 border-2 border-black hover:border-orange-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
+                className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 border-2 border-black hover:border-orange-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
               >
-                <span className="relative">🗑️ СБРОСИТЬ ФИЛЬТРЫ</span>
+                <Trash2 className="w-5 h-5" />
+                <span className="relative">СБРОСИТЬ ФИЛЬТРЫ</span>
                 <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
               </button>
               
               <button
                 onClick={() => window.location.href = '/create-listing'}
-                className="group relative bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black font-black px-8 py-4 border-2 border-orange-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
+                className="group relative bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black font-black px-8 py-4 border-2 border-orange-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
               >
-                <span className="relative">➕ ПОДАТЬ ОБЪЯВЛЕНИЕ</span>
+                <Plus className="w-5 h-5" />
+                <span className="relative">ПОДАТЬ ОБЪЯВЛЕНИЕ</span>
                 <div className="absolute top-1 right-1 w-3 h-3 bg-orange-600 group-hover:bg-black transition-colors"></div>
               </button>
             </div>
@@ -348,8 +365,9 @@ const SearchPage = () => {
             <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
             <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
             
-            <h4 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center">
-              💡 СОВЕТЫ ДЛЯ ЛУЧШЕГО ПОИСКА
+            <h4 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-yellow-400" />
+              СОВЕТЫ ДЛЯ ЛУЧШЕГО ПОИСКА
             </h4>
             <ul className="text-blue-200 font-bold space-y-2">
               <li className="flex items-center">
