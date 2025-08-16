@@ -1,5 +1,27 @@
 // src/components/Listings/ListingForm.jsx (redesigned)
 import React, { useState } from 'react';
+import { 
+  FileText,
+  MessageSquare,
+  Car,
+  Tag,
+  Settings,
+  DollarSign,
+  Handshake,
+  Phone,
+  User,
+  MapPin,
+  Home,
+  Camera,
+  ArrowLeft,
+  ArrowRight,
+  Rocket,
+  Check,
+  Loader,
+  BarChart3,
+  Banknote,
+  Upload
+} from 'lucide-react';
 import BrandSelector from '../Cars/BrandSelector';
 import ModelSelector from '../Cars/ModelSelector';
 import CarAttributes from '../Cars/CarAttributes';
@@ -99,11 +121,11 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
   };
 
   const sections = [
-    { id: 1, title: 'ОСНОВНАЯ ИНФОРМАЦИЯ', icon: '📝' },
-    { id: 2, title: 'ХАРАКТЕРИСТИКИ', icon: '⚙️' },
-    { id: 3, title: 'ЦЕНА И КОНТАКТЫ', icon: '💰' },
-    { id: 4, title: 'МЕСТОПОЛОЖЕНИЕ', icon: '📍' },
-    { id: 5, title: 'ФОТОГРАФИИ', icon: '📷' }
+    { id: 1, title: 'ОСНОВНАЯ ИНФОРМАЦИЯ', icon: FileText },
+    { id: 2, title: 'ХАРАКТЕРИСТИКИ', icon: Settings },
+    { id: 3, title: 'ЦЕНА И КОНТАКТЫ', icon: DollarSign },
+    { id: 4, title: 'МЕСТОПОЛОЖЕНИЕ', icon: MapPin },
+    { id: 5, title: 'ФОТОГРАФИИ', icon: Camera }
   ];
 
   return (
@@ -139,8 +161,9 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
                   }
                 `}
               >
-                <span className="relative flex items-center">
-                  {section.icon} {section.title}
+                <span className="relative flex items-center gap-2">
+                  <section.icon size={16} />
+                  {section.title}
                 </span>
                 {currentSection === section.id && (
                   <div className="absolute top-0.5 left-0.5 w-2 h-2 bg-black"></div>
@@ -153,11 +176,11 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Секция 1: Основная информация */}
           {currentSection === 1 && (
-            <FormSectionRedesigned title="📝 ОСНОВНАЯ ИНФОРМАЦИЯ">
+            <FormSectionRedesigned title="ОСНОВНАЯ ИНФОРМАЦИЯ" icon={FileText}>
               <FormFieldRedesigned
                 label="ЗАГОЛОВОК ОБЪЯВЛЕНИЯ *"
                 error={errors.title}
-                icon="📝"
+                icon={FileText}
               >
                 <input
                   type="text"
@@ -178,7 +201,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
               <FormFieldRedesigned
                 label="ОПИСАНИЕ"
-                icon="💬"
+                icon={MessageSquare}
               >
                 <textarea
                   value={formData.description}
@@ -197,7 +220,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
                 <FormFieldRedesigned
                   label="МАРКА *"
                   error={errors.brand_id}
-                  icon="🚗"
+                  icon={Car}
                 >
                   <BrandSelectorRedesigned
                     value={formData.brand_id}
@@ -212,7 +235,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
                 <FormFieldRedesigned
                   label="МОДЕЛЬ *"
                   error={errors.model_id}
-                  icon="🏷️"
+                  icon={Tag}
                 >
                   <ModelSelectorRedesigned
                     brandId={formData.brand_id}
@@ -228,7 +251,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
           {/* Секция 2: Характеристики */}
           {currentSection === 2 && (
-            <FormSectionRedesigned title="⚙️ ХАРАКТЕРИСТИКИ">
+            <FormSectionRedesigned title="ХАРАКТЕРИСТИКИ" icon={Settings}>
               <CarAttributesRedesigned
                 attributes={formData.attributes}
                 onChange={handleAttributesChange}
@@ -238,13 +261,13 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
           {/* Секция 3: Цена и контакты */}
           {currentSection === 3 && (
-            <FormSectionRedesigned title="💰 ЦЕНА И КОНТАКТЫ">
+            <FormSectionRedesigned title="ЦЕНА И КОНТАКТЫ" icon={DollarSign}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2">
                   <FormFieldRedesigned
                     label="ЦЕНА *"
                     error={errors.price}
-                    icon="💰"
+                    icon={DollarSign}
                   >
                     <input
                       type="number"
@@ -267,7 +290,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
                 <FormFieldRedesigned
                   label="ВАЛЮТА"
-                  icon="💱"
+                  icon={Banknote}
                 >
                   <select
                     value={formData.currency_id}
@@ -285,13 +308,13 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
                 label="ЦЕНА ДОГОВОРНАЯ"
                 checked={formData.is_negotiable}
                 onChange={(checked) => handleChange('is_negotiable', checked)}
-                icon="🤝"
+                icon={Handshake}
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormFieldRedesigned
                   label="КОНТАКТНЫЙ ТЕЛЕФОН"
-                  icon="📱"
+                  icon={Phone}
                 >
                   <input
                     type="tel"
@@ -304,7 +327,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
                 <FormFieldRedesigned
                   label="КОНТАКТНОЕ ЛИЦО"
-                  icon="👤"
+                  icon={User}
                 >
                   <input
                     type="text"
@@ -320,11 +343,11 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
           {/* Секция 4: Местоположение */}
           {currentSection === 4 && (
-            <FormSectionRedesigned title="📍 МЕСТОПОЛОЖЕНИЕ">
+            <FormSectionRedesigned title="МЕСТОПОЛОЖЕНИЕ" icon={MapPin}>
               <FormFieldRedesigned
                 label="ГОРОД *"
                 error={errors.city_id}
-                icon="📍"
+                icon={MapPin}
               >
                 <LocationSelectorRedesigned
                   value={formData.city_id}
@@ -335,7 +358,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
               <FormFieldRedesigned
                 label="АДРЕС (НЕОБЯЗАТЕЛЬНО)"
-                icon="🏠"
+                icon={Home}
               >
                 <input
                   type="text"
@@ -350,7 +373,7 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 
           {/* Секция 5: Фотографии */}
           {currentSection === 5 && (
-            <FormSectionRedesigned title="📷 ФОТОГРАФИИ">
+            <FormSectionRedesigned title="ФОТОГРАФИИ" icon={Camera}>
               <ImageUploaderRedesigned
                 images={formData.images}
                 onUpload={handleImagesUpload}
@@ -366,14 +389,15 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
               onClick={() => setCurrentSection(Math.max(1, currentSection - 1))}
               disabled={currentSection === 1}
               className={`
-                group relative px-6 py-3 font-black uppercase tracking-wider transition-all duration-300 border-2
+                group relative px-6 py-3 font-black uppercase tracking-wider transition-all duration-300 border-2 flex items-center gap-2
                 ${currentSection === 1
                   ? 'bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-700 hover:bg-gray-600 text-white border-gray-600 hover:border-gray-500'
                 }
               `}
             >
-              ← НАЗАД
+              <ArrowLeft size={18} />
+              НАЗАД
             </button>
 
             <div className="flex items-center space-x-4">
@@ -381,9 +405,10 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
                 <button
                   type="button"
                   onClick={() => setCurrentSection(Math.min(5, currentSection + 1))}
-                  className="group relative bg-orange-600 hover:bg-white text-black hover:text-black font-black px-6 py-3 border-2 border-black hover:border-orange-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
+                  className="group relative bg-orange-600 hover:bg-white text-black hover:text-black font-black px-6 py-3 border-2 border-black hover:border-orange-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
                 >
-                  <span className="relative">ДАЛЕЕ →</span>
+                  <span className="relative">ДАЛЕЕ</span>
+                  <ArrowRight size={18} />
                   <div className="absolute top-0.5 left-0.5 w-2 h-2 bg-black group-hover:bg-orange-600 transition-colors"></div>
                   <div className="absolute bottom-0.5 right-0.5 w-3 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
                 </button>
@@ -392,22 +417,23 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
                   type="submit"
                   disabled={loading}
                   className={`
-                    group relative font-black px-8 py-4 border-2 uppercase tracking-wider text-lg transition-all duration-300 transform
+                    group relative font-black px-8 py-4 border-2 uppercase tracking-wider text-lg transition-all duration-300 transform flex items-center gap-3
                     ${loading
                       ? 'bg-gray-600 border-gray-500 text-gray-300 cursor-not-allowed'
                       : 'bg-green-600 hover:bg-white text-white hover:text-black border-black hover:border-green-600 hover:scale-105'
                     }
                   `}
                 >
-                  <span className="relative flex items-center">
+                  <span className="relative flex items-center gap-3">
                     {loading ? (
                       <>
-                        <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin mr-3"></div>
+                        <Loader size={20} className="animate-spin" />
                         СОХРАНЯЕМ...
                       </>
                     ) : (
                       <>
-                        🚀 {mode === 'create' ? 'ОПУБЛИКОВАТЬ' : 'СОХРАНИТЬ'}
+                        <Rocket size={20} />
+                        {mode === 'create' ? 'ОПУБЛИКОВАТЬ' : 'СОХРАНИТЬ'}
                       </>
                     )}
                   </span>
@@ -429,14 +455,15 @@ const ListingForm = ({ initialData, onSubmit, loading = false, mode = 'create' }
 };
 
 // Компонент секции формы
-const FormSectionRedesigned = ({ title, children }) => {
+const FormSectionRedesigned = ({ title, icon: IconComponent, children }) => {
   return (
     <div className="bg-gray-900 border-2 border-gray-700 p-6 relative overflow-hidden">
       <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
       <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white opacity-50"></div>
       
       <div className="relative z-10">
-        <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-6">
+        <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center gap-3">
+          <IconComponent size={28} />
           {title}
         </h2>
         <div className="w-16 h-0.5 bg-orange-600 mb-6"></div>
@@ -450,11 +477,11 @@ const FormSectionRedesigned = ({ title, children }) => {
 };
 
 // Компонент поля формы
-const FormFieldRedesigned = ({ label, error, icon, children }) => {
+const FormFieldRedesigned = ({ label, error, icon: IconComponent, children }) => {
   return (
     <div className="group">
-      <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
-        {icon && <span className="mr-2">{icon}</span>}
+      <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm flex items-center gap-2">
+        {IconComponent && <IconComponent size={16} />}
         {label}
       </label>
       <div className="relative">
@@ -465,8 +492,8 @@ const FormFieldRedesigned = ({ label, error, icon, children }) => {
         `}></div>
       </div>
       {error && (
-        <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
-          <div className="w-2 h-2 bg-red-500 mr-2"></div>
+        <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center gap-2">
+          <div className="w-2 h-2 bg-red-500"></div>
           {error}
         </div>
       )}
@@ -475,7 +502,7 @@ const FormFieldRedesigned = ({ label, error, icon, children }) => {
 };
 
 // Компонент чекбокса
-const FormCheckboxRedesigned = ({ label, checked, onChange, icon }) => {
+const FormCheckboxRedesigned = ({ label, checked, onChange, icon: IconComponent }) => {
   return (
     <label className="flex items-center gap-4 cursor-pointer p-4 bg-gray-800 border-2 border-gray-600 hover:border-orange-500 transition-colors duration-300 group">
       <div className="relative">
@@ -491,12 +518,12 @@ const FormCheckboxRedesigned = ({ label, checked, onChange, icon }) => {
             : 'bg-gray-700 border-gray-500 group-hover:border-orange-500'
         }`}>
           {checked && (
-            <span className="text-black font-black">✓</span>
+            <Check size={16} className="text-black" />
           )}
         </div>
       </div>
-      <span className="text-white font-bold uppercase tracking-wide flex items-center">
-        {icon && <span className="mr-2">{icon}</span>}
+      <span className="text-white font-bold uppercase tracking-wide flex items-center gap-2">
+        {IconComponent && <IconComponent size={16} />}
         {label}
       </span>
     </label>
@@ -570,8 +597,9 @@ const LocationSelectorRedesigned = ({ value, onChange, error }) => {
 const CarAttributesRedesigned = ({ attributes, onChange }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="text-center text-gray-400 font-bold uppercase tracking-wide">
-        ⚙️ ХАРАКТЕРИСТИКИ БУДУТ ЗДЕСЬ
+      <div className="text-center text-gray-400 font-bold uppercase tracking-wide flex items-center justify-center gap-3">
+        <Settings size={24} className="text-gray-600" />
+        ХАРАКТЕРИСТИКИ БУДУТ ЗДЕСЬ
       </div>
     </div>
   );
@@ -584,8 +612,11 @@ const ImageUploaderRedesigned = ({ images, onUpload, onRemove }) => {
         <div className="absolute top-4 left-4 w-4 h-4 bg-orange-600 rotate-45"></div>
         <div className="absolute bottom-4 right-4 w-2 h-2 bg-white"></div>
         
-        <div className="text-6xl mb-4">📷</div>
-        <div className="text-2xl font-black text-white uppercase tracking-wider mb-4">
+        <div className="mb-4">
+          <Camera size={72} className="text-gray-500 mx-auto" />
+        </div>
+        <div className="text-2xl font-black text-white uppercase tracking-wider mb-4 flex items-center justify-center gap-3">
+          <Upload size={24} />
           ДОБАВИТЬ ФОТО
         </div>
         <div className="text-gray-400 font-bold uppercase tracking-wide text-sm">
@@ -594,8 +625,9 @@ const ImageUploaderRedesigned = ({ images, onUpload, onRemove }) => {
       </div>
       
       {images.length > 0 && (
-        <div className="text-center text-gray-400 font-bold uppercase tracking-wide">
-          📷 ЗАГРУЖЕНО: {images.length} ФОТО
+        <div className="text-center text-gray-400 font-bold uppercase tracking-wide flex items-center justify-center gap-2">
+          <Camera size={16} />
+          ЗАГРУЖЕНО: {images.length} ФОТО
         </div>
       )}
     </div>

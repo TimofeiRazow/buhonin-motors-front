@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import api from '../../services/api';
+import {
+  Search,
+  Car,
+  Tag,
+  MapPin,
+  DollarSign,
+  Calendar,
+  Gauge,
+  Settings,
+  Settings2,
+  Palette,
+  Star,
+  Flame,
+  Filter,
+  RotateCcw,
+  Check,
+  ChevronDown
+} from 'lucide-react';
 
 const SearchFilters = ({ filters, onFilterChange }) => {
   const [localFilters, setLocalFilters] = useState(filters);
@@ -96,7 +114,10 @@ const SearchFilters = ({ filters, onFilterChange }) => {
 
         {/* Поиск */}
         <div className="mb-5">
-          <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white">🔍 Поиск</label>
+          <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white flex items-center gap-2">
+            <Search size={16} />
+            Поиск
+          </label>
           <div className="relative">
             <input
               type="text"
@@ -110,8 +131,8 @@ const SearchFilters = ({ filters, onFilterChange }) => {
               <span className="inline-block h-1.5 w-1.5 rounded-sm bg-orange-600" />
             </div>
             {/* иконка справа */}
-            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 select-none text-lg">
-              🔍
+            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 select-none">
+              <Search size={18} className="text-gray-400" />
             </div>
           </div>
         </div>
@@ -122,150 +143,159 @@ const SearchFilters = ({ filters, onFilterChange }) => {
             {/* Марка / Модель */}
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               <FilterSelectRedesigned
-                label="🚗 Марка"
+                label="Марка"
                 value={localFilters.brand_id || ''}
                 onChange={(value) => handleFilterChange('brand_id', value)}
                 options={brandOptions}
                 placeholder="Любая марка"
-                icon="🚗"
+                icon={<Car size={16} />}
               />
               <FilterSelectRedesigned
-                label="🏷️ Модель"
+                label="Модель"
                 value={localFilters.model_id || ''}
                 onChange={(value) => handleFilterChange('model_id', value)}
                 options={modelOptions}
                 placeholder="Любая модель"
                 disabled={!localFilters.brand_id}
-                icon="🏷️"
+                icon={<Tag size={16} />}
               />
             </div>
 
             {/* Город */}
             <FilterSelectRedesigned
-              label="📍 Город"
+              label="Город"
               value={localFilters.city_id || ''}
               onChange={(value) => handleFilterChange('city_id', value)}
               options={cityOptions}
               placeholder="Любой город"
-              icon="📍"
+              icon={<MapPin size={16} />}
             />
 
             {/* Цена */}
             <div>
-              <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white">💰 Цена, ₸</label>
+              <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white flex items-center gap-2">
+                <DollarSign size={16} />
+                Цена, ₸
+              </label>
               <div className="grid grid-cols-2 gap-4">
                 <FilterInputRedesigned
                   type="number"
                   value={localFilters.price_from || ''}
                   onChange={(value) => handleFilterChange('price_from', value)}
                   placeholder="От"
-                  icon="💰"
+                  icon={<DollarSign size={16} />}
                 />
                 <FilterInputRedesigned
                   type="number"
                   value={localFilters.price_to || ''}
                   onChange={(value) => handleFilterChange('price_to', value)}
                   placeholder="До"
-                  icon="💰"
+                  icon={<DollarSign size={16} />}
                 />
               </div>
             </div>
 
             {/* Год выпуска */}
             <div>
-              <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white">📅 Год выпуска</label>
+              <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white flex items-center gap-2">
+                <Calendar size={16} />
+                Год выпуска
+              </label>
               <div className="grid grid-cols-2 gap-4">
                 <FilterSelectRedesigned
                   value={localFilters.year_from || ''}
                   onChange={(value) => handleFilterChange('year_from', value)}
                   options={years.map((year) => ({ value: String(year), label: String(year) }))}
                   placeholder="От"
-                  icon="📅"
+                  icon={<Calendar size={16} />}
                 />
                 <FilterSelectRedesigned
                   value={localFilters.year_to || ''}
                   onChange={(value) => handleFilterChange('year_to', value)}
                   options={years.map((year) => ({ value: String(year), label: String(year) }))}
                   placeholder="До"
-                  icon="📅"
+                  icon={<Calendar size={16} />}
                 />
               </div>
             </div>
 
             {/* Пробег */}
             <FilterInputRedesigned
-              label="🛣️ Пробег до, км"
+              label="Пробег до, км"
               type="number"
               value={localFilters.mileage_to || ''}
               onChange={(value) => handleFilterChange('mileage_to', value)}
               placeholder="Максимальный пробег"
-              icon="🛣️"
+              icon={<Gauge size={16} />}
             />
 
             {/* Характеристики */}
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               <FilterSelectRedesigned
-                label="🚙 Тип кузова"
+                label="Тип кузова"
                 value={localFilters.body_type_id || ''}
                 onChange={(value) => handleFilterChange('body_type_id', value)}
                 options={bodyTypeOptions}
                 placeholder="Любой"
-                icon="🚙"
+                icon={<Car size={16} />}
               />
               <FilterSelectRedesigned
-                label="⚙️ Тип двигателя"
+                label="Тип двигателя"
                 value={localFilters.engine_type_id || ''}
                 onChange={(value) => handleFilterChange('engine_type_id', value)}
                 options={engineTypeOptions}
                 placeholder="Любой"
-                icon="⚙️"
+                icon={<Settings size={16} />}
               />
             </div>
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               <FilterSelectRedesigned
-                label="🔧 Коробка передач"
+                label="Коробка передач"
                 value={localFilters.transmission_id || ''}
                 onChange={(value) => handleFilterChange('transmission_id', value)}
                 options={transmissionOptions}
                 placeholder="Любая"
-                icon="🔧"
+                icon={<Settings2 size={16} />}
               />
               <FilterSelectRedesigned
-                label="🚗 Привод"
+                label="Привод"
                 value={localFilters.drive_type_id || ''}
                 onChange={(value) => handleFilterChange('drive_type_id', value)}
                 options={driveTypeOptions}
                 placeholder="Любой"
-                icon="🚗"
+                icon={<Car size={16} />}
               />
             </div>
 
             {/* Цвет */}
             <FilterSelectRedesigned
-              label="🎨 Цвет"
+              label="Цвет"
               value={localFilters.color_id || ''}
               onChange={(value) => handleFilterChange('color_id', value)}
               options={colorOptions}
               placeholder="Любой"
-              icon="🎨"
+              icon={<Palette size={16} />}
             />
 
             {/* Доп. опции */}
             <div className="rounded-xl border-2 border-gray-700 bg-gray-900 p-4">
-              <h4 className="mb-3 text-sm font-black uppercase tracking-wide text-white">⭐ Дополнительные опции</h4>
+              <h4 className="mb-3 text-sm font-black uppercase tracking-wide text-white flex items-center gap-2">
+                <Star size={16} />
+                Дополнительные опции
+              </h4>
               <div className="space-y-3">
                 <FilterCheckboxRedesigned
                   label="VIP объявления"
                   checked={localFilters.featured === 'true'}
                   onChange={(checked) => handleFilterChange('featured', checked ? 'true' : '')}
-                  icon="⭐"
+                  icon={<Star size={16} />}
                 />
                 <FilterCheckboxRedesigned
                   label="Срочная продажа"
                   checked={localFilters.urgent === 'true'}
                   onChange={(checked) => handleFilterChange('urgent', checked ? 'true' : '')}
-                  icon="🔥"
+                  icon={<Flame size={16} />}
                 />
               </div>
             </div>
@@ -273,22 +303,27 @@ const SearchFilters = ({ filters, onFilterChange }) => {
         </div>
 
         {/* Кнопки */}
-<div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-  <button
-    onClick={applyFilters}
-    className="w-full rounded-xl border-2 border-black bg-orange-600 p-4 text-lg font-black uppercase tracking-wide text-black transition-colors duration-300 hover:border-orange-600 hover:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/60"
-  >
-    <span className="relative flex items-center justify-center">🔍 Применить фильтры</span>
-  </button>
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <button
+            onClick={applyFilters}
+            className="w-full rounded-xl border-2 border-black bg-orange-600 p-4 text-lg font-black uppercase tracking-wide text-black transition-colors duration-300 hover:border-orange-600 hover:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/60"
+          >
+            <span className="relative flex items-center justify-center gap-2">
+              <Filter size={18} />
+              Применить фильтры
+            </span>
+          </button>
 
-  <button
-    onClick={resetFilters}
-    className="w-full rounded-xl border-2 border-gray-800 bg-gray-600 p-4 text-lg font-black uppercase tracking-wide text-white transition-colors duration-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/40"
-  >
-    <span className="relative flex items-center justify-center">🗑️ Сбросить</span>
-  </button>
-</div>
-
+          <button
+            onClick={resetFilters}
+            className="w-full rounded-xl border-2 border-gray-800 bg-gray-600 p-4 text-lg font-black uppercase tracking-wide text-white transition-colors duration-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/40"
+          >
+            <span className="relative flex items-center justify-center gap-2">
+              <RotateCcw size={18} />
+              Сбросить
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -308,7 +343,8 @@ const FilterSelectRedesigned = ({
   return (
     <div className="group">
       {label && (
-        <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white">
+        <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white flex items-center gap-2">
+          {icon}
           {label}
         </label>
       )}
@@ -340,9 +376,9 @@ const FilterSelectRedesigned = ({
           <span className="inline-block h-1.5 w-1.5 rounded-sm bg-orange-600" />
         </div>
 
-        {/* иконка / стрелка справа */}
-        <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-lg leading-none">
-          {icon} <span className="ml-1 align-middle">▾</span>
+        {/* стрелка справа */}
+        <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 select-none">
+          <ChevronDown size={16} className={`text-gray-400 ${disabled ? 'opacity-50' : ''}`} />
         </div>
       </div>
     </div>
@@ -354,7 +390,10 @@ const FilterInputRedesigned = ({ label, type = 'text', value, onChange, placehol
   return (
     <div className="group">
       {label && (
-        <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white">{label}</label>
+        <label className="mb-2 block text-sm font-black uppercase tracking-wide text-white flex items-center gap-2">
+          {icon}
+          {label}
+        </label>
       )}
       <div className="relative">
         <input
@@ -370,8 +409,8 @@ const FilterInputRedesigned = ({ label, type = 'text', value, onChange, placehol
         </div>
         {/* правый значок */}
         {icon && (
-          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 select-none text-lg">
-            {icon}
+          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 select-none">
+            {React.cloneElement(icon, { className: 'text-gray-400' })}
           </div>
         )}
       </div>
@@ -395,7 +434,7 @@ const FilterCheckboxRedesigned = ({ label, checked, onChange, icon }) => {
             checked ? 'border-orange-600 bg-orange-600' : 'border-gray-500 bg-gray-700 group-hover:border-orange-500'
           }`}
         >
-          {checked && <span className="text-sm font-black text-black">✓</span>}
+          {checked && <Check size={16} className="text-black font-black" />}
         </div>
       </div>
       <span className="flex items-center text-sm font-semibold uppercase tracking-wide text-white">

@@ -1,7 +1,19 @@
-// src/components/Layout/Sidebar/index.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/auth/useAuth';
+import {
+  User,
+  Car,
+  Heart,
+  MessageCircle,
+  Settings,
+  CarFront,
+  Truck,
+  Wrench,
+  Hammer,
+  Phone,
+  HelpCircle
+} from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const { user, isAuthenticated } = useAuth();
@@ -61,7 +73,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     className="flex items-center text-white hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                   >
                     <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                    👤 МОЙ ПРОФИЛЬ
+                    <User size={16} className="mr-2" /> МОЙ ПРОФИЛЬ
                   </Link>
                 </li>
                 <li className="group">
@@ -71,7 +83,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     className="flex items-center text-white hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                   >
                     <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                    🚗 МОИ ОБЪЯВЛЕНИЯ
+                    <Car size={16} className="mr-2" /> МОИ ОБЪЯВЛЕНИЯ
                   </Link>
                 </li>
                 <li className="group">
@@ -81,7 +93,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     className="flex items-center text-white hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                   >
                     <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                    ❤️ ИЗБРАННОЕ
+                    <Heart size={16} className="mr-2" /> ИЗБРАННОЕ
                   </Link>
                 </li>
                 <li className="group">
@@ -91,7 +103,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     className="flex items-center text-white hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                   >
                     <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                    💬 СООБЩЕНИЯ
+                    <MessageCircle size={16} className="mr-2" /> СООБЩЕНИЯ
                   </Link>
                 </li>
                 <li className="group">
@@ -101,7 +113,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     className="flex items-center text-white hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                   >
                     <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                    ⚙️ НАСТРОЙКИ
+                    <Settings size={16} className="mr-2" /> НАСТРОЙКИ
                   </Link>
                 </li>
               </ul>
@@ -152,7 +164,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  🚙 ЛЕГКОВЫЕ АВТОМОБИЛИ
+                  <CarFront size={16} className="mr-2" /> ЛЕГКОВЫЕ АВТОМОБИЛИ
                 </Link>
               </li>
               <li className="group">
@@ -162,7 +174,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  🚛 КОММЕРЧЕСКИЙ ТРАНСПОРТ
+                  <Truck size={16} className="mr-2" /> КОММЕРЧЕСКИЙ ТРАНСПОРТ
                 </Link>
               </li>
               <li className="group">
@@ -172,7 +184,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  🔧 ЗАПЧАСТИ
+                  <Wrench size={16} className="mr-2" /> ЗАПЧАСТИ
                 </Link>
               </li>
               <li className="group">
@@ -182,7 +194,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  🛠️ УСЛУГИ
+                  <Hammer size={16} className="mr-2" /> УСЛУГИ
                 </Link>
               </li>
             </ul>
@@ -209,7 +221,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  📞 ПОДДЕРЖКА
+                  <Phone size={16} className="mr-2" /> ПОДДЕРЖКА
                 </Link>
               </li>
               <li className="group">
@@ -219,7 +231,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   className="flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wide text-sm transition-all duration-300 transform hover:translate-x-2"
                 >
                   <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                  ❓ FAQ
+                  <HelpCircle size={16} className="mr-2" /> FAQ
                 </Link>
               </li>
             </ul>

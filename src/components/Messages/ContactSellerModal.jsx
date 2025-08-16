@@ -2,6 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import {
+  MessageCircle,
+  FileText,
+  MapPin,
+  AlertTriangle,
+  Lock,
+  RotateCcw,
+  X,
+  Send,
+  CheckCircle,
+  PartyPopper,
+  Lightbulb,
+  ChevronUp,
+  ChevronDown,
+  Zap
+} from 'lucide-react';
 
 const ContactSellerModal = ({ 
   listing, 
@@ -209,8 +225,9 @@ const ContactFormRedesigned = ({
     <>
       {/* Заголовок */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
-          💬 НАПИСАТЬ ПРОДАВЦУ
+        <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-4 flex items-center justify-center gap-3">
+          <MessageCircle size={32} />
+          НАПИСАТЬ ПРОДАВЦУ
         </h2>
         <div className="w-20 h-1 bg-orange-600 mx-auto"></div>
       </div>
@@ -223,8 +240,9 @@ const ContactFormRedesigned = ({
         <div className="bg-red-600 border-2 border-black text-white p-4 mb-6 relative animate-shake">
           <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
           <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
-          <p className="font-bold uppercase tracking-wide text-sm">
-            ⚠️ {error}
+          <p className="font-bold uppercase tracking-wide text-sm flex items-center gap-2">
+            <AlertTriangle size={16} />
+            {error}
           </p>
         </div>
       )}
@@ -233,8 +251,9 @@ const ContactFormRedesigned = ({
       {!isAuthenticated && (
         <div className="bg-yellow-600 border-2 border-black text-black p-4 mb-6 relative">
           <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
-          <p className="font-bold uppercase tracking-wide text-sm">
-            🔒 ДЛЯ ОТПРАВКИ СООБЩЕНИЯ НЕОБХОДИМО ВОЙТИ В СИСТЕМУ
+          <p className="font-bold uppercase tracking-wide text-sm flex items-center gap-2">
+            <Lock size={16} />
+            ДЛЯ ОТПРАВКИ СООБЩЕНИЯ НЕОБХОДИМО ВОЙТИ В СИСТЕМУ
           </p>
         </div>
       )}
@@ -242,8 +261,9 @@ const ContactFormRedesigned = ({
       {/* Форма */}
       <form onSubmit={onSubmit} className="space-y-6">
         <div>
-          <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
-            💬 ВАШЕ СООБЩЕНИЕ:
+          <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm flex items-center gap-2">
+            <MessageCircle size={16} />
+            ВАШЕ СООБЩЕНИЕ:
           </label>
           <div className="relative">
             <textarea
@@ -264,9 +284,10 @@ const ContactFormRedesigned = ({
             <button
               type="button"
               onClick={onReset}
-              className="text-orange-500 hover:text-orange-400 transition-colors"
+              className="text-orange-500 hover:text-orange-400 transition-colors flex items-center gap-1"
             >
-              🔄 ИСПОЛЬЗОВАТЬ ШАБЛОН
+              <RotateCcw size={12} />
+              ИСПОЛЬЗОВАТЬ ШАБЛОН
             </button>
             <span className="text-gray-500">
               {message.length}/1000 СИМВОЛОВ
@@ -281,7 +302,10 @@ const ContactFormRedesigned = ({
             onClick={onClose}
             className="group relative flex-1 p-4 bg-gray-600 hover:bg-gray-700 text-white font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-gray-800"
           >
-            <span className="relative">✕ ОТМЕНА</span>
+            <span className="relative flex items-center justify-center gap-2">
+              <X size={20} />
+              ОТМЕНА
+            </span>
             <div className="absolute top-1 left-1 w-3 h-3 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
             <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
           </button>
@@ -298,15 +322,16 @@ const ContactFormRedesigned = ({
               }
             `}
           >
-            <span className="relative flex items-center justify-center">
+            <span className="relative flex items-center justify-center gap-2">
               {loading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-gray-300 border-t-transparent rounded-full animate-spin mr-3"></div>
+                  <div className="w-5 h-5 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
                   ОТПРАВКА...
                 </>
               ) : (
                 <>
-                  🚀 ОТПРАВИТЬ СООБЩЕНИЕ
+                  <Send size={20} />
+                  ОТПРАВИТЬ СООБЩЕНИЕ
                 </>
               )}
             </span>
@@ -332,7 +357,9 @@ const SuccessStateRedesigned = ({ listing, onClose, goToConversation, conversati
   return (
     <>
       <div className="text-center mb-8">
-        <div className="text-6xl mb-6">✅</div>
+        <div className="flex justify-center mb-6">
+          <CheckCircle size={64} className="text-green-500" />
+        </div>
         <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
           СООБЩЕНИЕ ОТПРАВЛЕНО!
         </h2>
@@ -342,8 +369,9 @@ const SuccessStateRedesigned = ({ listing, onClose, goToConversation, conversati
       <div className="bg-green-600 border-2 border-black text-white p-6 mb-8 text-center relative">
         <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
         <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
-        <p className="font-bold uppercase tracking-wide text-lg mb-2">
-          🎉 ВАШЕ СООБЩЕНИЕ УСПЕШНО ДОСТАВЛЕНО!
+        <p className="font-bold uppercase tracking-wide text-lg mb-2 flex items-center justify-center gap-2">
+          <PartyPopper size={20} />
+          ВАШЕ СООБЩЕНИЕ УСПЕШНО ДОСТАВЛЕНО!
         </p>
         <p className="font-bold uppercase tracking-wide text-sm opacity-80">
           ПРОДАВЕЦ ПОЛУЧИТ УВЕДОМЛЕНИЕ И СВЯЖЕТСЯ С ВАМИ
@@ -368,7 +396,10 @@ const SuccessStateRedesigned = ({ listing, onClose, goToConversation, conversati
             onClick={goToConversation}
             className="group relative flex-1 p-4 bg-orange-600 hover:bg-white text-black hover:text-black font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-black hover:border-orange-600"
           >
-            <span className="relative">💬 ПЕРЕЙТИ К ДИАЛОГУ</span>
+            <span className="relative flex items-center justify-center gap-2">
+              <MessageCircle size={20} />
+              ПЕРЕЙТИ К ДИАЛОГУ
+            </span>
             <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
             <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
           </button>
@@ -386,8 +417,9 @@ const ListingInfoCardRedesigned = ({ listing, formatPrice }) => {
       <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white opacity-50"></div>
       
       <div className="relative z-10">
-        <h3 className="text-white font-black uppercase tracking-wider text-lg mb-3">
-          📝 ОБЪЯВЛЕНИЕ:
+        <h3 className="text-white font-black uppercase tracking-wider text-lg mb-3 flex items-center gap-2">
+          <FileText size={20} />
+          ОБЪЯВЛЕНИЕ:
         </h3>
         <div className="w-16 h-0.5 bg-orange-600 mb-4"></div>
         
@@ -402,8 +434,9 @@ const ListingInfoCardRedesigned = ({ listing, formatPrice }) => {
             </div>
             
             {listing.city_name && (
-              <div className="text-gray-400 font-bold uppercase text-sm">
-                📍 {listing.city_name}
+              <div className="text-gray-400 font-bold uppercase text-sm flex items-center gap-1">
+                <MapPin size={14} />
+                {listing.city_name}
               </div>
             )}
           </div>
@@ -421,9 +454,11 @@ const MessageTipsRedesigned = () => {
     <div className="mt-6 pt-6 border-t-2 border-gray-700">
       <button
         onClick={() => setShowTips(!showTips)}
-        className="w-full p-3 bg-gray-800 hover:bg-gray-700 border border-gray-600 hover:border-orange-500 text-gray-300 hover:text-white font-bold uppercase text-sm tracking-wide transition-all duration-300"
+        className="w-full p-3 bg-gray-800 hover:bg-gray-700 border border-gray-600 hover:border-orange-500 text-gray-300 hover:text-white font-bold uppercase text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2"
       >
-        💡 СОВЕТЫ ПО ОБЩЕНИЮ {showTips ? '▲' : '▼'}
+        <Lightbulb size={16} />
+        СОВЕТЫ ПО ОБЩЕНИЮ
+        {showTips ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
       </button>
 
       {showTips && (
@@ -461,8 +496,9 @@ const QuickTemplatesRedesigned = ({ onSelectTemplate }) => {
 
   return (
     <div className="mb-6">
-      <h4 className="text-white font-black uppercase tracking-wider text-sm mb-3">
-        ⚡ БЫСТРЫЕ ШАБЛОНЫ:
+      <h4 className="text-white font-black uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
+        <Zap size={16} />
+        БЫСТРЫЕ ШАБЛОНЫ:
       </h4>
       <div className="space-y-2">
         {templates.map((template, index) => (

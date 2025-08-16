@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Car, Search, Image as ImageIcon, ZoomIn, ZoomOut, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const ImageGallery = ({ images = [], autoPlay = false, autoPlayInterval = 5000 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -137,7 +138,7 @@ const ImageGallery = ({ images = [], autoPlay = false, autoPlayInterval = 5000 }
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gray-800">
               <div className="text-center text-gray-400">
-                <div className="text-6xl mb-4">🚗</div>
+                <Car size={64} className="mb-4 mx-auto" />
                 <div className="font-black uppercase tracking-wider">ИЗОБРАЖЕНИЕ НЕДОСТУПНО</div>
               </div>
             </div>
@@ -145,8 +146,8 @@ const ImageGallery = ({ images = [], autoPlay = false, autoPlayInterval = 5000 }
 
           {/* Оверлей при наведении */}
           <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-            <div className="text-white font-black uppercase tracking-wider text-lg transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-              🔍 УВЕЛИЧИТЬ
+            <div className="text-white font-black uppercase tracking-wider text-lg transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-2">
+              <Search size={22} /> УВЕЛИЧИТЬ
             </div>
           </div>
 
@@ -187,17 +188,17 @@ const ImageGallery = ({ images = [], autoPlay = false, autoPlayInterval = 5000 }
                 e.stopPropagation();
                 openModal();
               }}
-              className="bg-black text-white border border-orange-600 p-2 hover:bg-orange-600 hover:text-black transition-all duration-300 group/btn"
+              className="bg-black text-white border border-orange-600 p-2 hover:bg-orange-600 hover:text-black transition-all duration-300 group/btn relative"
             >
-              <span className="font-black">🔍</span>
+              <Search size={20} />
               <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-hover/btn:bg-black transition-colors"></div>
             </button>
           </div>
 
           {/* Индикаторы автопроигрывания */}
           {autoPlay && images.length > 1 && (
-            <div className="absolute top-4 left-4 bg-black text-white px-2 py-1 font-black text-xs border border-orange-600">
-              ⏯ AUTO
+            <div className="absolute top-4 left-4 bg-black text-white px-2 py-1 font-black text-xs border border-orange-600 flex items-center gap-2">
+              <ImageIcon size={14} /> AUTO
             </div>
           )}
         </div>
@@ -237,10 +238,11 @@ const NavigationButtonRedesigned = ({ direction, onClick, className }) => {
         w-12 h-12 bg-black border-2 border-orange-600 text-white 
         hover:bg-orange-600 hover:text-black transition-all duration-300
         flex items-center justify-center group/nav opacity-80 hover:opacity-100
+        relative
       `}
     >
-      <span className="font-black text-xl">
-        {direction === 'prev' ? '‹' : '›'}
+      <span className="font-black text-xl flex items-center">
+        {direction === 'prev' ? <ChevronLeft size={28} /> : <ChevronRight size={28} />}
       </span>
       <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-hover/nav:bg-black transition-colors"></div>
     </button>
@@ -296,7 +298,7 @@ const ThumbnailRedesigned = ({ image, index, isActive, onClick }) => {
         />
       ) : (
         <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-          <span className="text-gray-500 text-xs">🚗</span>
+          <Car size={18} className="text-gray-500" />
         </div>
       )}
 
@@ -339,8 +341,8 @@ const ModalGalleryRedesigned = ({
         {/* Хедер модала */}
         <div className="flex items-center justify-between p-6 bg-black border-b-2 border-orange-600">
           <div className="flex items-center space-x-4">
-            <h3 className="text-white font-black uppercase tracking-wider text-lg">
-              📷 ГАЛЕРЕЯ ИЗОБРАЖЕНИЙ
+            <h3 className="text-white font-black uppercase tracking-wider text-lg flex items-center gap-2">
+              <ImageIcon size={20} /> ГАЛЕРЕЯ ИЗОБРАЖЕНИЙ
             </h3>
             <div className="w-12 h-0.5 bg-orange-600"></div>
           </div>
@@ -356,7 +358,7 @@ const ModalGalleryRedesigned = ({
               onClick={() => setIsZoomed(!isZoomed)}
               className="p-2 bg-gray-900 hover:bg-orange-600 border-2 border-gray-700 hover:border-black text-white hover:text-black transition-all duration-300"
             >
-              <span className="font-black">{isZoomed ? '🔍-' : '🔍+'}</span>
+              {isZoomed ? <ZoomOut size={20} /> : <ZoomIn size={20} />}
             </button>
 
             {/* Кнопка закрытия */}
@@ -364,7 +366,7 @@ const ModalGalleryRedesigned = ({
               onClick={onClose}
               className="p-2 bg-gray-900 hover:bg-red-600 border-2 border-gray-700 hover:border-black text-white hover:text-black transition-all duration-300"
             >
-              <span className="font-black text-lg">✕</span>
+              <X size={22} />
             </button>
           </div>
         </div>
@@ -391,7 +393,7 @@ const ModalGalleryRedesigned = ({
                 }}
                 className="absolute left-6 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-black border-2 border-orange-600 text-white hover:bg-orange-600 hover:text-black transition-all duration-300 flex items-center justify-center group/modal"
               >
-                <span className="font-black text-2xl">‹</span>
+                <ChevronLeft size={32} />
                 <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600 group-hover/modal:bg-black transition-colors"></div>
               </button>
 
@@ -402,7 +404,7 @@ const ModalGalleryRedesigned = ({
                 }}
                 className="absolute right-6 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-black border-2 border-orange-600 text-white hover:bg-orange-600 hover:text-black transition-all duration-300 flex items-center justify-center group/modal"
               >
-                <span className="font-black text-2xl">›</span>
+                <ChevronRight size={32} />
                 <div className="absolute top-1 right-1 w-2 h-2 bg-orange-600 group-hover/modal:bg-black transition-colors"></div>
               </button>
             </>
@@ -455,7 +457,7 @@ const EmptyGalleryRedesigned = () => {
 
       <div className="relative z-10 h-96 flex items-center justify-center text-center">
         <div>
-          <div className="text-6xl mb-6">📷</div>
+          <ImageIcon size={64} className="mb-6 mx-auto text-gray-500" />
           <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
             ФОТОГРАФИИ ОТСУТСТВУЮТ
           </h3>

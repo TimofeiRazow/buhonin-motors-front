@@ -1,6 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
+import { 
+  DollarSign, 
+  MapPin, 
+  Camera, 
+  ArrowLeft, 
+  Rocket, 
+  Target, 
+  AlertTriangle, 
+  Check, 
+  X, 
+  Loader2,
+  Sun,
+  Eye,
+  Settings
+} from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
@@ -150,7 +165,7 @@ const CreateListingPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <Loader2 className="w-16 h-16 text-orange-600 animate-spin mx-auto mb-4" />
           <p className="text-white font-black uppercase tracking-wider">СОЗДАЕМ ОБЪЯВЛЕНИЕ...</p>
         </div>
       </div>
@@ -223,8 +238,9 @@ const CreateListingPage = () => {
               <div className="bg-red-600 border-2 border-black text-white p-4 mb-8 relative">
                 <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
                 <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
-                <p className="font-bold uppercase tracking-wide text-sm">
-                  ⚠️ {errors.general}
+                <p className="font-bold uppercase tracking-wide text-sm flex items-center">
+                  <AlertTriangle className="w-4 h-4 mr-2" />
+                  {errors.general}
                 </p>
               </div>
             )}
@@ -251,7 +267,7 @@ const CreateListingPage = () => {
                         onChange={(e) => handleInputChange('brand_id', e.target.value)}
                         className={`
                           w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
-                          focus:outline-none focus:bg-black uppercase tracking-wide
+                          focus:outline-none focus:bg-black uppercase tracking-wide pr-12
                           ${errors.brand_id 
                             ? 'border-red-500 focus:border-red-400' 
                             : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
@@ -267,16 +283,14 @@ const CreateListingPage = () => {
                       </select>
                       <div className={`
                         absolute top-2 left-2 w-2 h-2 transition-colors duration-300
-                        ${errors.price ? 'bg-red-500' : 'bg-orange-600'}
+                        ${errors.brand_id ? 'bg-red-500' : 'bg-orange-600'}
                       `}></div>
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                        💰
-                      </div>
+                      <DollarSign className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
                     </div>
-                    {errors.price && (
+                    {errors.brand_id && (
                       <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
                         <div className="w-2 h-2 bg-red-500 mr-2"></div>
-                        {errors.price}
+                        {errors.brand_id}
                       </div>
                     )}
                   </div>
@@ -292,7 +306,7 @@ const CreateListingPage = () => {
                         onChange={(e) => handleInputChange('city_id', e.target.value)}
                         className={`
                           w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
-                          focus:outline-none focus:bg-black uppercase tracking-wide
+                          focus:outline-none focus:bg-black uppercase tracking-wide pr-12
                           ${errors.city_id 
                             ? 'border-red-500 focus:border-red-400' 
                             : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
@@ -310,9 +324,7 @@ const CreateListingPage = () => {
                         absolute top-2 left-2 w-2 h-2 transition-colors duration-300
                         ${errors.city_id ? 'bg-red-500' : 'bg-orange-600'}
                       `}></div>
-                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                        📍
-                      </div>
+                      <MapPin className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
                     </div>
                     {errors.city_id && (
                       <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
@@ -339,7 +351,7 @@ const CreateListingPage = () => {
                           : 'bg-gray-800 border-gray-600'
                       }`}>
                         {formData.is_negotiable && (
-                          <span className="text-black font-black">✓</span>
+                          <Check className="text-black w-4 h-4" />
                         )}
                       </div>
                     </div>
@@ -355,7 +367,8 @@ const CreateListingPage = () => {
                     className="group relative flex-1 p-4 bg-gray-600 hover:bg-gray-700 text-white font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-gray-800"
                   >
                     <span className="relative flex items-center justify-center">
-                      ← НАЗАД
+                      <ArrowLeft className="w-5 h-5 mr-2" />
+                      НАЗАД
                     </span>
                     <div className="absolute top-1 left-1 w-3 h-3 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
                     <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
@@ -365,7 +378,8 @@ const CreateListingPage = () => {
                     className="group relative flex-1 p-4 bg-orange-600 hover:bg-white text-black hover:text-black font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-black hover:border-orange-600"
                   >
                     <span className="relative flex items-center justify-center">
-                      🚀 ДАЛЕЕ
+                      <Rocket className="w-5 h-5 mr-2" />
+                      ДАЛЕЕ
                     </span>
                     <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
                     <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
@@ -405,7 +419,7 @@ const CreateListingPage = () => {
                     <div className="absolute bottom-4 right-4 w-3 h-3 border-2 border-orange-600"></div>
                     
                     <div className="relative z-5">
-                      <div className="text-6xl mb-4">📷</div>
+                      <Camera className="text-orange-500 w-16 h-16 mx-auto mb-4" />
                       <div className="text-2xl font-black text-white uppercase tracking-wider mb-4">
                         ДОБАВИТЬ ФОТО
                       </div>
@@ -441,7 +455,7 @@ const CreateListingPage = () => {
                             onClick={() => removeImage(index)}
                             className="absolute top-2 right-2 w-8 h-8 bg-red-600 hover:bg-red-500 text-white font-black text-sm border-2 border-black transition-colors duration-300 flex items-center justify-center"
                           >
-                            ✕
+                            <X className="w-4 h-4" />
                           </button>
                           {index === 0 && (
                             <div className="absolute bottom-2 left-2 bg-orange-600 text-black px-2 py-1 font-black text-xs uppercase tracking-wide border border-black">
@@ -462,7 +476,8 @@ const CreateListingPage = () => {
                     className="group relative flex-1 p-4 bg-gray-600 hover:bg-gray-700 text-white font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-gray-800"
                   >
                     <span className="relative flex items-center justify-center">
-                      ← НАЗАД
+                      <ArrowLeft className="w-5 h-5 mr-2" />
+                      НАЗАД
                     </span>
                     <div className="absolute top-1 left-1 w-3 h-3 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
                     <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
@@ -482,12 +497,13 @@ const CreateListingPage = () => {
                     <span className="relative flex items-center justify-center">
                       {createListingMutation.isLoading ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin mr-3"></div>
+                          <Loader2 className="w-5 h-5 animate-spin mr-2" />
                           СОЗДАНИЕ...
                         </>
                       ) : (
                         <>
-                          🎯 ОПУБЛИКОВАТЬ
+                          <Target className="w-5 h-5 mr-2" />
+                          ОПУБЛИКОВАТЬ
                         </>
                       )}
                     </span>
@@ -508,15 +524,15 @@ const CreateListingPage = () => {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-gray-300 font-bold text-sm">
                     <div className="flex items-center justify-center">
-                      <span className="w-2 h-2 bg-orange-600 mr-2"></span>
+                      <Sun className="w-4 h-4 text-orange-600 mr-2" />
                       СНИМАЙТЕ ПРИ ХОРОШЕМ ОСВЕЩЕНИИ
                     </div>
                     <div className="flex items-center justify-center">
-                      <span className="w-2 h-2 bg-orange-600 mr-2"></span>
+                      <Eye className="w-4 h-4 text-orange-600 mr-2" />
                       ПОКАЖИТЕ ВСЕ СТОРОНЫ АВТОМОБИЛЯ
                     </div>
                     <div className="flex items-center justify-center">
-                      <span className="w-2 h-2 bg-orange-600 mr-2"></span>
+                      <Settings className="w-4 h-4 text-orange-600 mr-2" />
                       ВКЛЮЧИТЕ САЛОН И ДВИГАТЕЛЬ
                     </div>
                   </div>

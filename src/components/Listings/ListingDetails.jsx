@@ -1,6 +1,24 @@
 // src/components/Listings/ListingDetails.jsx (redesigned)
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { 
+  ArrowLeft,
+  Eye,
+  Heart,
+  Share,
+  FileText,
+  Settings,
+  User,
+  Handshake,
+  Phone,
+  MessageCircle,
+  Star,
+  MapPin,
+  BarChart3,
+  X,
+  Car,
+  Loader
+} from 'lucide-react';
 import ImageGallery from './ImageGallery';
 import ContactButtons from './ContactButtons';
 import CarSpecifications from '../Cars/CarSpecifications';
@@ -53,9 +71,9 @@ const ListingDetails = ({ listing, onFavoriteToggle, loading = false }) => {
   };
 
   const tabs = [
-    { id: 'description', title: 'ОПИСАНИЕ', icon: '📝' },
-    { id: 'specifications', title: 'ХАРАКТЕРИСТИКИ', icon: '⚙️' },
-    { id: 'seller', title: 'ПРОДАВЕЦ', icon: '👤' }
+    { id: 'description', title: 'ОПИСАНИЕ', icon: FileText },
+    { id: 'specifications', title: 'ХАРАКТЕРИСТИКИ', icon: Settings },
+    { id: 'seller', title: 'ПРОДАВЕЦ', icon: User }
   ];
 
   return (
@@ -81,7 +99,7 @@ const ListingDetails = ({ listing, onFavoriteToggle, loading = false }) => {
                     onClick={() => navigate(-1)}
                     className="group p-2 bg-gray-900 hover:bg-orange-600 border-2 border-gray-700 hover:border-black transition-all duration-300"
                   >
-                    <span className="text-white group-hover:text-black font-black">←</span>
+                    <ArrowLeft size={20} className="text-white group-hover:text-black" />
                   </button>
                   
                   {listing.is_featured && (
@@ -111,9 +129,10 @@ const ListingDetails = ({ listing, onFavoriteToggle, loading = false }) => {
                     <span className="w-2 h-2 bg-orange-600 mr-2"></span>
                     {formatRelativeDate(listing.published_date)}
                   </span>
-                  <span className="flex items-center">
-                    <span className="w-2 h-2 bg-orange-600 mr-2"></span>
-                    👁 {listing.view_count} ПРОСМОТРОВ
+                  <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-orange-600"></span>
+                    <Eye size={14} />
+                    {listing.view_count} ПРОСМОТРОВ
                   </span>
                 </div>
               </div>
@@ -173,8 +192,9 @@ const ListingDetails = ({ listing, onFavoriteToggle, loading = false }) => {
                         }
                       `}
                     >
-                      <span className="flex items-center justify-center">
-                        {tab.icon} {tab.title}
+                      <span className="flex items-center justify-center gap-2">
+                        <tab.icon size={16} />
+                        {tab.title}
                       </span>
                     </button>
                   ))}
@@ -215,8 +235,9 @@ const ListingDetails = ({ listing, onFavoriteToggle, loading = false }) => {
                     {formatPrice(listing.price, listing.currency_code)}
                   </div>
                   {listing.is_negotiable && (
-                    <div className="text-white font-bold uppercase tracking-wide text-sm bg-gray-800 inline-block px-3 py-1 border border-gray-600">
-                      🤝 ТОРГ ВОЗМОЖЕН
+                    <div className="text-white font-bold uppercase tracking-wide text-sm bg-gray-800 inline-flex items-center gap-2 px-3 py-1 border border-gray-600">
+                      <Handshake size={14} />
+                      ТОРГ ВОЗМОЖЕН
                     </div>
                   )}
                 </div>
@@ -260,7 +281,9 @@ const DescriptionTabRedesigned = ({ description }) => {
   if (!description?.trim()) {
     return (
       <div className="text-center py-8">
-        <div className="text-4xl mb-4">📝</div>
+        <div className="mb-4">
+          <FileText size={48} className="text-gray-600 mx-auto" />
+        </div>
         <div className="text-gray-400 font-black uppercase tracking-wider">
           ОПИСАНИЕ НЕ УКАЗАНО
         </div>
@@ -270,8 +293,9 @@ const DescriptionTabRedesigned = ({ description }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-xl font-black text-white uppercase tracking-wider mb-4">
-        📝 ОПИСАНИЕ
+      <h3 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center gap-3">
+        <FileText size={24} />
+        ОПИСАНИЕ
       </h3>
       <div className="w-16 h-0.5 bg-orange-600 mb-6"></div>
       
@@ -286,8 +310,9 @@ const DescriptionTabRedesigned = ({ description }) => {
 const SpecificationsTabRedesigned = ({ specifications, referenceData }) => {
   return (
     <div className="space-y-6">
-      <h3 className="text-xl font-black text-white uppercase tracking-wider mb-4">
-        ⚙️ ХАРАКТЕРИСТИКИ
+      <h3 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center gap-3">
+        <Settings size={24} />
+        ХАРАКТЕРИСТИКИ
       </h3>
       <div className="w-16 h-0.5 bg-orange-600 mb-6"></div>
       
@@ -343,14 +368,15 @@ const SellerTabRedesigned = ({ seller }) => {
 
   return (
     <div className="space-y-6">
-      <h3 className="text-xl font-black text-white uppercase tracking-wider mb-4">
-        👤 ПРОДАВЕЦ
+      <h3 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center gap-3">
+        <User size={24} />
+        ПРОДАВЕЦ
       </h3>
       <div className="w-16 h-0.5 bg-orange-600 mb-6"></div>
       
       <div className="flex items-start space-x-4">
         <div className="w-16 h-16 bg-orange-600 border-2 border-black flex items-center justify-center">
-          <span className="text-black font-black text-2xl">👤</span>
+          <User size={32} className="text-black" />
         </div>
         
         <div className="flex-1">
@@ -365,9 +391,10 @@ const SellerTabRedesigned = ({ seller }) => {
           )}
           
           {seller?.rating_average > 0 && (
-            <div className="flex items-center mt-2">
-              <span className="text-orange-500 font-bold text-lg mr-2">
-                ⭐ {seller.rating_average}/5
+            <div className="flex items-center mt-2 gap-2">
+              <span className="text-orange-500 font-bold text-lg flex items-center gap-1">
+                <Star size={16} />
+                {seller.rating_average}/5
               </span>
               <span className="text-gray-400 font-bold uppercase text-xs">
                 ({seller.reviews_count} ОТЗЫВОВ)
@@ -392,21 +419,23 @@ const SellerInfoCardRedesigned = ({ seller }) => {
       <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white opacity-50"></div>
       
       <div className="relative z-10 p-4">
-        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4">
-          👤 ПРОДАВЕЦ
+        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
+          <User size={16} />
+          ПРОДАВЕЦ
         </h4>
         
         <div className="flex items-center space-x-3 mb-3">
           <div className="w-10 h-10 bg-orange-600 border border-black flex items-center justify-center">
-            <span className="text-black font-black">👤</span>
+            <User size={20} className="text-black" />
           </div>
           <div>
             <div className="text-white font-bold text-sm">
               {seller?.first_name} {seller?.last_name}
             </div>
             {seller?.rating_average > 0 && (
-              <div className="text-orange-500 font-bold text-xs">
-                ⭐ {seller.rating_average}/5
+              <div className="text-orange-500 font-bold text-xs flex items-center gap-1">
+                <Star size={12} />
+                {seller.rating_average}/5
               </div>
             )}
           </div>
@@ -428,8 +457,9 @@ const LocationInfoCardRedesigned = ({ cityName, regionName, address }) => {
       <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white opacity-50"></div>
       
       <div className="relative z-10 p-4">
-        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4">
-          📍 МЕСТОПОЛОЖЕНИЕ
+        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
+          <MapPin size={16} />
+          МЕСТОПОЛОЖЕНИЕ
         </h4>
         
         <div className="space-y-2 text-sm">
@@ -459,8 +489,9 @@ const StatsCardRedesigned = ({ listing }) => {
       <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white opacity-50"></div>
       
       <div className="relative z-10 p-4">
-        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4">
-          📊 СТАТИСТИКА
+        <h4 className="text-white font-black uppercase tracking-wider text-sm mb-4 flex items-center gap-2">
+          <BarChart3 size={16} />
+          СТАТИСТИКА
         </h4>
         
         <div className="space-y-3 text-xs font-bold uppercase tracking-wide">
@@ -490,14 +521,14 @@ const FavoriteButtonRedesigned = ({ listingId, isFavorite, onToggle }) => {
     <button
       onClick={onToggle}
       className={`
-        group p-3 border-2 transition-all duration-300 transform hover:scale-110
+        group p-3 border-2 transition-all duration-300 transform hover:scale-110 flex items-center justify-center
         ${isFavorite 
           ? 'bg-red-600 border-black text-white' 
           : 'bg-gray-900 border-gray-700 text-white hover:bg-red-600 hover:border-black'
         }
       `}
     >
-      <span className="font-black text-lg">♥</span>
+      <Heart size={20} className={isFavorite ? 'fill-current' : ''} />
     </button>
   );
 };
@@ -515,9 +546,9 @@ const ShareButtonRedesigned = ({ url, title, description }) => {
   return (
     <button
       onClick={handleShare}
-      className="group p-3 bg-gray-900 hover:bg-orange-600 border-2 border-gray-700 hover:border-black text-white hover:text-black transition-all duration-300 transform hover:scale-110"
+      className="group p-3 bg-gray-900 hover:bg-orange-600 border-2 border-gray-700 hover:border-black text-white hover:text-black transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
     >
-      <span className="font-black text-lg">📤</span>
+      <Share size={20} />
     </button>
   );
 };
@@ -525,11 +556,13 @@ const ShareButtonRedesigned = ({ url, title, description }) => {
 const ContactButtonsRedesigned = ({ listing, seller }) => {
   return (
     <div className="space-y-4">
-      <button className="w-full p-4 bg-orange-600 hover:bg-white text-black hover:text-black font-black uppercase tracking-wider text-lg border-2 border-black hover:border-orange-600 transition-all duration-300 transform hover:scale-105">
-        📞 ПОЗВОНИТЬ
+      <button className="w-full p-4 bg-orange-600 hover:bg-white text-black hover:text-black font-black uppercase tracking-wider text-lg border-2 border-black hover:border-orange-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3">
+        <Phone size={20} />
+        ПОЗВОНИТЬ
       </button>
-      <button className="w-full p-3 bg-gray-800 hover:bg-orange-600 border-2 border-gray-600 hover:border-black text-white hover:text-black font-black uppercase tracking-wider transition-all duration-300">
-        💬 НАПИСАТЬ
+      <button className="w-full p-3 bg-gray-800 hover:bg-orange-600 border-2 border-gray-600 hover:border-black text-white hover:text-black font-black uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-3">
+        <MessageCircle size={18} />
+        НАПИСАТЬ
       </button>
     </div>
   );
@@ -597,7 +630,9 @@ const ListingNotFound = () => {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="text-center">
-        <div className="text-6xl mb-6">🚗</div>
+        <div className="mb-6">
+          <Car size={72} className="text-gray-600 mx-auto" />
+        </div>
         <h1 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
           ОБЪЯВЛЕНИЕ НЕ НАЙДЕНО
         </h1>
@@ -618,9 +653,9 @@ const ImageGalleryModal = ({ images, onClose }) => {
       <div className="relative max-w-4xl w-full">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 bg-black border-2 border-orange-600 text-white hover:bg-orange-600 hover:text-black transition-all duration-300"
+          className="absolute top-4 right-4 z-10 p-2 bg-black border-2 border-orange-600 text-white hover:bg-orange-600 hover:text-black transition-all duration-300 flex items-center justify-center"
         >
-          <span className="font-black">✕</span>
+          <X size={20} />
         </button>
         
         <img 

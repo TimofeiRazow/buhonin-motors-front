@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { 
+  Phone, 
+  Lock, 
+  LogIn, 
+  Key, 
+  AlertTriangle, 
+  Loader2 
+} from 'lucide-react';
 import { useAuth } from '../../hooks/auth/useAuth';
 
 const LoginPage = () => {
@@ -100,8 +108,9 @@ const LoginPage = () => {
               <div className="bg-red-600 border-2 border-black text-white p-4 mb-6 relative">
                 <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
                 <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
-                <p className="font-bold uppercase tracking-wide text-sm">
-                  ⚠️ {errors.general}
+                <p className="font-bold uppercase tracking-wide text-sm flex items-center">
+                  <AlertTriangle size={16} className="mr-2" />
+                  {errors.general}
                 </p>
               </div>
             )}
@@ -135,7 +144,7 @@ const LoginPage = () => {
                   `}></div>
                   {/* Иконка телефона */}
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                    📱
+                    <Phone size={18} />
                   </div>
                 </div>
                 {errors.phone_number && (
@@ -174,7 +183,7 @@ const LoginPage = () => {
                   `}></div>
                   {/* Иконка замка */}
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                    🔒
+                    <Lock size={18} />
                   </div>
                 </div>
                 {errors.password && (
@@ -201,12 +210,13 @@ const LoginPage = () => {
                 <span className="relative flex items-center justify-center">
                   {isLoading ? (
                     <>
-                      <div className="loading-spinner w-5 h-5 mr-3"></div>
+                      <Loader2 size={20} className="animate-spin mr-3" />
                       ВХОД...
                     </>
                   ) : (
                     <>
-                      🚀 ВОЙТИ
+                      <LogIn size={20} className="mr-3" />
+                      ВОЙТИ
                     </>
                   )}
                 </span>
@@ -228,7 +238,8 @@ const LoginPage = () => {
                 className="group inline-flex items-center text-gray-400 hover:text-orange-500 no-underline font-bold uppercase tracking-wider text-sm transition-all duration-300"
               >
                 <div className="w-2 h-2 bg-orange-600 mr-3 group-hover:bg-white transition-colors"></div>
-                🔑 ЗАБЫЛИ ПАРОЛЬ?
+                <Key size={16} className="mr-2" />
+                ЗАБЫЛИ ПАРОЛЬ?
               </Link>
             </div>
 

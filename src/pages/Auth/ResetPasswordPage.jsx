@@ -1,6 +1,7 @@
 // src/pages/Auth/ResetPasswordPage.jsx
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Key, Phone, Shield, AlertTriangle, Loader, Save, ArrowLeft } from 'lucide-react';
 import ForgotPasswordForm from '../../components/Auth/ForgotPasswordForm';
 import PhoneVerification from '../../components/Auth/PhoneVerification';
 import api from '../../services/api';
@@ -65,25 +66,25 @@ const ResetPasswordPage = () => {
         return { 
           title: 'ВОССТАНОВЛЕНИЕ', 
           subtitle: 'ПАРОЛЯ', 
-          icon: '🔑', 
+          icon: <Key size={48} className="text-orange-500" />, 
           description: 'ВВЕДИТЕ НОМЕР ТЕЛЕФОНА' 
         };
       case 'verify':
         return { 
           title: 'ПОДТВЕРЖДЕНИЕ', 
           subtitle: 'ТЕЛЕФОНА', 
-          icon: '📱', 
+          icon: <Phone size={48} className="text-orange-500" />, 
           description: 'ВВЕДИТЕ КОД ИЗ СМС' 
         };
       case 'reset':
         return { 
           title: 'НОВЫЙ', 
           subtitle: 'ПАРОЛЬ', 
-          icon: '🔐', 
+          icon: <Shield size={48} className="text-orange-500" />, 
           description: 'УСТАНОВИТЕ БЕЗОПАСНЫЙ ПАРОЛЬ' 
         };
       default:
-        return { title: '', subtitle: '', icon: '', description: '' };
+        return { title: '', subtitle: '', icon: null, description: '' };
     }
   };
 
@@ -146,7 +147,7 @@ const ResetPasswordPage = () => {
 
             {/* Заголовок */}
             <div className="text-center mb-8">
-              <div className="text-5xl mb-4">{stepInfo.icon}</div>
+              <div className="mb-4 flex justify-center">{stepInfo.icon}</div>
               <h1 className="text-4xl font-black text-white uppercase tracking-wider mb-2">
                 {stepInfo.title}
                 <span className="block text-orange-500 text-3xl">{stepInfo.subtitle}</span>
@@ -166,8 +167,9 @@ const ResetPasswordPage = () => {
                     <div className="bg-red-600 border-2 border-black text-white p-4 relative">
                       <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
                       <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
-                      <p className="font-bold uppercase tracking-wide text-sm">
-                        ⚠️ {error}
+                      <p className="font-bold uppercase tracking-wide text-sm flex items-center">
+                        <AlertTriangle size={16} className="mr-2" />
+                        {error}
                       </p>
                     </div>
                   )}
@@ -205,8 +207,8 @@ const ResetPasswordPage = () => {
                           className="w-full p-4 bg-gray-900 text-orange-100 font-bold text-lg border-2 border-gray-700 focus:border-orange-500 hover:border-gray-600 focus:outline-none focus:bg-black placeholder-orange-300 placeholder-opacity-60 transition-all duration-300"
                         />
                         <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
-                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 text-xl">
-                          📱
+                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+                          <Phone size={20} />
                         </div>
                       </div>
                     </div>
@@ -227,12 +229,13 @@ const ResetPasswordPage = () => {
                       <span className="relative flex items-center justify-center">
                         {loading ? (
                           <>
-                            <div className="loading-spinner w-5 h-5 mr-3"></div>
+                            <Loader className="w-5 h-5 mr-3 animate-spin" />
                             ОТПРАВЛЯЕМ КОД...
                           </>
                         ) : (
                           <>
-                            🔑 ВОССТАНОВИТЬ ПАРОЛЬ
+                            <Key className="w-5 h-5 mr-3" />
+                            ВОССТАНОВИТЬ ПАРОЛЬ
                           </>
                         )}
                       </span>
@@ -271,8 +274,9 @@ const ResetPasswordPage = () => {
                   <div className="bg-red-600 border-2 border-black text-white p-4 relative">
                     <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
                     <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
-                    <p className="font-bold uppercase tracking-wide text-sm">
-                      ⚠️ {error}
+                    <p className="font-bold uppercase tracking-wide text-sm flex items-center">
+                      <AlertTriangle size={16} className="mr-2" />
+                      {error}
                     </p>
                   </div>
                 )}
@@ -295,7 +299,7 @@ const ResetPasswordPage = () => {
                       />
                       <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
                       <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                        🔒
+                        <Key size={20} />
                       </div>
                     </div>
                   </div>
@@ -317,7 +321,7 @@ const ResetPasswordPage = () => {
                       />
                       <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
                       <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                        🔐
+                        <Shield size={20} />
                       </div>
                     </div>
                   </div>
@@ -338,12 +342,13 @@ const ResetPasswordPage = () => {
                     <span className="relative flex items-center justify-center">
                       {loading ? (
                         <>
-                          <div className="loading-spinner w-5 h-5 mr-3"></div>
+                          <Loader className="w-5 h-5 mr-3 animate-spin" />
                           СОХРАНЯЕМ...
                         </>
                       ) : (
                         <>
-                          💾 ИЗМЕНИТЬ ПАРОЛЬ
+                          <Save className="w-5 h-5 mr-3" />
+                          ИЗМЕНИТЬ ПАРОЛЬ
                         </>
                       )}
                     </span>
@@ -370,7 +375,8 @@ const ResetPasswordPage = () => {
                   className="group inline-flex items-center text-orange-300 hover:text-orange-100 font-bold uppercase tracking-wider text-sm transition-all duration-300"
                 >
                   <div className="w-2 h-2 bg-orange-500 mr-3 group-hover:bg-orange-300 transition-colors"></div>
-                  ← НАЗАД
+                  <ArrowLeft size={16} className="mr-2" />
+                  НАЗАД
                 </button>
               </div>
             )}

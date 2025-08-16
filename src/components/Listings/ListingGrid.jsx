@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { 
+  Grid3X3, 
+  List, 
+  Car, 
+  Heart, 
+  Camera, 
+  MapPin, 
+  Eye, 
+  Star, 
+  Search,
+  DollarSign,
+  Calendar,
+  Gauge,
+  Fuel,
+  Award
+} from 'lucide-react';
 
 const ListingGrid = ({ listings, loading = false }) => {
   const [viewMode, setViewMode] = useState('grid'); // 'grid' или 'list'
@@ -32,7 +48,7 @@ const ListingGrid = ({ listings, loading = false }) => {
             <button
               onClick={() => setViewMode('grid')}
               className={`
-                group p-2 border-2 transition-all duration-300
+                group p-2 border-2 transition-all duration-300 flex items-center justify-center
                 ${viewMode === 'grid' 
                   ? 'bg-orange-600 border-black text-black' 
                   : 'bg-gray-800 border-gray-600 text-white hover:border-orange-500'
@@ -40,12 +56,12 @@ const ListingGrid = ({ listings, loading = false }) => {
               `}
               title="Сетка"
             >
-              <span className="font-black">⚏</span>
+              <Grid3X3 size={16} className="font-black" />
             </button>
             <button
               onClick={() => setViewMode('list')}
               className={`
-                group p-2 border-2 transition-all duration-300
+                group p-2 border-2 transition-all duration-300 flex items-center justify-center
                 ${viewMode === 'list' 
                   ? 'bg-orange-600 border-black text-black' 
                   : 'bg-gray-800 border-gray-600 text-white hover:border-orange-500'
@@ -53,7 +69,7 @@ const ListingGrid = ({ listings, loading = false }) => {
               `}
               title="Список"
             >
-              <span className="font-black">☰</span>
+              <List size={16} className="font-black" />
             </button>
           </div>
         </div>
@@ -132,13 +148,14 @@ const ListingCardRedesigned = ({ listing, viewMode, index }) => {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-800">
-            <span className="text-4xl">🚗</span>
+            <Car size={32} className="text-gray-500" />
           </div>
         )}
 
         {/* Бадж VIP */}
         {listing.is_featured && (
-          <div className="absolute top-2 left-2 bg-orange-600 text-black px-2 py-1 font-black text-xs uppercase border border-black">
+          <div className="absolute top-2 left-2 bg-orange-600 text-black px-2 py-1 font-black text-xs uppercase border border-black flex items-center gap-1">
+            <Award size={12} />
             VIP
           </div>
         )}
@@ -154,20 +171,21 @@ const ListingCardRedesigned = ({ listing, viewMode, index }) => {
         <button
           onClick={handleFavoriteClick}
           className={`
-            absolute bottom-2 right-2 w-8 h-8 border-2 border-black transition-all duration-300
+            absolute bottom-2 right-2 w-8 h-8 border-2 border-black transition-all duration-300 flex items-center justify-center
             ${isFavorite 
               ? 'bg-red-600 text-white' 
               : 'bg-white text-black hover:bg-red-600 hover:text-white'
             }
           `}
         >
-          <span className="font-black">♥</span>
+          <Heart size={16} className={`font-black ${isFavorite ? 'fill-current' : ''}`} />
         </button>
 
         {/* Количество фото */}
         {listing.images_count > 1 && (
-          <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 font-bold text-xs border border-orange-600">
-            📷 {listing.images_count}
+          <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 font-bold text-xs border border-orange-600 flex items-center gap-1">
+            <Camera size={12} />
+            {listing.images_count}
           </div>
         )}
       </div>
@@ -194,18 +212,21 @@ const ListingCardRedesigned = ({ listing, viewMode, index }) => {
           {listing.year && (
             <div className="flex items-center">
               <span className="w-1 h-1 bg-orange-600 mr-2"></span>
+              <Calendar size={10} className="mr-1" />
               {listing.year} ГОД
             </div>
           )}
           {listing.mileage && (
             <div className="flex items-center">
               <span className="w-1 h-1 bg-orange-600 mr-2"></span>
+              <Gauge size={10} className="mr-1" />
               {formatPrice(listing.mileage)} КМ
             </div>
           )}
           {listing.engine_volume && (
             <div className="flex items-center">
               <span className="w-1 h-1 bg-orange-600 mr-2"></span>
+              <Fuel size={10} className="mr-1" />
               {listing.engine_volume}Л
             </div>
           )}
@@ -214,7 +235,8 @@ const ListingCardRedesigned = ({ listing, viewMode, index }) => {
         {/* Локация и дата */}
         <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wide">
           <span className="text-gray-500 flex items-center">
-            📍 {listing.city_name}
+            <MapPin size={12} className="mr-1" />
+            {listing.city_name}
           </span>
           <span className="text-gray-600">
             {formatDate(listing.published_date)}
@@ -224,15 +246,22 @@ const ListingCardRedesigned = ({ listing, viewMode, index }) => {
         {/* Статистика */}
         <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-700">
           <div className="flex items-center space-x-3 text-xs font-bold uppercase tracking-wide text-gray-500">
-            <span>👁 {listing.view_count}</span>
+            <span className="flex items-center">
+              <Eye size={12} className="mr-1" />
+              {listing.view_count}
+            </span>
             {listing.favorite_count > 0 && (
-              <span>♥ {listing.favorite_count}</span>
+              <span className="flex items-center">
+                <Heart size={12} className="mr-1" />
+                {listing.favorite_count}
+              </span>
             )}
           </div>
           
           {listing.user_rating && (
             <div className="flex items-center text-xs font-bold text-orange-500">
-              ⭐ {listing.user_rating}
+              <Star size={12} className="mr-1 fill-current" />
+              {listing.user_rating}
             </div>
           )}
         </div>
@@ -260,7 +289,7 @@ const ListingCardListView = ({ listing }) => {
 
       <div className="relative z-10 flex items-center space-x-4">
         {/* Миниатюра */}
-        <div className="w-20 h-20 bg-gray-800 flex-shrink-0 overflow-hidden border border-gray-600">
+        <div className="w-20 h-20 bg-gray-800 flex-shrink-0 overflow-hidden border border-gray-600 flex items-center justify-center">
           {listing.main_image_url ? (
             <img
               src={listing.main_image_url}
@@ -268,9 +297,7 @@ const ListingCardListView = ({ listing }) => {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-xl">🚗</span>
-            </div>
+            <Car size={20} className="text-gray-500" />
           )}
         </div>
 
@@ -286,10 +313,28 @@ const ListingCardListView = ({ listing }) => {
           </div>
 
           <div className="flex items-center space-x-4 text-xs font-bold uppercase tracking-wide text-gray-400">
-            {listing.year && <span>{listing.year}</span>}
-            {listing.mileage && <span>{formatPrice(listing.mileage)} КМ</span>}
-            {listing.engine_volume && <span>{listing.engine_volume}Л</span>}
-            <span>📍 {listing.city_name}</span>
+            {listing.year && (
+              <span className="flex items-center">
+                <Calendar size={10} className="mr-1" />
+                {listing.year}
+              </span>
+            )}
+            {listing.mileage && (
+              <span className="flex items-center">
+                <Gauge size={10} className="mr-1" />
+                {formatPrice(listing.mileage)} КМ
+              </span>
+            )}
+            {listing.engine_volume && (
+              <span className="flex items-center">
+                <Fuel size={10} className="mr-1" />
+                {listing.engine_volume}Л
+              </span>
+            )}
+            <span className="flex items-center">
+              <MapPin size={10} className="mr-1" />
+              {listing.city_name}
+            </span>
           </div>
         </div>
 
@@ -301,14 +346,14 @@ const ListingCardListView = ({ listing }) => {
               setIsFavorite(!isFavorite);
             }}
             className={`
-              w-8 h-8 border-2 border-black transition-all duration-300
+              w-8 h-8 border-2 border-black transition-all duration-300 flex items-center justify-center
               ${isFavorite 
                 ? 'bg-red-600 text-white' 
                 : 'bg-white text-black hover:bg-red-600 hover:text-white'
               }
             `}
           >
-            <span className="font-black">♥</span>
+            <Heart size={16} className={`font-black ${isFavorite ? 'fill-current' : ''}`} />
           </button>
         </div>
       </div>
@@ -325,7 +370,9 @@ const EmptyStateRedesigned = () => {
       <div className="absolute bottom-6 left-6 w-4 h-4 bg-white"></div>
 
       <div className="relative z-10 text-center py-20 px-8">
-        <div className="text-6xl mb-6">🔍</div>
+        <div className="text-6xl mb-6 flex justify-center">
+          <Search size={64} className="text-gray-500" />
+        </div>
         
         <h3 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
           ОБЪЯВЛЕНИЯ НЕ НАЙДЕНЫ
@@ -339,10 +386,12 @@ const EmptyStateRedesigned = () => {
         <div className="space-y-3 text-gray-500 font-bold uppercase tracking-wide text-sm max-w-md mx-auto">
           <div className="flex items-center justify-center">
             <span className="w-2 h-2 bg-orange-600 mr-3"></span>
+            <DollarSign size={14} className="mr-2" />
             РАСШИРЬТЕ ДИАПАЗОН ЦЕН
           </div>
           <div className="flex items-center justify-center">
             <span className="w-2 h-2 bg-orange-600 mr-3"></span>
+            <MapPin size={14} className="mr-2" />
             ВЫБЕРИТЕ ДРУГОЙ ГОРОД
           </div>
           <div className="flex items-center justify-center">

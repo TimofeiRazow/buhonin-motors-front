@@ -1,4 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { 
+  ChevronDown, 
+  Clock, 
+  Check, 
+  CheckCheck, 
+  Edit3, 
+  MessageCircle, 
+  Loader2 
+} from 'lucide-react';
 import { useAuth } from '../../hooks/auth/useAuth';
 
 const MessageThread = ({ messages, loading, conversation }) => {
@@ -255,7 +264,7 @@ const MessageBubbleRedesigned = ({
             </span>
             
             {message.edited_date && (
-              <span className="mr-2">✏️</span>
+              <Edit3 size={12} className="mr-2" />
             )}
             
             {isMyMessage && (
@@ -282,22 +291,16 @@ const MessageBubbleRedesigned = ({
 // Индикатор статуса сообщения
 const MessageStatusIndicator = ({ message }) => {
   const getStatusIcon = () => {
-    if (message.is_read) return '✓✓';
-    if (message.is_delivered) return '✓';
-    return '⏳';
+    if (message.is_read) {
+      return <CheckCheck size={12} className="text-blue-300" />;
+    }
+    if (message.is_delivered) {
+      return <Check size={12} className="text-gray-300" />;
+    }
+    return <Clock size={12} className="text-yellow-300" />;
   };
 
-  const getStatusColor = () => {
-    if (message.is_read) return 'text-blue-300';
-    if (message.is_delivered) return 'text-gray-300';
-    return 'text-yellow-300';
-  };
-
-  return (
-    <span className={`${getStatusColor()}`}>
-      {getStatusIcon()}
-    </span>
-  );
+  return getStatusIcon();
 };
 
 // Кнопка прокрутки вниз
@@ -308,7 +311,7 @@ const ScrollToBottomButton = ({ onClick, newMessagesCount }) => {
       className="group absolute bottom-4 right-4 w-12 h-12 bg-orange-600 hover:bg-white border-2 border-black hover:border-orange-600 text-black hover:text-black transition-all duration-300 transform hover:scale-110 z-10"
     >
       <span className="relative flex items-center justify-center">
-        <span className="font-black text-lg">↓</span>
+        <ChevronDown size={20} className="font-black" />
         {newMessagesCount > 0 && (
           <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-600 border-2 border-black flex items-center justify-center">
             <span className="text-white font-black text-xs">
@@ -327,7 +330,7 @@ const MessageThreadSkeleton = () => {
   return (
     <div className="h-full bg-gray-900 p-4 space-y-4">
       <div className="flex items-center justify-center mb-6">
-        <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+        <Loader2 size={48} className="text-orange-600 animate-spin" />
       </div>
       
       {[...Array(5)].map((_, index) => (
@@ -360,7 +363,9 @@ const EmptyMessageThread = ({ conversation }) => {
       <div className="absolute bottom-1/3 left-1/4 w-3 h-3 border border-white rotate-45 opacity-15"></div>
 
       <div className="relative z-10 max-w-md px-8">
-        <div className="text-6xl mb-6">💬</div>
+        <div className="text-6xl mb-6 flex justify-center">
+          <MessageCircle size={64} className="text-orange-600" />
+        </div>
         
         <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
           НАЧНИТЕ ДИАЛОГ

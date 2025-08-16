@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
+import { 
+  Heart, 
+  Camera, 
+  MapPin, 
+  Eye, 
+  Star, 
+  Clock, 
+  Car,
+  Loader
+} from 'lucide-react';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth/useAuth';
 
@@ -101,7 +111,7 @@ const ListingCard = ({ listing, viewMode = 'grid', index = 0 }) => {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gray-800">
-              <span className="text-4xl">🚗</span>
+              <Car size={48} className="text-gray-500" />
             </div>
           )}
 
@@ -121,8 +131,9 @@ const ListingCard = ({ listing, viewMode = 'grid', index = 0 }) => {
 
           {/* Количество фото */}
           {listing.images_count > 1 && (
-            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 font-bold text-xs border border-orange-600 flex items-center">
-              📷 {listing.images_count}
+            <div className="absolute bottom-2 left-2 bg-black text-white px-2 py-1 font-bold text-xs border border-orange-600 flex items-center gap-1">
+              <Camera size={12} />
+              {listing.images_count}
             </div>
           )}
 
@@ -191,8 +202,9 @@ const ListingCard = ({ listing, viewMode = 'grid', index = 0 }) => {
           </div>
 
           {/* Локация */}
-          <div className="flex items-center text-xs font-bold uppercase tracking-wide text-gray-500 mb-3">
-            📍 {listing.city_name}
+          <div className="flex items-center text-xs font-bold uppercase tracking-wide text-gray-500 mb-3 gap-1">
+            <MapPin size={12} />
+            {listing.city_name}
             {listing.region_name && `, ${listing.region_name}`}
           </div>
 
@@ -202,12 +214,14 @@ const ListingCard = ({ listing, viewMode = 'grid', index = 0 }) => {
               {formatDate(listing.published_date)}
             </span>
             <div className="flex items-center space-x-3 text-gray-500">
-              <span className="flex items-center">
-                👁 {listing.view_count || 0}
+              <span className="flex items-center gap-1">
+                <Eye size={12} />
+                {listing.view_count || 0}
               </span>
               {listing.favorite_count > 0 && (
-                <span className="flex items-center">
-                  ♥ {listing.favorite_count}
+                <span className="flex items-center gap-1">
+                  <Heart size={12} />
+                  {listing.favorite_count}
                 </span>
               )}
             </div>
@@ -217,8 +231,9 @@ const ListingCard = ({ listing, viewMode = 'grid', index = 0 }) => {
           <div className="mt-3 pt-3 border-t border-gray-700">
             <div className="flex items-center justify-between">
               {listing.user_rating && (
-                <div className="flex items-center text-xs font-bold text-orange-500">
-                  ⭐ {listing.user_rating}
+                <div className="flex items-center text-xs font-bold text-orange-500 gap-1">
+                  <Star size={12} />
+                  {listing.user_rating}
                 </div>
               )}
               
@@ -249,7 +264,7 @@ const FavoriteButtonRedesigned = ({ isFavorite, onClick, loading, isHovered }) =
       disabled={loading}
       className={`
         absolute top-2 right-2 w-10 h-10 border-2 border-black transition-all duration-300 
-        transform group-button
+        transform group-button flex items-center justify-center
         ${isFavorite 
           ? 'bg-red-600 text-white hover:bg-red-500' 
           : 'bg-white text-black hover:bg-red-600 hover:text-white'
@@ -258,9 +273,14 @@ const FavoriteButtonRedesigned = ({ isFavorite, onClick, loading, isHovered }) =
         ${isHovered ? 'opacity-100' : 'opacity-90'}
       `}
     >
-      <span className="font-black text-lg">
-        {loading ? '⏳' : isFavorite ? '♥' : '♡'}
-      </span>
+      {loading ? (
+        <Loader size={16} className="animate-spin" />
+      ) : (
+        <Heart 
+          size={16} 
+          className={`${isFavorite ? 'fill-current' : ''}`}
+        />
+      )}
       <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-button-hover:bg-black transition-colors"></div>
     </button>
   );
@@ -323,7 +343,7 @@ const ListingCardListView = ({ listing }) => {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
-                <span className="text-2xl">🚗</span>
+                <Car size={32} className="text-gray-500" />
               </div>
             )}
 
@@ -356,12 +376,18 @@ const ListingCardListView = ({ listing }) => {
                 {listing.year && <span>{listing.year}</span>}
                 {listing.mileage && <span>{new Intl.NumberFormat('ru-KZ').format(listing.mileage)} КМ</span>}
                 {listing.engine_volume && <span>{listing.engine_volume}Л</span>}
-                <span>📍 {listing.city_name}</span>
+                <span className="flex items-center gap-1">
+                  <MapPin size={12} />
+                  {listing.city_name}
+                </span>
               </div>
 
               <div className="flex items-center space-x-3 text-xs font-bold uppercase tracking-wide text-gray-500">
                 <span>{formatDate(listing.published_date)}</span>
-                <span>👁 {listing.view_count || 0}</span>
+                <span className="flex items-center gap-1">
+                  <Eye size={12} />
+                  {listing.view_count || 0}
+                </span>
               </div>
             </div>
           </div>
@@ -373,7 +399,7 @@ const ListingCardListView = ({ listing }) => {
                 onClick={handleFavoriteClick}
                 disabled={favoriteMutation.isLoading}
                 className={`
-                  w-8 h-8 border-2 border-black transition-all duration-300
+                  w-8 h-8 border-2 border-black transition-all duration-300 flex items-center justify-center
                   ${isFavorite 
                     ? 'bg-red-600 text-white' 
                     : 'bg-white text-black hover:bg-red-600 hover:text-white'
@@ -381,9 +407,14 @@ const ListingCardListView = ({ listing }) => {
                   ${favoriteMutation.isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'}
                 `}
               >
-                <span className="font-black">
-                  {favoriteMutation.isLoading ? '⏳' : isFavorite ? '♥' : '♡'}
-                </span>
+                {favoriteMutation.isLoading ? (
+                  <Loader size={14} className="animate-spin" />
+                ) : (
+                  <Heart 
+                    size={14} 
+                    className={`${isFavorite ? 'fill-current' : ''}`}
+                  />
+                )}
               </button>
             )}
           </div>

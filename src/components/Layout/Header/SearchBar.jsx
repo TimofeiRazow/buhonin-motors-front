@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Search as SearchIcon } from 'lucide-react';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -63,7 +64,7 @@ const SearchBar = () => {
         >
           {/* Основной контент кнопки */}
           <span className="relative flex items-center group-hover/btn:text-black">
-            <span className="mr-2">🔍</span>
+            <span className="mr-2"><SearchIcon size={18} /></span>
             НАЙТИ
           </span>
 

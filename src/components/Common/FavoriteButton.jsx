@@ -1,7 +1,7 @@
-// src/components/Common/FavoriteButton.jsx
 import React from 'react';
 import { useAuth } from '../../hooks/auth/useAuth';
 import api from '../../services/api';
+import { Heart, HeartOff } from 'lucide-react';
 
 const FavoriteButton = ({ listingId, isFavorite, onToggle }) => {
   const { isAuthenticated } = useAuth();
@@ -35,10 +35,22 @@ const FavoriteButton = ({ listingId, isFavorite, onToggle }) => {
         background: 'none',
         border: 'none',
         cursor: loading ? 'not-allowed' : 'pointer',
-        fontSize: '20px'
+        fontSize: '20px',
+        padding: 0,
+        display: 'flex',
+        alignItems: 'center'
       }}
+      aria-label={favorite ? 'Удалить из избранного' : 'Добавить в избранное'}
     >
-      {loading ? '...' : (favorite ? '❤️' : '🤍')}
+      {loading ? (
+        <span style={{ fontSize: '20px' }}>...</span>
+      ) : (
+        favorite ? (
+          <Heart color="#e63946" fill="#e63946" size={24} />
+        ) : (
+          <HeartOff color="#222" size={24} />
+        )
+      )}
     </button>
   );
 };

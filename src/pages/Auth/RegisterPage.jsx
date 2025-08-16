@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { 
+  User, 
+  Users, 
+  Phone, 
+  Mail, 
+  Lock, 
+  ShieldCheck, 
+  UserPlus, 
+  AlertTriangle, 
+  Check, 
+  Loader2 
+} from 'lucide-react';
 import { useAuth } from '../../hooks/auth/useAuth';
 
 const RegisterPage = () => {
@@ -120,8 +132,9 @@ const RegisterPage = () => {
               <div className="bg-red-600 border-2 border-black text-white p-4 mb-6 relative">
                 <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
                 <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
-                <p className="font-bold uppercase tracking-wide text-sm">
-                  ⚠️ {errors.general}
+                <p className="font-bold uppercase tracking-wide text-sm flex items-center">
+                  <AlertTriangle size={16} className="mr-2" />
+                  {errors.general}
                 </p>
               </div>
             )}
@@ -154,7 +167,7 @@ const RegisterPage = () => {
                       ${errors.first_name ? 'bg-red-500' : 'bg-orange-600'}
                     `}></div>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                      👤
+                      <User size={18} />
                     </div>
                   </div>
                   {errors.first_name && (
@@ -180,7 +193,7 @@ const RegisterPage = () => {
                     />
                     <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                      👥
+                      <Users size={18} />
                     </div>
                   </div>
                 </div>
@@ -212,7 +225,7 @@ const RegisterPage = () => {
                     ${errors.phone_number ? 'bg-red-500' : 'bg-orange-600'}
                   `}></div>
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                    📱
+                    <Phone size={18} />
                   </div>
                 </div>
                 {errors.phone_number && (
@@ -249,7 +262,7 @@ const RegisterPage = () => {
                     ${errors.email ? 'bg-red-500' : 'bg-orange-600'}
                   `}></div>
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                    ✉️
+                    <Mail size={18} />
                   </div>
                 </div>
                 {errors.email && (
@@ -287,7 +300,7 @@ const RegisterPage = () => {
                       ${errors.password ? 'bg-red-500' : 'bg-orange-600'}
                     `}></div>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                      🔒
+                      <Lock size={18} />
                     </div>
                   </div>
                   {errors.password && (
@@ -323,7 +336,7 @@ const RegisterPage = () => {
                       ${errors.confirm_password ? 'bg-red-500' : 'bg-orange-600'}
                     `}></div>
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500">
-                      🔐
+                      <ShieldCheck size={18} />
                     </div>
                   </div>
                   {errors.confirm_password && (
@@ -352,7 +365,7 @@ const RegisterPage = () => {
                         : 'bg-gray-800 border-gray-600'
                     }`}>
                       {formData.agree_terms && (
-                        <span className="text-black font-black">✓</span>
+                        <Check size={14} className="text-black font-black" />
                       )}
                     </div>
                   </div>
@@ -391,12 +404,13 @@ const RegisterPage = () => {
                 <span className="relative flex items-center justify-center">
                   {isLoading ? (
                     <>
-                      <div className="loading-spinner w-5 h-5 mr-3"></div>
+                      <Loader2 size={20} className="animate-spin mr-3" />
                       РЕГИСТРАЦИЯ...
                     </>
                   ) : (
                     <>
-                      🚀 ЗАРЕГИСТРИРОВАТЬСЯ
+                      <UserPlus size={20} className="mr-3" />
+                      ЗАРЕГИСТРИРОВАТЬСЯ
                     </>
                   )}
                 </span>

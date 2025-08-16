@@ -1,4 +1,16 @@
 import React, { useState, useMemo } from 'react';
+import { 
+  MessageSquare, 
+  Search, 
+  ChevronUp, 
+  ChevronDown, 
+  User, 
+  Pin, 
+  VolumeX, 
+  Paperclip,
+  ArrowRight,
+  Loader
+} from 'lucide-react';
 import { useMessages } from '../../hooks/api/useMessages';
 
 const ConversationsList = ({ 
@@ -112,8 +124,9 @@ const ConversationsList = ({
         
         <div className="relative z-10 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-black text-white uppercase tracking-wider">
-              💬 ДИАЛОГИ
+            <h2 className="text-xl font-black text-white uppercase tracking-wider flex items-center">
+              <MessageSquare className="w-6 h-6 mr-2 text-orange-600" />
+              ДИАЛОГИ
             </h2>
             <div className="w-12 h-0.5 bg-orange-600 mt-1"></div>
           </div>
@@ -190,11 +203,11 @@ const SearchAndFiltersRedesigned = ({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="ПОИСК ДИАЛОГОВ..."
-          className="w-full p-3 bg-gray-900 text-white font-bold border border-gray-600 focus:border-orange-500 hover:border-gray-500 focus:outline-none placeholder-gray-500 uppercase tracking-wide transition-all duration-300"
+          className="w-full p-3 pr-12 bg-gray-900 text-white font-bold border border-gray-600 focus:border-orange-500 hover:border-gray-500 focus:outline-none placeholder-gray-500 uppercase tracking-wide transition-all duration-300"
         />
         <div className="absolute top-1 left-1 w-1 h-1 bg-orange-600"></div>
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-orange-500">
-          🔍
+        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+          <Search className="w-5 h-5 text-orange-500" />
         </div>
       </div>
 
@@ -224,9 +237,13 @@ const SearchAndFiltersRedesigned = ({
 
           <button
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="p-2 bg-gray-700 hover:bg-orange-600 border border-gray-600 hover:border-black text-white hover:text-black font-bold text-xs uppercase tracking-wide transition-all duration-300"
+            className="p-2 bg-gray-700 hover:bg-orange-600 border border-gray-600 hover:border-black text-white hover:text-black font-bold text-xs uppercase tracking-wide transition-all duration-300 flex items-center"
           >
-            {showAdvanced ? '▲' : '▼'}
+            {showAdvanced ? (
+              <ChevronUp className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="w-4 h-4" />
+            )}
           </button>
         </div>
       )}
@@ -356,10 +373,11 @@ const ConversationItemRedesigned = ({
           {/* Участник */}
           {conversation.participant_name && (
             <div className={`
-              text-xs font-bold uppercase tracking-wide mb-1
+              text-xs font-bold uppercase tracking-wide mb-1 flex items-center
               ${isSelected ? 'text-black opacity-70' : 'text-gray-400'}
             `}>
-              👤 {conversation.participant_name}
+              <User className="w-3 h-3 mr-1" />
+              {conversation.participant_name}
             </div>
           )}
 
@@ -384,13 +402,13 @@ const ConversationItemRedesigned = ({
           {/* Дополнительные индикаторы */}
           <div className="flex items-center space-x-1">
             {conversation.is_pinned && (
-              <span className="text-orange-500 text-xs">📌</span>
+              <Pin className="w-3 h-3 text-orange-500" />
             )}
             {conversation.is_muted && (
-              <span className="text-gray-500 text-xs">🔇</span>
+              <VolumeX className="w-3 h-3 text-gray-500" />
             )}
             {conversation.has_attachments && (
-              <span className="text-blue-500 text-xs">📎</span>
+              <Paperclip className="w-3 h-3 text-blue-500" />
             )}
           </div>
         </div>
@@ -398,8 +416,8 @@ const ConversationItemRedesigned = ({
 
       {/* Hover индикатор */}
       {isHovered && !isSelected && (
-        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-orange-500 opacity-70">
-          →
+        <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+          <ArrowRight className="w-4 h-4 text-orange-500 opacity-70" />
         </div>
       )}
     </div>
@@ -411,7 +429,7 @@ const ConversationsListSkeleton = () => {
   return (
     <div className="h-full bg-gray-900 p-4 space-y-3">
       <div className="flex items-center justify-center mb-6">
-        <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+        <Loader className="w-12 h-12 text-orange-600 animate-spin" />
       </div>
       
       {[...Array(6)].map((_, index) => (
@@ -440,7 +458,9 @@ const EmptyConversationsList = () => {
       <div className="absolute top-1/3 right-1/4 w-2 h-2 bg-white opacity-25"></div>
 
       <div className="relative z-10 max-w-md px-8">
-        <div className="text-6xl mb-6">💬</div>
+        <div className="mb-6 flex justify-center">
+          <MessageSquare className="w-16 h-16 text-orange-600 opacity-60" />
+        </div>
         
         <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
           НЕТ ДИАЛОГОВ
@@ -488,7 +508,9 @@ const NoResultsRedesigned = ({ searchQuery, filter }) => {
   return (
     <div className="h-full flex items-center justify-center text-center p-8">
       <div>
-        <div className="text-4xl mb-4">🔍</div>
+        <div className="mb-4 flex justify-center">
+          <Search className="w-10 h-10 text-orange-600 opacity-60" />
+        </div>
         <h3 className="text-lg font-black text-white uppercase tracking-wider mb-2">
           {getMessage()}
         </h3>

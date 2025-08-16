@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
+import { Camera, MapPin, Eye } from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
@@ -82,8 +83,9 @@ const ListingCard = ({ listing }) => {
           )}
           
           {listing.images_count > 1 && (
-            <div className="absolute bottom-3 right-3 bg-black bg-opacity-80 text-white font-bold px-3 py-1 text-xs border-2 border-orange-500">
-              📷 {listing.images_count}
+            <div className="absolute bottom-3 right-3 bg-black bg-opacity-80 text-white font-bold px-3 py-1 text-xs border-2 border-orange-500 flex items-center">
+              <Camera size={12} className="mr-1" />
+              {listing.images_count}
             </div>
           )}
 
@@ -116,7 +118,8 @@ const ListingCard = ({ listing }) => {
             
             <div className="flex items-center text-gray-300 font-bold text-sm">
               <div className="w-2 h-2 bg-white mr-3"></div>
-              📍 {listing.city_name?.toUpperCase()}
+              <MapPin size={14} className="mr-1" />
+              {listing.city_name?.toUpperCase()}
               {listing.region_name && `, ${listing.region_name?.toUpperCase()}`}
             </div>
           </div>
@@ -127,8 +130,9 @@ const ListingCard = ({ listing }) => {
               {new Date(listing.published_date).toLocaleDateString('ru-RU')}
             </span>
             <div className="flex items-center bg-black px-2 py-1 border border-orange-500">
+              <Eye size={12} className="text-orange-500 mr-1" />
               <span className="text-orange-500 font-bold text-xs">
-                👁 {listing.view_count || 0}
+                {listing.view_count || 0}
               </span>
             </div>
           </div>

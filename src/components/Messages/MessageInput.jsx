@@ -1,4 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { 
+  Send, 
+  Paperclip, 
+  Smile, 
+  Clock, 
+  Upload, 
+  X,
+  Edit3,
+  Wifi,
+  WifiOff
+} from 'lucide-react';
 
 const MessageInput = ({ 
   onSendMessage, 
@@ -177,8 +188,9 @@ const MessageInput = ({
 
             {/* Индикатор печатания */}
             {isTyping && !disabled && (
-              <div className="absolute -top-8 left-4 bg-gray-800 border border-gray-600 px-2 py-1 text-xs font-bold uppercase tracking-wide text-gray-400">
-                ✏️ ПЕЧАТАЕТ...
+              <div className="absolute -top-8 left-4 bg-gray-800 border border-gray-600 px-2 py-1 text-xs font-bold uppercase tracking-wide text-gray-400 flex items-center gap-2">
+                <Edit3 size={12} />
+                ПЕЧАТАЕТ...
               </div>
             )}
           </div>
@@ -230,8 +242,14 @@ const SendButtonRedesigned = ({ disabled, loading, hasContent }) => {
         }
       `}
     >
-      <span className="relative flex items-center justify-center text-xl">
-        {loading ? '⏳' : hasContent ? '🚀' : '📤'}
+      <span className="relative flex items-center justify-center">
+        {loading ? (
+          <Clock className="animate-pulse" size={20} />
+        ) : hasContent ? (
+          <Send size={20} />
+        ) : (
+          <Upload size={20} />
+        )}
       </span>
       
       {hasContent && !disabled && (
@@ -252,7 +270,7 @@ const AttachmentButtonRedesigned = ({ onClick, disabled }) => {
       onClick={onClick}
       disabled={disabled}
       className={`
-        group p-3 border-2 transition-all duration-300 transform
+        group p-3 border-2 transition-all duration-300 transform relative
         ${disabled
           ? 'bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed'
           : 'bg-gray-800 hover:bg-orange-600 border-gray-600 hover:border-black text-white hover:text-black hover:scale-110'
@@ -260,7 +278,7 @@ const AttachmentButtonRedesigned = ({ onClick, disabled }) => {
       `}
       title="ПРИКРЕПИТЬ ФАЙЛ"
     >
-      <span className="font-black text-lg">📎</span>
+      <Paperclip size={18} className="font-black" />
       {!disabled && (
         <div className="absolute top-0.5 left-0.5 w-1 h-1 bg-orange-600 group-hover:bg-black transition-colors"></div>
       )}
@@ -276,7 +294,7 @@ const EmojiButtonRedesigned = ({ onClick, disabled, active }) => {
       onClick={onClick}
       disabled={disabled}
       className={`
-        group p-3 border-2 transition-all duration-300 transform
+        group p-3 border-2 transition-all duration-300 transform relative
         ${disabled
           ? 'bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed'
           : active
@@ -286,7 +304,7 @@ const EmojiButtonRedesigned = ({ onClick, disabled, active }) => {
       `}
       title="ЭМОДЗИ"
     >
-      <span className="font-black text-lg">😊</span>
+      <Smile size={18} className="font-black" />
       {!disabled && (
         <div className={`
           absolute top-0.5 right-0.5 w-1 h-1 transition-colors
@@ -301,8 +319,9 @@ const EmojiButtonRedesigned = ({ onClick, disabled, active }) => {
 const AttachmentsPreviewRedesigned = ({ attachments, onRemove }) => {
   return (
     <div className="mb-4 bg-gray-800 border-2 border-gray-600 p-3">
-      <h4 className="text-white font-black uppercase tracking-wider text-sm mb-3">
-        📎 ПРИКРЕПЛЕННЫЕ ФАЙЛЫ ({attachments.length}/5)
+      <h4 className="text-white font-black uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
+        <Paperclip size={16} />
+        ПРИКРЕПЛЕННЫЕ ФАЙЛЫ ({attachments.length}/5)
       </h4>
       
       <div className="flex flex-wrap gap-2">
@@ -320,9 +339,9 @@ const AttachmentsPreviewRedesigned = ({ attachments, onRemove }) => {
             
             <button
               onClick={() => onRemove(index)}
-              className="absolute top-1 right-1 w-5 h-5 bg-red-600 hover:bg-red-500 text-white text-xs font-black transition-colors duration-300"
+              className="absolute top-1 right-1 w-5 h-5 bg-red-600 hover:bg-red-500 text-white text-xs font-black transition-colors duration-300 flex items-center justify-center"
             >
-              ×
+              <X size={12} />
             </button>
           </div>
         ))}
@@ -343,14 +362,15 @@ const EmojiPickerRedesigned = ({ onEmojiSelect, onClose }) => {
   return (
     <div className="absolute bottom-16 left-4 right-4 bg-black border-4 border-orange-600 p-4 z-50 max-h-64 overflow-y-auto">
       <div className="flex items-center justify-between mb-4">
-        <h4 className="text-white font-black uppercase tracking-wider text-sm">
-          😊 ВЫБЕРИТЕ ЭМОДЗИ
+        <h4 className="text-white font-black uppercase tracking-wider text-sm flex items-center gap-2">
+          <Smile size={16} />
+          ВЫБЕРИТЕ ЭМОДЗИ
         </h4>
         <button
           onClick={onClose}
           className="p-1 bg-gray-800 hover:bg-red-600 border border-gray-600 hover:border-black text-white hover:text-black transition-all duration-300"
         >
-          <span className="font-black">×</span>
+          <X size={16} className="font-black" />
         </button>
       </div>
       
@@ -410,14 +430,21 @@ export const MessageInputStatus = ({ isConnected, isTyping }) => {
   return (
     <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-t border-gray-700 text-xs font-bold uppercase tracking-wide">
       <div className="flex items-center">
-        <div className={`w-2 h-2 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+        <div className="mr-2">
+          {isConnected ? (
+            <Wifi size={12} className="text-green-500" />
+          ) : (
+            <WifiOff size={12} className="text-red-500" />
+          )}
+        </div>
         <span className="text-gray-400">
           {isConnected ? 'ПОДКЛЮЧЕНО' : 'ОТКЛЮЧЕНО'}
         </span>
       </div>
       
       {isTyping && (
-        <div className="text-orange-500">
+        <div className="text-orange-500 flex items-center gap-2">
+          <Edit3 size={12} />
           СОБЕСЕДНИК ПЕЧАТАЕТ...
         </div>
       )}

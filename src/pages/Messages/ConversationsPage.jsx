@@ -2,6 +2,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import {
+  Mail,
+  Search,
+  Inbox,
+  MessageCircle,
+  ExternalLink,
+  AlertTriangle,
+  MessageSquare,
+  Rocket,
+  Clock,
+  X,
+  CheckCheck,
+  Check
+} from 'lucide-react';
 import { useMessages } from '../../hooks/api/useMessages';
 import api from '../../services/api';
 
@@ -90,8 +104,9 @@ const ConversationsPage = () => {
               onClick={() => setShowNewMessageModal(true)}
               className="group relative bg-orange-600 hover:bg-white text-black hover:text-black font-black px-6 py-3 border-2 border-black hover:border-orange-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
             >
-              <span className="relative flex items-center">
-                ✉️ НОВОЕ СООБЩЕНИЕ
+              <span className="relative flex items-center space-x-2">
+                <Mail className="w-4 h-4" />
+                <span>НОВОЕ СООБЩЕНИЕ</span>
               </span>
               <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
               <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
@@ -120,7 +135,7 @@ const ConversationsPage = () => {
               />
               <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
               <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-orange-500">
-                🔍
+                <Search className="w-5 h-5" />
               </div>
             </div>
           </div>
@@ -136,7 +151,7 @@ const ConversationsPage = () => {
               </div>
             ) : filteredConversations.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-32 text-center p-4">
-                <div className="text-3xl mb-3">📭</div>
+                <Inbox className="w-12 h-12 mb-3 text-gray-400" />
                 <div className="text-gray-400 font-black uppercase tracking-wider text-sm mb-2">
                   {searchQuery ? 'НЕТ РЕЗУЛЬТАТОВ' : 'НЕТ ДИАЛОГОВ'}
                 </div>
@@ -182,10 +197,10 @@ const ConversationsPage = () => {
                       className="group p-2 bg-gray-800 hover:bg-orange-600 border-2 border-gray-600 hover:border-black transition-all duration-300"
                       title="Открыть в полном окне"
                     >
-                      <span className="text-white group-hover:text-black">🔗</span>
+                      <ExternalLink className="text-white group-hover:text-black w-5 h-5" />
                     </button>
                     <button className="group p-2 bg-gray-800 hover:bg-red-600 border-2 border-gray-600 hover:border-black transition-all duration-300">
-                      <span className="text-white group-hover:text-black">⚠️</span>
+                      <AlertTriangle className="text-white group-hover:text-black w-5 h-5" />
                     </button>
                   </div>
                 </div>
@@ -227,7 +242,7 @@ const ConversationsPage = () => {
             /* Состояние по умолчанию */
             <div className="flex-1 flex items-center justify-center relative">
               <div className="text-center max-w-md">
-                <div className="text-6xl mb-6">💬</div>
+                <MessageCircle className="w-24 h-24 mb-6 text-gray-400 mx-auto" />
                 <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
                   ВЫБЕРИТЕ ДИАЛОГ
                 </h2>
@@ -240,8 +255,9 @@ const ConversationsPage = () => {
                   onClick={() => setShowNewMessageModal(true)}
                   className="group relative bg-orange-600 hover:bg-white text-black hover:text-black font-black px-6 py-3 border-2 border-black hover:border-orange-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
                 >
-                  <span className="relative">
-                    ✉️ НАЧАТЬ НОВЫЙ ДИАЛОГ
+                  <span className="relative flex items-center space-x-2">
+                    <Mail className="w-4 h-4" />
+                    <span>НАЧАТЬ НОВЫЙ ДИАЛОГ</span>
                   </span>
                   <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
                   <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
@@ -353,7 +369,7 @@ const MessagesAreaRedesigned = ({ messages }) => {
   if (!messages?.length) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center">
-        <div className="text-4xl mb-4">💭</div>
+        <MessageSquare className="w-16 h-16 mb-4 text-gray-400" />
         <div className="text-gray-400 font-black uppercase tracking-wider text-lg mb-2">
           НЕТ СООБЩЕНИЙ
         </div>
@@ -398,7 +414,13 @@ const MessagesAreaRedesigned = ({ messages }) => {
                 })}
               </span>
               {message.is_own_message && (
-                <span>{message.is_read ? '✓✓' : '✓'}</span>
+                <span className="flex items-center">
+                  {message.is_read ? (
+                    <CheckCheck className="w-4 h-4" />
+                  ) : (
+                    <Check className="w-4 h-4" />
+                  )}
+                </span>
               )}
             </div>
           </div>
@@ -452,7 +474,11 @@ const MessageInputCompact = ({ onSendMessage, disabled }) => {
         `}
       >
         <span className="relative">
-          {disabled ? '⏳' : '🚀'}
+          {disabled ? (
+            <Clock className="w-5 h-5" />
+          ) : (
+            <Rocket className="w-5 h-5" />
+          )}
         </span>
         
         {!disabled && message.trim() && (
@@ -497,7 +523,7 @@ const NewMessageModalRedesigned = ({ onClose, onSubmit }) => {
               onClick={onClose}
               className="group p-2 bg-gray-900 hover:bg-red-600 border-2 border-gray-700 hover:border-black transition-all duration-300"
             >
-              <span className="text-white group-hover:text-black font-black">✕</span>
+              <X className="text-white group-hover:text-black w-5 h-5" />
             </button>
           </div>
 
@@ -560,7 +586,10 @@ const NewMessageModalRedesigned = ({ onClose, onSubmit }) => {
                 type="submit"
                 className="group relative flex-1 p-3 bg-orange-600 hover:bg-white text-black hover:text-black font-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105 border-2 border-black hover:border-orange-600"
               >
-                <span className="relative">🚀 ОТПРАВИТЬ</span>
+                <span className="relative flex items-center justify-center space-x-2">
+                  <Rocket className="w-4 h-4" />
+                  <span>ОТПРАВИТЬ</span>
+                </span>
                 <div className="absolute top-0.5 left-0.5 w-2 h-2 bg-black group-hover:bg-orange-600 transition-colors"></div>
                 <div className="absolute bottom-0.5 right-0.5 w-3 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
               </button>

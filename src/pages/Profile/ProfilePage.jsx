@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { Plus, FileText, MessageCircle, Heart, Settings } from 'lucide-react';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth/useAuth';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -348,7 +349,10 @@ const ProfilePage = () => {
               <Link
                 to="/create-listing"
                 style={{
-                  display: 'block',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   padding: '12px',
                   backgroundColor: '#28a745',
                   color: 'white',
@@ -358,13 +362,17 @@ const ProfilePage = () => {
                   fontWeight: 'bold'
                 }}
               >
-                ➕ Подать объявление
+                <Plus size={18} />
+                Подать объявление
               </Link>
 
               <Link
                 to="/my-listings"
                 style={{
-                  display: 'block',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   padding: '12px',
                   backgroundColor: '#007bff',
                   color: 'white',
@@ -374,13 +382,17 @@ const ProfilePage = () => {
                   fontWeight: 'bold'
                 }}
               >
-                📋 Мои объявления
+                <FileText size={18} />
+                Мои объявления
               </Link>
 
               <Link
                 to="/messages"
                 style={{
-                  display: 'block',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   padding: '12px',
                   backgroundColor: '#17a2b8',
                   color: 'white',
@@ -390,13 +402,17 @@ const ProfilePage = () => {
                   fontWeight: 'bold'
                 }}
               >
-                💬 Сообщения
+                <MessageCircle size={18} />
+                Сообщения
               </Link>
 
               <Link
                 to="/favorites"
                 style={{
-                  display: 'block',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   padding: '12px',
                   backgroundColor: '#dc3545',
                   color: 'white',
@@ -406,13 +422,17 @@ const ProfilePage = () => {
                   fontWeight: 'bold'
                 }}
               >
-                ❤️ Избранное
+                <Heart size={18} />
+                Избранное
               </Link>
 
               <Link
                 to="/settings"
                 style={{
-                  display: 'block',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   padding: '12px',
                   backgroundColor: '#6c757d',
                   color: 'white',
@@ -422,7 +442,8 @@ const ProfilePage = () => {
                   fontWeight: 'bold'
                 }}
               >
-                ⚙️ Настройки
+                <Settings size={18} />
+                Настройки
               </Link>
             </div>
           </div>
