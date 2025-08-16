@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const response = await api.get('/api/auth/me');
-          setUser(response.data);
+          setUser(response.data.data);
         } catch (error) {
           console.error('Auth initialization failed:', error);
         }
@@ -64,7 +64,6 @@ export const AuthProvider = ({ children }) => {
       
       
       setUser(user);
-      setUser(user);
       
       return user;
     } catch (error) {
@@ -112,5 +111,6 @@ export const useAuth = () => {
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
+  console.log("Context:", context)
   return context;
 };

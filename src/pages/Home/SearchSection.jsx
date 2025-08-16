@@ -15,14 +15,17 @@ const SearchSection = () => {
   const navigate = useNavigate();
 
   // Загружаем справочные данные
-  const { data: brands } = useQuery('brands', () => api.get('/api/cars/brands'));
+  const brands = useQuery('brands', () => api.get('/api/cars/brands'));
   console.log("Проблема в SearchSection", brands)
-  const { data: models } = useQuery(
+  const models = useQuery(
     ['models', filters.brand_id], 
     () => api.get(`/api/cars/brands/${filters.brand_id}/models`),
     { enabled: !!filters.brand_id }
   );
-  const { data: cities } = useQuery('cities', () => api.get('/api/locations/cities?popular=true'));
+  const cities = useQuery('cities', () => api.get('/api/locations/cities?popular=true'));
+  console.log("Модели: ", models);
+  console.log("Города: ", cities);
+  console.log("Бренды: ", brands);
 
   const handleFilterChange = (field, value) => {
     setFilters(prev => ({

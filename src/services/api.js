@@ -34,16 +34,21 @@ api.interceptors.response.use(
       
       try {
         const refreshToken = localStorage.getItem('refresh_token');
+        console.log(refreshToken)
         if (refreshToken) {
           const response = await axios.post(
             `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/refresh`,
-            { refresh_token: refreshToken }
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${refreshToken}`
+              }
+            }
           );
-          
+          console.log('Проверка ответа сервера', response)
           const { access_token } = response.data;
           localStorage.setItem('token', access_token);
-          
-          // Повторяем оригинальный запрос с новым токеном
+
           originalRequest.headers.Authorization = `Bearer ${access_token}`;
           return api(originalRequest);
         }
