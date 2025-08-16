@@ -1,35 +1,37 @@
-// src/pages/Payments/PaymentPage.jsx
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+// import { useParams, useNavigate } from 'react-router-dom';
 import { usePayments } from '../../hooks/api/usePayments';
 
 const PaymentPage = () => {
-  const { serviceId, listingId } = useParams();
-  const navigate = useNavigate();
+  // Mock data для демонстрации
+  const serviceId = '1';
+  const listingId = '123';
+  
+  const navigate = (path) => console.log('Navigate to:', path);
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [loading, setLoading] = useState(false);
   
   const { services, createPayment } = usePayments();
   
-  const service = services.data?.data?.find(s => s.service_id === parseInt(serviceId));
+  // Mock service data
+  const service = {
+    service_id: 1,
+    service_name: 'VIP РАЗМЕЩЕНИЕ',
+    description: 'Ваше объявление будет показано в топе результатов поиска на 30 дней',
+    price: 2000,
+    currency_code: '₸',
+    duration_days: 30
+  };
 
   const handlePayment = async () => {
     setLoading(true);
     
     try {
-      const response = await createPayment.mutateAsync({
-        service_id: parseInt(serviceId),
-        listing_id: parseInt(listingId),
-        payment_method: paymentMethod
-      });
-
-      // Перенаправляем на платежную систему
-      if (response.data.payment_url) {
-        window.location.href = response.data.payment_url;
-      } else {
-        alert('Платеж успешно создан!');
-        navigate('/payments/history');
-      }
+      // Mock payment process
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      alert('Платеж успешно создан!');
+      navigate('/payments/history');
     } catch (error) {
       console.error('Payment error:', error);
       alert('Ошибка при создании платежа');
@@ -38,83 +40,208 @@ const PaymentPage = () => {
     }
   };
 
-  if (!service) {
-    return <div>Услуга не найдена</div>;
-  }
+  const paymentMethods = [
+    { 
+      value: 'card', 
+      label: 'БАНКОВСКАЯ КАРТА', 
+      icon: '💳', 
+      description: 'Visa, MasterCard, МИР',
+      popular: true 
+    },
+    { 
+      value: 'kaspi', 
+      label: 'KASPI PAY', 
+      icon: '🏦', 
+      description: 'Быстрая оплата через Kaspi',
+      popular: true 
+    },
+    { 
+      value: 'qiwi', 
+      label: 'QIWI КОШЕЛЕК', 
+      icon: '🔶', 
+      description: 'Оплата через QIWI',
+      popular: false 
+    }
+  ];
 
   return (
-    <div style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
-      <h1>Оплата услуги</h1>
-
-      <div style={{ 
-        border: '1px solid #ddd', 
-        borderRadius: '8px', 
-        padding: '20px',
-        marginBottom: '20px'
-      }}>
-        <h3>{service.service_name}</h3>
-        <p>{service.description}</p>
-        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#007bff' }}>
-          {service.price.toLocaleString()} {service.currency_code}
+    <div className="bg-gray-900 min-h-screen p-6">
+      <div className="max-w-2xl mx-auto">
+        {/* Заголовок */}
+        <div className="mb-8">
+          <div className="bg-black border-4 border-orange-500 p-6 relative">
+            <h1 className="text-3xl md:text-4xl font-black uppercase tracking-wider text-white text-center mb-4">
+              <span className="text-orange-500">ОПЛАТА</span> УСЛУГИ
+            </h1>
+            <div className="w-full h-1 bg-orange-500"></div>
+            
+            {/* Декоративные элементы */}
+            <div className="absolute top-2 left-2 w-4 h-4 border-2 border-orange-500"></div>
+            <div className="absolute bottom-2 right-2 w-4 h-4 bg-orange-500"></div>
+          </div>
         </div>
-      </div>
 
-      <div style={{ marginBottom: '20px' }}>
-        <h4>Способ оплаты:</h4>
-        <div>
-          <label>
-            <input
-              type="radio"
-              value="card"
-              checked={paymentMethod === 'card'}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            Банковская карта
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="radio"
-              value="qiwi"
-              checked={paymentMethod === 'qiwi'}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            QIWI кошелек
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="radio"
-              value="kaspi"
-              checked={paymentMethod === 'kaspi'}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            Kaspi Pay
-          </label>
-        </div>
-      </div>
+        {/* Информация об услуге */}
+        <div className="mb-8">
+          <div className="bg-black border-4 border-white p-6 relative">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl">💎</span>
+              <h2 className="text-white font-black text-xl uppercase tracking-wider">
+                ДЕТАЛИ УСЛУГИ
+              </h2>
+              <div className="flex-1 h-1 bg-orange-500 ml-4"></div>
+            </div>
 
-      <button
-        onClick={handlePayment}
-        disabled={loading}
-        style={{
-          width: '100%',
-          padding: '15px',
-          backgroundColor: '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          fontSize: '18px',
-          cursor: loading ? 'not-allowed' : 'pointer'
-        }}
-      >
-        {loading ? 'Обработка...' : `Оплатить ${service.price.toLocaleString()} ${service.currency_code}`}
-      </button>
+            <div className="bg-gray-900 border-2 border-orange-500 p-6">
+              <h3 className="text-orange-500 font-black text-2xl uppercase tracking-wider mb-3">
+                {service.service_name}
+              </h3>
+              <p className="text-gray-300 font-bold mb-6">{service.description}</p>
+              
+              {/* Цена */}
+              <div className="bg-black border-2 border-white p-4 text-center">
+                <div className="text-orange-500 font-black text-sm uppercase tracking-wider mb-2">
+                  СТОИМОСТЬ:
+                </div>
+                <div className="text-white font-black text-4xl">
+                  {service.price.toLocaleString()} <span className="text-orange-500">{service.currency_code}</span>
+                </div>
+              </div>
 
-      <div style={{ marginTop: '20px', fontSize: '14px', color: '#666' }}>
-        <p>Нажимая кнопку "Оплатить", вы соглашаетесь с условиями предоставления услуг и политикой конфиденциальности.</p>
+              {/* Срок действия */}
+              {service.duration_days && (
+                <div className="mt-4 bg-blue-900 border-2 border-blue-500 p-3 text-center">
+                  <span className="text-blue-400 font-black text-sm uppercase tracking-wider">
+                    ⏰ СРОК ДЕЙСТВИЯ: {service.duration_days} ДНЕЙ
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Декоративный элемент */}
+            <div className="absolute top-2 right-2 w-3 h-3 bg-orange-500 opacity-50"></div>
+          </div>
+        </div>
+
+        {/* Способы оплаты */}
+        <div className="mb-8">
+          <div className="bg-black border-4 border-white p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-2xl">💳</span>
+              <h2 className="text-white font-black text-xl uppercase tracking-wider">
+                СПОСОБ ОПЛАТЫ
+              </h2>
+              <div className="flex-1 h-1 bg-orange-500 ml-4"></div>
+            </div>
+
+            <div className="space-y-4">
+              {paymentMethods.map((method) => (
+                <div key={method.value} className="relative">
+                  <input
+                    type="radio"
+                    id={method.value}
+                    value={method.value}
+                    checked={paymentMethod === method.value}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="sr-only"
+                  />
+                  <label
+                    htmlFor={method.value}
+                    className={`block p-4 border-4 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                      paymentMethod === method.value
+                        ? 'bg-orange-500 border-black text-black'
+                        : 'bg-gray-900 border-gray-600 text-white hover:border-orange-500'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-2xl">{method.icon}</span>
+                      <div className="flex-1">
+                        <div className="font-black text-lg uppercase tracking-wider flex items-center gap-2">
+                          {method.label}
+                          {method.popular && (
+                            <span className="bg-green-600 text-white text-xs px-2 py-1 font-black uppercase">
+                              ПОПУЛЯРНО
+                            </span>
+                          )}
+                        </div>
+                        <div className={`text-sm font-bold ${
+                          paymentMethod === method.value ? 'text-black' : 'text-gray-400'
+                        }`}>
+                          {method.description}
+                        </div>
+                      </div>
+                      <div className={`w-6 h-6 border-4 rounded-full ${
+                        paymentMethod === method.value
+                          ? 'bg-black border-black'
+                          : 'border-gray-600'
+                      }`}>
+                        {paymentMethod === method.value && (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="text-orange-500 font-black text-sm">✓</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Кнопка оплаты */}
+        <div className="mb-8">
+          <button
+            onClick={handlePayment}
+            disabled={loading}
+            className={`w-full py-6 font-black text-xl uppercase tracking-wider border-4 transition-all duration-300 transform
+              ${loading
+                ? 'bg-gray-800 border-gray-600 text-gray-400 cursor-not-allowed'
+                : 'bg-orange-500 border-black text-black hover:bg-orange-400 hover:scale-105 active:scale-95'
+              }`}
+          >
+            {loading ? (
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                ОБРАБОТКА...
+              </div>
+            ) : (
+              <>💰 ОПЛАТИТЬ {service.price.toLocaleString()} {service.currency_code}</>
+            )}
+          </button>
+        </div>
+
+        {/* Безопасность и условия */}
+        <div className="space-y-4">
+          {/* Безопасность */}
+          <div className="bg-black border-4 border-green-500 p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-green-500 text-lg">🛡️</span>
+              <div className="text-gray-300 text-sm">
+                <p className="font-bold uppercase mb-1 text-green-400">БЕЗОПАСНАЯ ОПЛАТА</p>
+                <p className="text-xs normal-case">
+                  Все платежи защищены SSL шифрованием и обрабатываются через сертифицированные платежные системы
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Условия */}
+          <div className="bg-black border-4 border-gray-600 p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-gray-400 text-lg">📋</span>
+              <div className="text-gray-400 text-xs">
+                <p className="font-bold uppercase mb-2">УСЛОВИЯ ОПЛАТЫ:</p>
+                <ul className="space-y-1 normal-case">
+                  <li>• Нажимая кнопку "Оплатить", вы соглашаетесь с условиями предоставления услуг</li>
+                  <li>• Услуга активируется автоматически после успешной оплаты</li>
+                  <li>• Возврат средств возможен в течение 24 часов при технических проблемах</li>
+                  <li>• Поддержка: support@kolesa.kz</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
