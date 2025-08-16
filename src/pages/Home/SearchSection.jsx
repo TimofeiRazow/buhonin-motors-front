@@ -15,14 +15,14 @@ const SearchSection = () => {
   const navigate = useNavigate();
 
   // Загружаем справочные данные
-  const brands = useQuery('brands', () => api.get('/api/cars/brands'));
+  const { data: brands } = useQuery('brands', () => api.get('/api/cars/brands'));
   console.log("Проблема в SearchSection", brands)
   const models = useQuery(
     ['models', filters.brand_id], 
     () => api.get(`/api/cars/brands/${filters.brand_id}/models`),
     { enabled: !!filters.brand_id }
   );
-  const cities = useQuery('cities', () => api.get('/api/locations/cities?popular=true'));
+  const { data: cities } = useQuery('cities', () => api.get('/api/locations/cities?popular=true'));
   console.log("Модели: ", models);
   console.log("Города: ", cities);
   console.log("Бренды: ", brands);
@@ -131,7 +131,7 @@ const SearchSection = () => {
               }}
             >
               <option value="">Любой город</option>
-              {cities?.data?.map(city => (
+              {cities?.data?.data.map(city => (
                 <option key={city.city_id} value={city.city_id}>
                   {city.city_name}
                 </option>

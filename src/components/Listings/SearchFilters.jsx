@@ -140,7 +140,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           }}
         >
           <option value="">Любой город</option>
-          {cities?.data?.map(city => (
+          {cities?.data?.data.map(city => (
             <option key={city.city_id} value={city.city_id}>
               {city.city_name}
             </option>
@@ -256,7 +256,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           }}
         >
           <option value="">Любой</option>
-          {bodyTypes?.data?.map(type => (
+          {bodyTypes?.data?.data.map(type => (
             <option key={type.body_type_id} value={type.body_type_id}>
               {type.body_type_name}
             </option>
@@ -280,7 +280,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           }}
         >
           <option value="">Любой</option>
-          {engineTypes?.data?.map(type => (
+          {engineTypes?.data?.data.map(type => (
             <option key={type.engine_type_id} value={type.engine_type_id}>
               {type.engine_type_name}
             </option>
@@ -304,7 +304,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           }}
         >
           <option value="">Любая</option>
-          {transmissions?.data?.map(transmission => (
+          {transmissions?.data?.data.map(transmission => (
             <option key={transmission.transmission_id} value={transmission.transmission_id}>
               {transmission.transmission_name}
             </option>
@@ -328,7 +328,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           }}
         >
           <option value="">Любой</option>
-          {driveTypes?.data?.map(type => (
+          {driveTypes?.data?.data.map(type => (
             <option key={type.drive_type_id} value={type.drive_type_id}>
               {type.drive_type_name}
             </option>
@@ -352,7 +352,7 @@ const SearchFilters = ({ filters, onFilterChange }) => {
           }}
         >
           <option value="">Любой</option>
-          {colors?.data?.map(color => (
+          {colors?.data?.data.map(color => (
             <option key={color.color_id} value={color.color_id}>
               {color.color_name}
             </option>

@@ -52,6 +52,8 @@ const CreateListingPage = () => {
   const { data: driveTypes } = useQuery('drive-types', () => api.get('/api/cars/drive-types'));
   const { data: colors } = useQuery('colors', () => api.get('/api/cars/colors'));
 
+  console.log(bodyTypes);
+
   // Мутация для создания объявления
   const createListingMutation = useMutation(
     (data) => api.post('/api/listings/', data),
@@ -368,7 +370,7 @@ const CreateListingPage = () => {
                   }}
                 >
                   <option value="">Не указан</option>
-                  {bodyTypes?.data?.map(type => (
+                  {bodyTypes?.data?.data.map(type => (
                     <option key={type.body_type_id} value={type.body_type_id}>
                       {type.body_type_name}
                     </option>
@@ -391,7 +393,7 @@ const CreateListingPage = () => {
                   }}
                 >
                   <option value="">Не указан</option>
-                  {engineTypes?.data?.map(type => (
+                  {engineTypes?.data?.data.map(type => (
                     <option key={type.engine_type_id} value={type.engine_type_id}>
                       {type.engine_type_name}
                     </option>

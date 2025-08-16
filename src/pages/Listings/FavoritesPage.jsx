@@ -60,7 +60,7 @@ const FavoritesPage = () => {
     }
   );
 
-  const favoritesData = favorites?.data || [];
+  const favoritesData = favorites?.data.data || [];
   
   // Пагинация
   const {
