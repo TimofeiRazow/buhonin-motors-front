@@ -1,6 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
+import { 
+  DollarSign, 
+  MapPin, 
+  Camera, 
+  ArrowLeft, 
+  Rocket, 
+  Target, 
+  AlertTriangle, 
+  Check, 
+  X, 
+  Loader2,
+  Sun,
+  Eye,
+  Settings
+} from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
@@ -94,11 +109,11 @@ const CreateListingPage = () => {
   const validateStep1 = () => {
     const newErrors = {};
     
-    if (!formData.brand_id) newErrors.brand_id = 'Выберите марку';
-    if (!formData.model_id) newErrors.model_id = 'Выберите модель';
-    if (!formData.year) newErrors.year = 'Укажите год выпуска';
-    if (!formData.mileage) newErrors.mileage = 'Укажите пробег';
-    if (!formData.condition) newErrors.condition = 'Укажите состояние';
+    if (!formData.brand_id) newErrors.brand_id = 'ВЫБЕРИТЕ МАРКУ';
+    if (!formData.model_id) newErrors.model_id = 'ВЫБЕРИТЕ МОДЕЛЬ';
+    if (!formData.year) newErrors.year = 'УКАЖИТЕ ГОД ВЫПУСКА';
+    if (!formData.mileage) newErrors.mileage = 'УКАЖИТЕ ПРОБЕГ';
+    if (!formData.condition) newErrors.condition = 'УКАЖИТЕ СОСТОЯНИЕ';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -107,9 +122,9 @@ const CreateListingPage = () => {
   const validateStep2 = () => {
     const newErrors = {};
     
-    if (!formData.title.trim()) newErrors.title = 'Введите заголовок';
-    if (!formData.price) newErrors.price = 'Укажите цену';
-    if (!formData.city_id) newErrors.city_id = 'Выберите город';
+    if (!formData.title.trim()) newErrors.title = 'ВВЕДИТЕ ЗАГОЛОВОК';
+    if (!formData.price) newErrors.price = 'УКАЖИТЕ ЦЕНУ';
+    if (!formData.city_id) newErrors.city_id = 'ВЫБЕРИТЕ ГОРОД';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -149,544 +164,384 @@ const CreateListingPage = () => {
   const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
 
   if (createListingMutation.isLoading) {
-    return <LoadingSpinner text="Создаем объявление..." />;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="text-center">
+          <Loader2 className="w-16 h-16 text-orange-600 animate-spin mx-auto mb-4" />
+          <p className="text-white font-black uppercase tracking-wider">СОЗДАЕМ ОБЪЯВЛЕНИЕ...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>
-        Подать объявление
-      </h1>
+    <div className="min-h-screen bg-black py-12 px-4">
+      <div className="relative max-w-4xl mx-auto">
+        {/* Фоновые декоративные элементы */}
+        <div className="absolute -top-10 -left-10 w-20 h-20 border-4 border-orange-600 rotate-45 opacity-20"></div>
+        <div className="absolute -top-6 -right-6 w-12 h-12 bg-orange-600 rotate-12 opacity-30"></div>
+        <div className="absolute -bottom-8 -left-8 w-8 h-8 bg-white opacity-25"></div>
+        <div className="absolute -bottom-12 -right-12 w-16 h-16 border-2 border-white rotate-45 opacity-15"></div>
 
-      {/* Прогресс */}
-      <div style={{
-        display: 'flex',
-        marginBottom: '30px',
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '8px',
-        border: '1px solid #ddd'
-      }}>
-        {[1, 2, 3].map(step => (
-          <div
-            key={step}
-            style={{
-              flex: 1,
-              textAlign: 'center',
-              position: 'relative'
-            }}
-          >
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              backgroundColor: currentStep >= step ? '#007bff' : '#e9ecef',
-              color: currentStep >= step ? 'white' : '#6c757d',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 'bold',
-              margin: '0 auto 10px'
-            }}>
-              {step}
+        {/* Основная форма */}
+        <div className="bg-black border-4 border-orange-600 relative overflow-hidden">
+          {/* Геометрические элементы */}
+          <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+          <div className="absolute bottom-0 right-0 w-full h-2 bg-white opacity-50"></div>
+          <div className="absolute top-6 right-6 w-6 h-6 bg-orange-600 rotate-45"></div>
+          <div className="absolute bottom-6 left-6 w-4 h-4 bg-white"></div>
+
+          <div className="relative z-10 p-8">
+            {/* Заголовок */}
+            <div className="text-center mb-12">
+              <h1 className="text-5xl font-black text-white uppercase tracking-wider mb-4">
+                ПРОДАТЬ
+                <span className="block text-orange-500 text-4xl">АВТОМОБИЛЬ</span>
+              </h1>
+              <div className="w-20 h-1 bg-orange-600 mx-auto"></div>
+              <p className="text-gray-400 font-bold uppercase tracking-wide text-sm mt-4">
+                СОЗДАЙТЕ ОБЪЯВЛЕНИЕ И НАЙДИТЕ ПОКУПАТЕЛЯ
+              </p>
             </div>
-            <div style={{
-              fontSize: '14px',
-              color: currentStep >= step ? '#007bff' : '#6c757d'
-            }}>
-              {step === 1 ? 'Характеристики' : step === 2 ? 'Описание' : 'Фотографии'}
+
+            {/* Прогресс */}
+            <div className="flex items-center justify-center mb-12 bg-gray-900 border-2 border-gray-700 p-6">
+              {[1, 2, 3].map((step, index) => (
+                <React.Fragment key={step}>
+                  <div className="flex flex-col items-center">
+                    <div className={`
+                      w-12 h-12 border-2 flex items-center justify-center font-black text-lg transition-all duration-300
+                      ${currentStep >= step 
+                        ? 'bg-orange-600 border-orange-600 text-black' 
+                        : 'bg-gray-800 border-gray-600 text-gray-400'
+                      }
+                    `}>
+                      {step}
+                    </div>
+                    <div className={`
+                      mt-3 font-black uppercase tracking-wider text-xs transition-colors duration-300
+                      ${currentStep >= step ? 'text-orange-500' : 'text-gray-500'}
+                    `}>
+                      {step === 1 ? 'АВТО' : step === 2 ? 'ОПИСАНИЕ' : 'ФОТО'}
+                    </div>
+                  </div>
+                  {index < 2 && (
+                    <div className={`
+                      flex-1 h-1 mx-6 transition-colors duration-300
+                      ${currentStep > step ? 'bg-orange-600' : 'bg-gray-700'}
+                    `}></div>
+                  )}
+                </React.Fragment>
+              ))}
             </div>
-            {step < 3 && (
-              <div style={{
-                position: 'absolute',
-                top: '20px',
-                right: '-50%',
-                width: '100%',
-                height: '2px',
-                backgroundColor: currentStep > step ? '#007bff' : '#e9ecef'
-              }} />
+
+            {/* Общая ошибка */}
+            {errors.general && (
+              <div className="bg-red-600 border-2 border-black text-white p-4 mb-8 relative">
+                <div className="absolute top-1 left-1 w-2 h-2 bg-black"></div>
+                <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-black"></div>
+                <p className="font-bold uppercase tracking-wide text-sm flex items-center">
+                  <AlertTriangle className="w-4 h-4 mr-2" />
+                  {errors.general}
+                </p>
+              </div>
             )}
-          </div>
-        ))}
-      </div>
-
-      {errors.general && (
-        <div style={{
-          backgroundColor: '#f8d7da',
-          color: '#721c24',
-          padding: '12px',
-          borderRadius: '4px',
-          marginBottom: '20px',
-          border: '1px solid #f5c6cb'
-        }}>
-          {errors.general}
-        </div>
-      )}
-
-      <div style={{
-        backgroundColor: 'white',
-        padding: '30px',
-        borderRadius: '8px',
-        border: '1px solid #ddd'
-      }}>
-        {/* Шаг 1: Характеристики автомобиля */}
-        {currentStep === 1 && (
-          <div>
-            <h2 style={{ marginTop: 0 }}>Характеристики автомобиля</h2>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Марка *
-                </label>
-                <select
-                  value={formData.brand_id}
-                  onChange={(e) => handleInputChange('brand_id', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: `1px solid ${errors.brand_id ? '#dc3545' : '#ddd'}`,
-                    borderRadius: '4px'
-                  }}
-                >
-                  <option value="">Выберите марку</option>
-                  {brands?.data?.data?.map(brand => (
-                    <option key={brand.brand_id} value={brand.brand_id}>
-                      {brand.brand_name}
-                    </option>
-                  ))}
-                </select>
-                {errors.brand_id && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.brand_id}</div>}
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Модель *
-                </label>
-                <select
-                  value={formData.model_id}
-                  onChange={(e) => handleInputChange('model_id', e.target.value)}
-                  disabled={!formData.brand_id}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: `1px solid ${errors.model_id ? '#dc3545' : '#ddd'}`,
-                    borderRadius: '4px',
-                    backgroundColor: !formData.brand_id ? '#f5f5f5' : 'white'
-                  }}
-                >
-                  <option value="">Выберите модель</option>
-                  {models?.data?.map(model => (
-                    <option key={model.model_id} value={model.model_id}>
-                      {model.model_name}
-                    </option>
-                  ))}
-                </select>
-                {errors.model_id && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.model_id}</div>}
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Год выпуска *
-                </label>
-                <select
-                  value={formData.year}
-                  onChange={(e) => handleInputChange('year', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: `1px solid ${errors.year ? '#dc3545' : '#ddd'}`,
-                    borderRadius: '4px'
-                  }}
-                >
-                  <option value="">Год</option>
-                  {years.map(year => (
-                    <option key={year} value={year}>{year}</option>
-                  ))}
-                </select>
-                {errors.year && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.year}</div>}
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Пробег, км *
-                </label>
-                <input
-                  type="number"
-                  value={formData.mileage}
-                  onChange={(e) => handleInputChange('mileage', e.target.value)}
-                  placeholder="100000"
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: `1px solid ${errors.mileage ? '#dc3545' : '#ddd'}`,
-                    borderRadius: '4px',
-                    boxSizing: 'border-box'
-                  }}
-                />
-                {errors.mileage && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.mileage}</div>}
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Состояние *
-                </label>
-                <select
-                  value={formData.condition}
-                  onChange={(e) => handleInputChange('condition', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: `1px solid ${errors.condition ? '#dc3545' : '#ddd'}`,
-                    borderRadius: '4px'
-                  }}
-                >
-                  <option value="">Выберите</option>
-                  <option value="excellent">Отличное</option>
-                  <option value="good">Хорошее</option>
-                  <option value="satisfactory">Удовлетворительное</option>
-                  <option value="repair_needed">Требует ремонта</option>
-                </select>
-                {errors.condition && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.condition}</div>}
-              </div>
-            </div>
-
-            {/* Дополнительные характеристики */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Тип кузова
-                </label>
-                <select
-                  value={formData.body_type_id}
-                  onChange={(e) => handleInputChange('body_type_id', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px'
-                  }}
-                >
-                  <option value="">Не указан</option>
-                  {bodyTypes?.data?.data.map(type => (
-                    <option key={type.body_type_id} value={type.body_type_id}>
-                      {type.body_type_name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Тип двигателя
-                </label>
-                <select
-                  value={formData.engine_type_id}
-                  onChange={(e) => handleInputChange('engine_type_id', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px'
-                  }}
-                >
-                  <option value="">Не указан</option>
-                  {engineTypes?.data?.data.map(type => (
-                    <option key={type.engine_type_id} value={type.engine_type_id}>
-                      {type.engine_type_name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <button
-              onClick={handleNextStep}
-              style={{
-                width: '100%',
-                padding: '12px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                fontSize: '16px',
-                cursor: 'pointer'
-              }}
-            >
-              Далее
-            </button>
-          </div>
-        )}
-
-        {/* Шаг 2: Описание и цена */}
-        {currentStep === 2 && (
-          <div>
-            <h2 style={{ marginTop: 0 }}>Описание и цена</h2>
-            
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                Заголовок объявления *
-              </label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => handleInputChange('title', e.target.value)}
-                placeholder="Toyota Camry 2018 в отличном состоянии"
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  border: `1px solid ${errors.title ? '#dc3545' : '#ddd'}`,
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  boxSizing: 'border-box'
-                }}
-              />
-              {errors.title && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.title}</div>}
-            </div>
-
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                Описание
-              </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-                placeholder="Опишите достоинства автомобиля, его техническое состояние, комплектацию..."
-                rows={6}
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  fontFamily: 'inherit',
-                  resize: 'vertical',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Цена, ₸ *
-                </label>
-                <input
-                  type="number"
-                  value={formData.price}
-                  onChange={(e) => handleInputChange('price', e.target.value)}
-                  placeholder="5000000"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: `1px solid ${errors.price ? '#dc3545' : '#ddd'}`,
-                    borderRadius: '4px',
-                    fontSize: '16px',
-                    boxSizing: 'border-box'
-                  }}
-                />
-                {errors.price && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.price}</div>}
-              </div>
-
-              <div>
-                <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  Город *
-                </label>
-                <select
-                  value={formData.city_id}
-                  onChange={(e) => handleInputChange('city_id', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: `1px solid ${errors.city_id ? '#dc3545' : '#ddd'}`,
-                    borderRadius: '4px'
-                  }}
-                >
-                  <option value="">Выберите город</option>
-                  {cities?.data?.map(city => (
-                    <option key={city.city_id} value={city.city_id}>
-                      {city.city_name}
-                    </option>
-                  ))}
-                </select>
-                {errors.city_id && <div style={{ color: '#dc3545', fontSize: '14px', marginTop: '5px' }}>{errors.city_id}</div>}
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                onClick={() => setCurrentStep(1)}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  backgroundColor: '#6c757d',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  cursor: 'pointer'
-                }}
-              >
-                Назад
-              </button>
-              <button
-                onClick={handleNextStep}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  cursor: 'pointer'
-                }}
-              >
-                Далее
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Шаг 3: Фотографии */}
-        {currentStep === 3 && (
-          <div>
-            <h2 style={{ marginTop: 0 }}>Фотографии</h2>
-            
-            <div style={{
-              border: '2px dashed #ddd',
-              borderRadius: '8px',
-              padding: '40px',
-              textAlign: 'center',
-              marginBottom: '20px',
-              backgroundColor: '#f8f9fa'
-            }}>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: 'none' }}
-                id="image-upload"
-              />
-              <label
-                htmlFor="image-upload"
-                style={{
-                  cursor: 'pointer',
-                  display: 'block'
-                }}
-              >
-                <div style={{ fontSize: '48px', marginBottom: '10px' }}>📷</div>
-                <div style={{ fontSize: '18px', marginBottom: '10px' }}>
-                  Добавьте фотографии автомобиля
+            {/* Шаг 1: Характеристики автомобиля */}
+            {currentStep === 1 && (
+              <div className="space-y-8">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-2">
+                    ХАРАКТЕРИСТИКИ
+                  </h2>
+                  <div className="w-16 h-0.5 bg-orange-600 mx-auto"></div>
                 </div>
-                <div style={{ fontSize: '14px', color: '#666' }}>
-                  Максимум 10 фотографий. Первая фотография будет главной.
-                </div>
-              </label>
-            </div>
-
-            {images.length > 0 && (
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                gap: '10px',
-                marginBottom: '20px'
-              }}>
-                {images.map((image, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      position: 'relative',
-                      aspectRatio: '1',
-                      border: '1px solid #ddd',
-                      borderRadius: '8px',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt={`Фото ${index + 1}`}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                    <button
-                      onClick={() => removeImage(index)}
-                      style={{
-                        position: 'absolute',
-                        top: '5px',
-                        right: '5px',
-                        width: '24px',
-                        height: '24px',
-                        borderRadius: '50%',
-                        backgroundColor: 'rgba(220, 53, 69, 0.8)',
-                        color: 'white',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: '14px'
-                      }}
-                    >
-                      ×
-                    </button>
-                    {index === 0 && (
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '5px',
-                        left: '5px',
-                        backgroundColor: 'rgba(0, 123, 255, 0.8)',
-                        color: 'white',
-                        padding: '2px 6px',
-                        borderRadius: '4px',
-                        fontSize: '12px'
-                      }}>
-                        Главная
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Марка */}
+                  <div className="group">
+                    <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                      МАРКА *
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={formData.brand_id}
+                        onChange={(e) => handleInputChange('brand_id', e.target.value)}
+                        className={`
+                          w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
+                          focus:outline-none focus:bg-black uppercase tracking-wide pr-12
+                          ${errors.brand_id 
+                            ? 'border-red-500 focus:border-red-400' 
+                            : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
+                          }
+                        `}
+                      >
+                        <option value="">ВЫБЕРИТЕ МАРКУ</option>
+                        {brands?.data?.data?.map(brand => (
+                          <option key={brand.brand_id} value={brand.brand_id}>
+                            {brand.brand_name}
+                          </option>
+                        ))}
+                      </select>
+                      <div className={`
+                        absolute top-2 left-2 w-2 h-2 transition-colors duration-300
+                        ${errors.brand_id ? 'bg-red-500' : 'bg-orange-600'}
+                      `}></div>
+                      <DollarSign className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                    </div>
+                    {errors.brand_id && (
+                      <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                        <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                        {errors.brand_id}
                       </div>
                     )}
                   </div>
-                ))}
+
+                  {/* Город */}
+                  <div className="group">
+                    <label className="block mb-3 text-white font-black uppercase tracking-wider text-sm">
+                      ГОРОД *
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={formData.city_id}
+                        onChange={(e) => handleInputChange('city_id', e.target.value)}
+                        className={`
+                          w-full p-4 bg-gray-900 text-white font-bold border-2 transition-all duration-300
+                          focus:outline-none focus:bg-black uppercase tracking-wide pr-12
+                          ${errors.city_id 
+                            ? 'border-red-500 focus:border-red-400' 
+                            : 'border-gray-700 focus:border-orange-500 hover:border-gray-600'
+                          }
+                        `}
+                      >
+                        <option value="">ВЫБЕРИТЕ ГОРОД</option>
+                        {cities?.data?.map(city => (
+                          <option key={city.city_id} value={city.city_id}>
+                            {city.city_name.toUpperCase()}
+                          </option>
+                        ))}
+                      </select>
+                      <div className={`
+                        absolute top-2 left-2 w-2 h-2 transition-colors duration-300
+                        ${errors.city_id ? 'bg-red-500' : 'bg-orange-600'}
+                      `}></div>
+                      <MapPin className="absolute right-4 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                    </div>
+                    {errors.city_id && (
+                      <div className="mt-2 text-red-400 font-bold uppercase tracking-wide text-xs flex items-center">
+                        <div className="w-2 h-2 bg-red-500 mr-2"></div>
+                        {errors.city_id}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Переключатель торга */}
+                <div className="group">
+                  <label className="flex items-center gap-4 cursor-pointer p-4 bg-gray-900 border-2 border-gray-700 hover:border-orange-500 transition-colors duration-300">
+                    <div className="relative">
+                      <input
+                        type="checkbox"
+                        checked={formData.is_negotiable}
+                        onChange={(e) => handleInputChange('is_negotiable', e.target.checked)}
+                        className="sr-only"
+                      />
+                      <div className={`w-6 h-6 border-2 flex items-center justify-center transition-colors duration-300 ${
+                        formData.is_negotiable 
+                          ? 'bg-orange-600 border-orange-600' 
+                          : 'bg-gray-800 border-gray-600'
+                      }`}>
+                        {formData.is_negotiable && (
+                          <Check className="text-black w-4 h-4" />
+                        )}
+                      </div>
+                    </div>
+                    <span className="text-white font-bold uppercase tracking-wide">
+                      ТОРГ ВОЗМОЖЕН
+                    </span>
+                  </label>
+                </div>
+
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setCurrentStep(1)}
+                    className="group relative flex-1 p-4 bg-gray-600 hover:bg-gray-700 text-white font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-gray-800"
+                  >
+                    <span className="relative flex items-center justify-center">
+                      <ArrowLeft className="w-5 h-5 mr-2" />
+                      НАЗАД
+                    </span>
+                    <div className="absolute top-1 left-1 w-3 h-3 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
+                    <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
+                  </button>
+                  <button
+                    onClick={handleNextStep}
+                    className="group relative flex-1 p-4 bg-orange-600 hover:bg-white text-black hover:text-black font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-black hover:border-orange-600"
+                  >
+                    <span className="relative flex items-center justify-center">
+                      <Rocket className="w-5 h-5 mr-2" />
+                      ДАЛЕЕ
+                    </span>
+                    <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
+                    <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
+                  </button>
+                </div>
               </div>
             )}
 
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                onClick={() => setCurrentStep(2)}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  backgroundColor: '#6c757d',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  cursor: 'pointer'
-                }}
-              >
-                Назад
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={createListingMutation.isLoading}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  backgroundColor: '#28a745',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontSize: '16px',
-                  cursor: 'pointer'
-                }}
-              >
-                {createListingMutation.isLoading ? 'Создание...' : 'Опубликовать'}
-              </button>
-            </div>
+            {/* Шаг 3: Фотографии */}
+            {currentStep === 3 && (
+              <div className="space-y-8">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-2">
+                    ФОТОГРАФИИ
+                  </h2>
+                  <div className="w-16 h-0.5 bg-orange-600 mx-auto"></div>
+                  <p className="text-gray-400 font-bold uppercase tracking-wide text-sm mt-4">
+                    ДОБАВЬТЕ ДО 10 ФОТОГРАФИЙ АВТОМОБИЛЯ
+                  </p>
+                </div>
+                
+                {/* Зона загрузки */}
+                <div className="relative">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                    id="image-upload"
+                  />
+                  <div className="border-4 border-dashed border-orange-600 bg-gray-900 p-12 text-center hover:bg-gray-800 transition-colors duration-300 cursor-pointer relative overflow-hidden">
+                    {/* Геометрические элементы */}
+                    <div className="absolute top-4 left-4 w-4 h-4 bg-orange-600 rotate-45"></div>
+                    <div className="absolute top-4 right-4 w-6 h-1 bg-white opacity-50"></div>
+                    <div className="absolute bottom-4 left-4 w-2 h-2 bg-white"></div>
+                    <div className="absolute bottom-4 right-4 w-3 h-3 border-2 border-orange-600"></div>
+                    
+                    <div className="relative z-5">
+                      <Camera className="text-orange-500 w-16 h-16 mx-auto mb-4" />
+                      <div className="text-2xl font-black text-white uppercase tracking-wider mb-4">
+                        ДОБАВИТЬ ФОТО
+                      </div>
+                      <div className="text-gray-400 font-bold uppercase tracking-wide text-sm">
+                        ПЕРЕТАЩИТЕ ФАЙЛЫ СЮДА ИЛИ НАЖМИТЕ ДЛЯ ВЫБОРА
+                      </div>
+                      <div className="text-orange-500 font-bold uppercase tracking-wide text-xs mt-2">
+                        МАКСИМУМ 10 ФОТОГРАФИЙ • ПЕРВАЯ БУДЕТ ГЛАВНОЙ
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Превью загруженных изображений */}
+                {images.length > 0 && (
+                  <div className="bg-gray-900 border-2 border-gray-700 p-6">
+                    <h3 className="text-white font-black uppercase tracking-wider text-lg mb-4 flex items-center">
+                      <span className="w-2 h-2 bg-orange-600 mr-3"></span>
+                      ЗАГРУЖЕННЫЕ ФОТО ({images.length}/10)
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                      {images.map((image, index) => (
+                        <div
+                          key={index}
+                          className="relative aspect-square border-2 border-gray-600 hover:border-orange-500 transition-colors duration-300 group overflow-hidden"
+                        >
+                          <img
+                            src={URL.createObjectURL(image)}
+                            alt={`Фото ${index + 1}`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute top-2 right-2 w-8 h-8 bg-red-600 hover:bg-red-500 text-white font-black text-sm border-2 border-black transition-colors duration-300 flex items-center justify-center"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                          {index === 0 && (
+                            <div className="absolute bottom-2 left-2 bg-orange-600 text-black px-2 py-1 font-black text-xs uppercase tracking-wide border border-black">
+                              ГЛАВНАЯ
+                            </div>
+                          )}
+                          <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Кнопки навигации */}
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setCurrentStep(2)}
+                    className="group relative flex-1 p-4 bg-gray-600 hover:bg-gray-700 text-white font-black uppercase tracking-wider text-lg transition-all duration-300 transform hover:scale-105 border-2 border-gray-800"
+                  >
+                    <span className="relative flex items-center justify-center">
+                      <ArrowLeft className="w-5 h-5 mr-2" />
+                      НАЗАД
+                    </span>
+                    <div className="absolute top-1 left-1 w-3 h-3 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
+                    <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-gray-800 group-hover:bg-gray-600 transition-colors"></div>
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    disabled={createListingMutation.isLoading}
+                    className={`
+                      group relative flex-1 p-4 font-black uppercase tracking-wider text-lg
+                      transition-all duration-300 transform border-2
+                      ${createListingMutation.isLoading
+                        ? 'bg-gray-600 border-gray-500 text-gray-300 cursor-not-allowed'
+                        : 'bg-green-600 hover:bg-white text-white hover:text-black border-black hover:border-green-600 hover:scale-105'
+                      }
+                    `}
+                  >
+                    <span className="relative flex items-center justify-center">
+                      {createListingMutation.isLoading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                          СОЗДАНИЕ...
+                        </>
+                      ) : (
+                        <>
+                          <Target className="w-5 h-5 mr-2" />
+                          ОПУБЛИКОВАТЬ
+                        </>
+                      )}
+                    </span>
+                    
+                    {!createListingMutation.isLoading && (
+                      <>
+                        <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-green-600 transition-colors"></div>
+                        <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-green-600 transition-colors"></div>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Дополнительная информация */}
+                <div className="bg-gray-900 border-2 border-gray-700 p-6 text-center">
+                  <h4 className="text-orange-500 font-black uppercase tracking-wider text-lg mb-3">
+                    СОВЕТЫ ПО ФОТОГРАФИЯМ
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-gray-300 font-bold text-sm">
+                    <div className="flex items-center justify-center">
+                      <Sun className="w-4 h-4 text-orange-600 mr-2" />
+                      СНИМАЙТЕ ПРИ ХОРОШЕМ ОСВЕЩЕНИИ
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <Eye className="w-4 h-4 text-orange-600 mr-2" />
+                      ПОКАЖИТЕ ВСЕ СТОРОНЫ АВТОМОБИЛЯ
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <Settings className="w-4 h-4 text-orange-600 mr-2" />
+                      ВКЛЮЧИТЕ САЛОН И ДВИГАТЕЛЬ
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

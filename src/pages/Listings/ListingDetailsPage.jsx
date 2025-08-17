@@ -1,6 +1,27 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import {
+  Car,
+  AlertTriangle,
+  Search,
+  MapPin,
+  ChevronRight,
+  Camera,
+  FileText,
+  Settings,
+  User,
+  Star,
+  Edit,
+  Heart,
+  Share2,
+  BarChart3,
+  Eye,
+  Calendar,
+  RefreshCw,
+  Zap,
+  Crown
+} from 'lucide-react';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth/useAuth';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -53,35 +74,40 @@ const ListingDetailsPage = () => {
     favoriteMutation.mutate();
   };
 
-  if (isLoading) return <LoadingSpinner text="Загружаем объявление..." />;
+  if (isLoading) {
+    return (
+      <div className="bg-black border-4 border-orange-600 p-16 text-center">
+        <Car className="w-16 h-16 text-orange-500 mx-auto mb-6" />
+        <p className="text-orange-100 font-black uppercase tracking-wider text-xl mb-6">
+          ЗАГРУЖАЕМ ОБЪЯВЛЕНИЕ...
+        </p>
+        <LoadingSpinner />
+      </div>
+    );
+  }
   
   if (error) {
     return (
-      <div style={{
-        textAlign: 'center',
-        padding: '60px 20px',
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        border: '1px solid #ddd'
-      }}>
-        <h2 style={{ color: '#dc3545', marginBottom: '10px' }}>
-          Объявление не найдено
+      <div className="bg-red-600 border-4 border-black p-12 text-center relative">
+        <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
+        <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
+        
+        <AlertTriangle className="w-16 h-16 text-white mx-auto mb-6" />
+        <h2 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
+          ОБЪЯВЛЕНИЕ
+          <span className="block">НЕ НАЙДЕНО</span>
         </h2>
-        <p style={{ color: '#666', marginBottom: '20px' }}>
-          Объявление может быть удалено или у вас нет прав для его просмотра.
+        <p className="text-white font-bold mb-8 uppercase tracking-wide">
+          ОБЪЯВЛЕНИЕ МОЖЕТ БЫТЬ УДАЛЕНО ИЛИ<br />
+          У ВАС НЕТ ПРАВ ДЛЯ ЕГО ПРОСМОТРА
         </p>
         <Link 
           to="/search"
-          style={{
-            display: 'inline-block',
-            padding: '10px 20px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            textDecoration: 'none',
-            borderRadius: '4px'
-          }}
+          className="group relative inline-flex items-center gap-2 bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
         >
-          Вернуться к поиску
+          <Search className="w-5 h-5" />
+          <span className="relative">ВЕРНУТЬСЯ К ПОИСКУ</span>
+          <div className="absolute top-1 left-1 w-3 h-3 bg-red-600 group-hover:bg-black transition-colors"></div>
         </Link>
       </div>
     );
@@ -91,7 +117,7 @@ const ListingDetailsPage = () => {
   if (!listingData) return null;
 
   const formatPrice = (price, currency) => {
-    if (!price) return 'Цена не указана';
+    if (!price) return 'ЦЕНА НЕ УКАЗАНА';
     return new Intl.NumberFormat('ru-KZ').format(price) + ' ' + (currency || '₸');
   };
 
@@ -106,254 +132,268 @@ const ListingDetailsPage = () => {
   const isOwner = user && user.user_id === listingData.user_id;
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="max-w-7xl mx-auto relative">
+      {/* Фоновые декоративные элементы */}
+      <div className="absolute top-10 right-10 w-8 h-8 border-2 border-orange-600 rotate-45 opacity-20"></div>
+      <div className="absolute top-1/3 left-10 w-4 h-4 bg-orange-600 rotate-12 opacity-30"></div>
+      
       {/* Breadcrumbs */}
-      <nav style={{ marginBottom: '20px', fontSize: '14px', color: '#666' }}>
-        <Link to="/" style={{ color: '#007bff', textDecoration: 'none' }}>Главная</Link>
-        {' > '}
-        <Link to="/search" style={{ color: '#007bff', textDecoration: 'none' }}>Поиск</Link>
-        {' > '}
-        <span>{listingData.title}</span>
+      <nav className="mb-6 p-4 bg-gray-900 border-2 border-orange-600 relative">
+        <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
+        <div className="text-orange-300 font-bold uppercase tracking-wider text-sm flex items-center">
+          <Link to="/" className="text-orange-400 hover:text-orange-200 no-underline transition-colors">
+            ГЛАВНАЯ
+          </Link>
+          <ChevronRight className="w-4 h-4 text-white mx-2" />
+          <Link to="/search" className="text-orange-400 hover:text-orange-200 no-underline transition-colors">
+            ПОИСК
+          </Link>
+          <ChevronRight className="w-4 h-4 text-white mx-2" />
+          <span className="text-orange-100">{listingData.title.toUpperCase()}</span>
+        </div>
       </nav>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px' }}>
-        {/* Левая колонка */}
-        <div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Левая колонка - основной контент */}
+        <div className="lg:col-span-2 space-y-6">
           {/* Заголовок */}
-          <div style={{ marginBottom: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
-              <h1 style={{ margin: 0, fontSize: '28px', flex: 1 }}>
-                {listingData.title}
-              </h1>
-              {(listingData.is_featured || listingData.is_urgent) && (
-                <div style={{ display: 'flex', gap: '5px' }}>
-                  {listingData.is_featured && (
-                    <span style={{
-                      backgroundColor: '#ffc107',
-                      color: '#333',
-                      padding: '4px 8px',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      fontWeight: 'bold'
-                    }}>
-                      VIP
-                    </span>
-                  )}
-                  {listingData.is_urgent && (
-                    <span style={{
-                      backgroundColor: '#dc3545',
-                      color: 'white',
-                      padding: '4px 8px',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      fontWeight: 'bold'
-                    }}>
-                      СРОЧНО
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
+          <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="absolute top-4 right-4 w-4 h-4 bg-orange-600 rotate-45"></div>
             
-            <div style={{
-              fontSize: '32px',
-              fontWeight: 'bold',
-              color: '#007bff',
-              marginBottom: '10px'
-            }}>
-              {formatPrice(listingData.price, listingData.currency_code)}
-            </div>
+            <div className="relative z-10">
+              <div className="flex items-start justify-between mb-4">
+                <h1 className="text-3xl font-black text-white uppercase tracking-wider flex-1 mr-4">
+                  {listingData.title}
+                </h1>
+                {(listingData.is_featured || listingData.is_urgent) && (
+                  <div className="flex gap-2">
+                    {listingData.is_featured && (
+                      <span className="bg-orange-600 text-black font-black px-3 py-1 text-xs uppercase tracking-wider border-2 border-black flex items-center gap-1">
+                        <Crown className="w-3 h-3" />
+                        VIP
+                      </span>
+                    )}
+                    {listingData.is_urgent && (
+                      <span className="bg-red-600 text-white font-black px-3 py-1 text-xs uppercase tracking-wider border-2 border-black flex items-center gap-1">
+                        <Zap className="w-3 h-3" />
+                        СРОЧНО
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+              
+              <div className="bg-orange-600 text-black font-black text-4xl p-4 mb-4 relative">
+                <div className="absolute top-1 right-1 w-3 h-3 bg-black"></div>
+                {formatPrice(listingData.price, listingData.currency_code)}
+              </div>
 
-            <div style={{ fontSize: '16px', color: '#666' }}>
-              📍 {listingData.city_name}
-              {listingData.region_name && `, ${listingData.region_name}`}
+              <div className="text-orange-300 font-bold text-lg flex items-center">
+                <div className="w-2 h-2 bg-orange-500 mr-3"></div>
+                <MapPin className="w-5 h-5 mr-2" />
+                {listingData.city_name?.toUpperCase()}
+                {listingData.region_name && `, ${listingData.region_name?.toUpperCase()}`}
+              </div>
             </div>
           </div>
 
           {/* Галерея изображений */}
-          <ImageGallery images={listingData.images || []} />
+          <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="absolute bottom-4 left-4 w-3 h-3 bg-white"></div>
+            
+            <div className="relative z-10">
+              <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
+                <Camera className="w-6 h-6 mr-2" />
+                ФОТОГРАФИИ
+                <div className="w-12 h-1 bg-orange-600 ml-4"></div>
+              </h3>
+              <ImageGallery images={listingData.images || []} />
+            </div>
+          </div>
 
           {/* Описание */}
           {listingData.description && (
-            <div style={{
-              backgroundColor: 'white',
-              padding: '20px',
-              borderRadius: '8px',
-              border: '1px solid #ddd',
-              marginTop: '20px'
-            }}>
-              <h3 style={{ marginTop: 0 }}>Описание</h3>
-              <div style={{ 
-                lineHeight: 1.6,
-                whiteSpace: 'pre-wrap'
-              }}>
-                {listingData.description}
+            <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+              <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+              <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
+              
+              <div className="relative z-10">
+                <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
+                  <FileText className="w-6 h-6 mr-2" />
+                  ОПИСАНИЕ
+                  <div className="w-12 h-1 bg-orange-600 ml-4"></div>
+                </h3>
+                <div className="text-orange-100 font-medium leading-relaxed whitespace-pre-wrap">
+                  {listingData.description}
+                </div>
               </div>
             </div>
           )}
 
           {/* Характеристики */}
           {listingData.attributes && (
-            <div style={{
-              backgroundColor: 'white',
-              padding: '20px',
-              borderRadius: '8px',
-              border: '1px solid #ddd',
-              marginTop: '20px'
-            }}>
-              <h3 style={{ marginTop: 0 }}>Характеристики</h3>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                gap: '15px'
-              }}>
-                {Object.entries(listingData.attributes).map(([key, value]) => (
-                  <div key={key} style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    paddingBottom: '8px',
-                    borderBottom: '1px solid #eee'
-                  }}>
-                    <span style={{ color: '#666' }}>{key}:</span>
-                    <span style={{ fontWeight: 'bold' }}>{value}</span>
-                  </div>
-                ))}
+            <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+              <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+              <div className="absolute bottom-4 right-4 w-4 h-4 bg-orange-600 rotate-45"></div>
+              
+              <div className="relative z-10">
+                <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
+                  <Settings className="w-6 h-6 mr-2" />
+                  ХАРАКТЕРИСТИКИ
+                  <div className="w-12 h-1 bg-orange-600 ml-4"></div>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {Object.entries(listingData.attributes).map(([key, value]) => (
+                    <div key={key} className="flex justify-between items-center p-3 bg-gray-900 border-2 border-gray-700 relative">
+                      <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
+                      <span className="text-orange-300 font-bold uppercase tracking-wide text-sm">
+                        {key}:
+                      </span>
+                      <span className="text-orange-100 font-black">
+                        {value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Правая колонка */}
-        <div>
+        {/* Правая колонка - информация о продавце и действия */}
+        <div className="space-y-6">
           {/* Информация о продавце */}
-          <div style={{
-            backgroundColor: 'white',
-            padding: '20px',
-            borderRadius: '8px',
-            border: '1px solid #ddd',
-            marginBottom: '20px'
-          }}>
-            <h3 style={{ marginTop: 0 }}>Продавец</h3>
+          <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="absolute top-4 right-4 w-3 h-3 bg-white"></div>
             
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
-              <div style={{
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-                backgroundColor: '#007bff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '18px',
-                fontWeight: 'bold'
-              }}>
-                {listingData.seller?.first_name?.charAt(0) || 'U'}
-              </div>
-              <div>
-                <div style={{ fontWeight: 'bold', fontSize: '16px' }}>
-                  {listingData.seller?.first_name} {listingData.seller?.last_name}
+            <div className="relative z-10">
+              <h3 className="text-xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
+                <User className="w-5 h-5 mr-2" />
+                ПРОДАВЕЦ
+              </h3>
+              
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 bg-orange-600 border-2 border-black flex items-center justify-center text-black font-black text-2xl">
+                  {listingData.seller?.first_name?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
-                {listingData.seller?.rating_average > 0 && (
-                  <div style={{ fontSize: '14px', color: '#666' }}>
-                    ⭐ {listingData.seller.rating_average.toFixed(1)} 
-                    ({listingData.seller.reviews_count} отзывов)
+                <div>
+                  <div className="text-orange-100 font-black text-lg uppercase">
+                    {listingData.seller?.first_name} {listingData.seller?.last_name}
                   </div>
-                )}
+                  {listingData.seller?.rating_average > 0 && (
+                    <div className="text-orange-300 font-bold text-sm flex items-center">
+                      <div className="w-2 h-2 bg-orange-500 mr-2"></div>
+                      <Star className="w-3 h-3 text-yellow-500 mr-1" />
+                      {listingData.seller.rating_average.toFixed(1)} 
+                      ({listingData.seller.reviews_count} ОТЗЫВОВ)
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {!isOwner && <ContactButtons listing={listingData} />}
+              {!isOwner && <ContactButtons listing={listingData} />}
 
-            {isOwner && (
-              <div style={{ display: 'flex', gap: '10px' }}>
+              {isOwner && (
                 <Link
                   to={`/edit-listing/${listingData.listing_id}`}
-                  style={{
-                    flex: 1,
-                    padding: '10px',
-                    backgroundColor: '#007bff',
-                    color: 'white',
-                    textDecoration: 'none',
-                    borderRadius: '4px',
-                    textAlign: 'center'
-                  }}
+                  className="group relative flex items-center justify-center gap-2 w-full bg-orange-600 hover:bg-white text-black font-black py-4 text-center border-2 border-black hover:border-orange-600 uppercase tracking-wider no-underline transition-all duration-300 transform hover:scale-105"
                 >
-                  Редактировать
+                  <Edit className="w-5 h-5" />
+                  <span className="relative">РЕДАКТИРОВАТЬ</span>
+                  <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
+                  <div className="absolute bottom-1 right-1 w-4 h-0.5 bg-black group-hover:bg-orange-600 transition-colors"></div>
                 </Link>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Действия */}
           {!isOwner && (
-            <div style={{
-              backgroundColor: 'white',
-              padding: '20px',
-              borderRadius: '8px',
-              border: '1px solid #ddd',
-              marginBottom: '20px'
-            }}>
-              <button
-                onClick={handleFavoriteClick}
-                disabled={favoriteMutation.isLoading}
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  backgroundColor: listingData.is_favorite ? '#dc3545' : 'white',
-                  color: listingData.is_favorite ? 'white' : '#dc3545',
-                  border: '2px solid #dc3545',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  marginBottom: '10px'
-                }}
-              >
-                {listingData.is_favorite ? '❤️ В избранном' : '🤍 В избранное'}
-              </button>
+            <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+              <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+              <div className="absolute bottom-4 left-4 w-3 h-3 bg-white"></div>
+              
+              <div className="relative z-10 space-y-4">
+                <button
+                  onClick={handleFavoriteClick}
+                  disabled={favoriteMutation.isLoading}
+                  className={`group relative w-full py-4 font-black uppercase tracking-wider border-2 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 ${
+                    listingData.is_favorite 
+                      ? 'bg-red-600 text-white border-black' 
+                      : 'bg-gray-900 text-red-400 border-red-600 hover:bg-red-600 hover:text-white'
+                  }`}
+                >
+                  <Heart className={`w-5 h-5 ${listingData.is_favorite ? 'fill-current' : ''}`} />
+                  <span className="relative">
+                    {listingData.is_favorite ? 'В ИЗБРАННОМ' : 'В ИЗБРАННОЕ'}
+                  </span>
+                  <div className={`absolute top-1 right-1 w-3 h-3 transition-colors ${
+                    listingData.is_favorite ? 'bg-black' : 'bg-red-600 group-hover:bg-black'
+                  }`}></div>
+                </button>
 
-              <button
-                onClick={() => navigator.share ? 
-                  navigator.share({
-                    title: listingData.title,
-                    text: listingData.description,
-                    url: window.location.href
-                  }) :
-                  navigator.clipboard.writeText(window.location.href)
-                }
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  backgroundColor: 'white',
-                  color: '#007bff',
-                  border: '2px solid #007bff',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '16px'
-                }}
-              >
-                📤 Поделиться
-              </button>
+                <button
+                  onClick={() => navigator.share ? 
+                    navigator.share({
+                      title: listingData.title,
+                      text: listingData.description,
+                      url: window.location.href
+                    }) :
+                    navigator.clipboard.writeText(window.location.href)
+                  }
+                  className="group relative w-full bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black py-4 font-black uppercase tracking-wider border-2 border-orange-600 hover:border-black transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <Share2 className="w-5 h-5" />
+                  <span className="relative">ПОДЕЛИТЬСЯ</span>
+                  <div className="absolute top-1 left-1 w-3 h-3 bg-orange-600 group-hover:bg-black transition-colors"></div>
+                </button>
+              </div>
             </div>
           )}
 
           {/* Статистика */}
-          <div style={{
-            backgroundColor: 'white',
-            padding: '20px',
-            borderRadius: '8px',
-            border: '1px solid #ddd'
-          }}>
-            <h4 style={{ marginTop: 0 }}>Статистика</h4>
-            <div style={{ fontSize: '14px', color: '#666' }}>
-              <div style={{ marginBottom: '8px' }}>
-                <strong>Просмотров:</strong> {listingData.view_count || 0}
-              </div>
-              <div style={{ marginBottom: '8px' }}>
-                <strong>Добавлено:</strong> {formatDate(listingData.created_date)}
-              </div>
-              <div>
-                <strong>Обновлено:</strong> {formatDate(listingData.updated_date)}
+          <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
+            <div className="absolute bottom-4 right-4 w-2 h-2 bg-orange-600"></div>
+            
+            <div className="relative z-10">
+              <h4 className="text-xl font-black text-white uppercase tracking-wider mb-6 flex items-center">
+                <BarChart3 className="w-5 h-5 mr-2" />
+                СТАТИСТИКА
+              </h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-3 bg-gray-900 border-2 border-gray-700">
+                  <div className="flex items-center gap-2">
+                    <Eye className="w-4 h-4 text-orange-300" />
+                    <span className="text-orange-300 font-bold uppercase text-sm">ПРОСМОТРОВ:</span>
+                  </div>
+                  <span className="text-orange-100 font-black">{listingData.view_count || 0}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-900 border-2 border-gray-700">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-orange-300" />
+                    <span className="text-orange-300 font-bold uppercase text-sm">ДОБАВЛЕНО:</span>
+                  </div>
+                  <span className="text-orange-100 font-black text-xs">{formatDate(listingData.created_date)}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-900 border-2 border-gray-700">
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="w-4 h-4 text-orange-300" />
+                    <span className="text-orange-300 font-bold uppercase text-sm">ОБНОВЛЕНО:</span>
+                  </div>
+                  <span className="text-orange-100 font-black text-xs">{formatDate(listingData.updated_date)}</span>
+                </div>
               </div>
             </div>
           </div>

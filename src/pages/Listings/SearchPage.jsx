@@ -2,6 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import {
+  Filter,
+  Search,
+  ChevronDown,
+  Crown,
+  Zap,
+  DollarSign,
+  Car,
+  Loader,
+  AlertTriangle,
+  RefreshCw,
+  Trash2,
+  Plus,
+  Lightbulb
+} from 'lucide-react';
 import api from '../../services/api';
 import SearchFilters from '../../components/Listings/SearchFilters';
 import ListingGrid from '../../components/Listings/ListingGrid';
@@ -78,225 +93,239 @@ const SearchPage = () => {
   const totalCount = listings?.data?.total || 0;
 
   return (
-    <div style={{ display: 'flex', gap: '20px', minHeight: '600px' }}>
+    <div className="flex gap-6 min-h-screen relative">
+      {/* Фоновые декоративные элементы */}
+      <div className="fixed top-20 right-10 w-8 h-8 border-2 border-orange-600 rotate-45 opacity-20 pointer-events-none"></div>
+      <div className="fixed top-1/3 left-10 w-4 h-4 bg-orange-600 rotate-12 opacity-30 pointer-events-none"></div>
+      
       {/* Фильтры */}
-      <div style={{ 
-        width: '300px', 
-        flexShrink: 0,
-        position: 'sticky',
-        top: '20px',
-        height: 'fit-content'
-      }}>
-        <SearchFilters 
-          filters={filters}
-          onFilterChange={handleFilterChange}
-        />
+      <div className="w-80 flex-shrink-0 sticky top-6 h-fit">
+        <div className="bg-black border-4 border-orange-600 p-6 relative overflow-hidden">
+          {/* Декоративные элементы */}
+          <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+          <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+          <div className="absolute top-4 right-4 w-3 h-3 bg-orange-600 rotate-45"></div>
+          
+          <div className="relative z-10">
+            <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+              <Filter className="w-6 h-6 text-orange-500" />
+              ФИЛЬТРЫ
+              <span className="block text-orange-500 text-lg">ПОИСКА</span>
+            </h2>
+            <div className="w-12 h-1 bg-orange-600 mb-6"></div>
+            
+            <SearchFilters 
+              filters={filters}
+              onFilterChange={handleFilterChange}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Результаты поиска */}
-      <div style={{ flex: 1 }}>
+      <div className="flex-1">
         {/* Заголовок и сортировка */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '20px',
-          padding: '20px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          border: '1px solid #ddd'
-        }}>
-          <div>
-            <h1 style={{ margin: 0, fontSize: '24px' }}>
-              {filters.q ? `Поиск: "${filters.q}"` : 'Объявления'}
-            </h1>
+        <div className="bg-black border-4 border-orange-600 p-6 mb-6 relative overflow-hidden">
+          {/* Декоративные элементы заголовка */}
+          <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+          <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+          <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
+          <div className="absolute bottom-4 right-4 w-4 h-4 bg-orange-600 rotate-45"></div>
+          
+          <div className="relative z-10 flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-black text-white uppercase tracking-wider mb-2 flex items-center gap-2">
+                {filters.q ? (
+                  <>
+                    <Search className="w-8 h-8 text-orange-500" />
+                    ПОИСК:
+                    <span className="block text-orange-500 text-2xl">"{filters.q}"</span>
+                  </>
+                ) : (
+                  <>
+                    <Car className="w-8 h-8 text-orange-500" />
+                    ВСЕ
+                    <span className="text-orange-500"> ОБЪЯВЛЕНИЯ</span>
+                  </>
+                )}
+              </h1>
+              {totalCount > 0 && (
+                <p className="text-orange-300 font-bold uppercase tracking-wide text-sm">
+                  НАЙДЕНО {totalCount.toLocaleString()} ОБЪЯВЛЕНИЙ
+                </p>
+              )}
+            </div>
+
             {totalCount > 0 && (
-              <p style={{ margin: '5px 0 0 0', color: '#666' }}>
-                Найдено {totalCount.toLocaleString()} объявлений
-              </p>
+              <div className="flex items-center gap-4">
+                <label className="text-orange-100 font-black uppercase tracking-wider text-sm">
+                  СОРТИРОВКА:
+                </label>
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => handleSortChange(e.target.value)}
+                    className="bg-gray-900 text-orange-100 font-bold border-2 border-gray-700 focus:border-orange-500 p-3 focus:outline-none appearance-none cursor-pointer uppercase tracking-wide text-sm"
+                  >
+                    <option value="date_desc">ПО ДАТЕ (НОВЫЕ)</option>
+                    <option value="date_asc">ПО ДАТЕ (СТАРЫЕ)</option>
+                    <option value="price_asc">ПО ЦЕНЕ (ДЕШЕВЫЕ)</option>
+                    <option value="price_desc">ПО ЦЕНЕ (ДОРОГИЕ)</option>
+                    <option value="mileage_asc">ПО ПРОБЕГУ (МЕНЬШЕ)</option>
+                    <option value="mileage_desc">ПО ПРОБЕГУ (БОЛЬШЕ)</option>
+                    <option value="year_desc">ПО ГОДУ (НОВЫЕ)</option>
+                    <option value="year_asc">ПО ГОДУ (СТАРЫЕ)</option>
+                    <option value="views_desc">ПО ПОПУЛЯРНОСТИ</option>
+                  </select>
+                  {/* Кастомная стрелка */}
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                    <ChevronDown className="w-4 h-4 text-orange-500" />
+                  </div>
+                  <div className="absolute top-2 left-2 w-2 h-2 bg-orange-600"></div>
+                </div>
+              </div>
             )}
           </div>
-
-          {totalCount > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <label htmlFor="sort-select" style={{ fontSize: '14px', color: '#666' }}>
-                Сортировка:
-              </label>
-              <select
-                id="sort-select"
-                value={sortBy}
-                onChange={(e) => handleSortChange(e.target.value)}
-                style={{
-                  padding: '8px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  backgroundColor: 'white'
-                }}
-              >
-                <option value="date_desc">По дате (новые)</option>
-                <option value="date_asc">По дате (старые)</option>
-                <option value="price_asc">По цене (дешевые)</option>
-                <option value="price_desc">По цене (дорогие)</option>
-                <option value="mileage_asc">По пробегу (меньше)</option>
-                <option value="mileage_desc">По пробегу (больше)</option>
-                <option value="year_desc">По году (новые)</option>
-                <option value="year_asc">По году (старые)</option>
-                <option value="views_desc">По популярности</option>
-              </select>
-            </div>
-          )}
         </div>
 
         {/* Быстрые фильтры */}
         {totalCount > 0 && (
-          <div style={{
-            display: 'flex',
-            gap: '10px',
-            marginBottom: '20px',
-            flexWrap: 'wrap'
-          }}>
+          <div className="flex gap-3 mb-6 flex-wrap">
             <button
               onClick={() => handleFilterChange({ ...filters, featured: filters.featured ? '' : 'true' })}
-              style={{
-                padding: '8px 16px',
-                border: '1px solid #ddd',
-                borderRadius: '20px',
-                backgroundColor: filters.featured ? '#007bff' : 'white',
-                color: filters.featured ? 'white' : '#333',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                filters.featured 
+                  ? 'bg-orange-600 border-black text-black' 
+                  : 'bg-gray-900 border-orange-600 text-orange-100 hover:bg-orange-600 hover:text-black'
+              }`}
             >
-              ⭐ Рекомендуемые
+              <Crown className="w-4 h-4" />
+              <span className="relative">РЕКОМЕНДУЕМЫЕ</span>
+              <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
+                filters.featured ? 'bg-black' : 'bg-orange-600 group-hover:bg-black'
+              }`}></div>
             </button>
             
             <button
               onClick={() => handleFilterChange({ ...filters, urgent: filters.urgent ? '' : 'true' })}
-              style={{
-                padding: '8px 16px',
-                border: '1px solid #ddd',
-                borderRadius: '20px',
-                backgroundColor: filters.urgent ? '#dc3545' : 'white',
-                color: filters.urgent ? 'white' : '#333',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                filters.urgent 
+                  ? 'bg-red-600 border-black text-white' 
+                  : 'bg-gray-900 border-red-600 text-red-400 hover:bg-red-600 hover:text-white'
+              }`}
             >
-              🔥 Срочно
+              <Zap className="w-4 h-4" />
+              <span className="relative">СРОЧНО</span>
+              <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
+                filters.urgent ? 'bg-black' : 'bg-red-600 group-hover:bg-black'
+              }`}></div>
             </button>
 
             <button
               onClick={() => handleFilterChange({ ...filters, price_to: filters.price_to ? '' : '2000000' })}
-              style={{
-                padding: '8px 16px',
-                border: '1px solid #ddd',
-                borderRadius: '20px',
-                backgroundColor: filters.price_to === '2000000' ? '#28a745' : 'white',
-                color: filters.price_to === '2000000' ? 'white' : '#333',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                filters.price_to === '2000000' 
+                  ? 'bg-green-600 border-black text-white' 
+                  : 'bg-gray-900 border-green-600 text-green-400 hover:bg-green-600 hover:text-white'
+              }`}
             >
-              💰 До 2 млн
+              <DollarSign className="w-4 h-4" />
+              <span className="relative">ДО 2 МЛН</span>
+              <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
+                filters.price_to === '2000000' ? 'bg-black' : 'bg-green-600 group-hover:bg-black'
+              }`}></div>
             </button>
 
             <button
               onClick={() => handleFilterChange({ ...filters, year_from: filters.year_from ? '' : '2015' })}
-              style={{
-                padding: '8px 16px',
-                border: '1px solid #ddd',
-                borderRadius: '20px',
-                backgroundColor: filters.year_from === '2015' ? '#17a2b8' : 'white',
-                color: filters.year_from === '2015' ? 'white' : '#333',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
+              className={`group relative px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                filters.year_from === '2015' 
+                  ? 'bg-blue-600 border-black text-white' 
+                  : 'bg-gray-900 border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white'
+              }`}
             >
-              🚗 От 2015 года
+              <Car className="w-4 h-4" />
+              <span className="relative">ОТ 2015 ГОДА</span>
+              <div className={`absolute top-1 right-1 w-2 h-2 transition-colors ${
+                filters.year_from === '2015' ? 'bg-black' : 'bg-blue-600 group-hover:bg-black'
+              }`}></div>
             </button>
           </div>
         )}
 
         {/* Загрузка */}
         {isLoading && (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}>
+          <div className="bg-black border-4 border-orange-600 p-16 text-center">
+            <Loader className="w-12 h-12 text-orange-500 mx-auto mb-4 animate-spin" />
+            <p className="text-orange-100 font-black uppercase tracking-wider text-lg">
+              ЗАГРУЖАЕМ ОБЪЯВЛЕНИЯ...
+            </p>
             <LoadingSpinner />
           </div>
         )}
 
         {/* Ошибка */}
         {error && (
-          <div style={{
-            padding: '40px',
-            textAlign: 'center',
-            backgroundColor: '#f8d7da',
-            color: '#721c24',
-            borderRadius: '8px',
-            border: '1px solid #f5c6cb'
-          }}>
-            <h3>Ошибка загрузки</h3>
-            <p>Не удалось загрузить объявления. Попробуйте обновить страницу.</p>
+          <div className="bg-red-600 border-4 border-black p-8 text-center relative">
+            <div className="absolute top-2 left-2 w-4 h-4 bg-black"></div>
+            <div className="absolute bottom-2 right-2 w-6 h-1 bg-black"></div>
+            
+            <AlertTriangle className="w-12 h-12 text-white mx-auto mb-4" />
+            <h3 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
+              ОШИБКА ЗАГРУЗКИ
+            </h3>
+            <p className="text-white font-bold mb-6">
+              НЕ УДАЛОСЬ ЗАГРУЗИТЬ ОБЪЯВЛЕНИЯ. ПОПРОБУЙТЕ ОБНОВИТЬ СТРАНИЦУ.
+            </p>
             <button
               onClick={() => window.location.reload()}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#dc3545',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
+              className="group relative bg-black hover:bg-white text-red-600 hover:text-black font-black px-8 py-4 border-2 border-red-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto"
             >
-              Обновить
+              <RefreshCw className="w-5 h-5" />
+              <span className="relative">ОБНОВИТЬ</span>
+              <div className="absolute top-1 left-1 w-3 h-3 bg-red-600 group-hover:bg-black transition-colors"></div>
             </button>
           </div>
         )}
 
         {/* Нет результатов */}
         {!isLoading && !error && totalCount === 0 && (
-          <div style={{
-            padding: '60px 40px',
-            textAlign: 'center',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #ddd'
-          }}>
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>🔍</div>
-            <h3 style={{ marginBottom: '15px' }}>Объявления не найдены</h3>
-            <p style={{ color: '#666', marginBottom: '20px' }}>
-              Попробуйте изменить параметры поиска или расширить критерии фильтрации
+          <div className="bg-black border-4 border-orange-600 p-12 text-center relative">
+            <div className="absolute top-0 left-0 w-full h-2 bg-orange-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-2 bg-white opacity-50"></div>
+            <div className="absolute top-4 right-4 w-4 h-4 bg-orange-600 rotate-45"></div>
+            <div className="absolute bottom-4 left-4 w-3 h-3 bg-white"></div>
+            
+            <Search className="w-16 h-16 text-orange-500 mx-auto mb-6" />
+            <h3 className="text-3xl font-black text-white uppercase tracking-wider mb-4">
+              ОБЪЯВЛЕНИЯ
+              <span className="block text-orange-500">НЕ НАЙДЕНЫ</span>
+            </h3>
+            <p className="text-orange-300 font-bold uppercase tracking-wide text-sm mb-8">
+              ПОПРОБУЙТЕ ИЗМЕНИТЬ ПАРАМЕТРЫ ПОИСКА<br />
+              ИЛИ РАСШИРИТЬ КРИТЕРИИ ФИЛЬТРАЦИИ
             </p>
             
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+            <div className="flex gap-4 justify-center">
               <button
                 onClick={() => {
                   setSearchParams(new URLSearchParams());
                   setCurrentPage(1);
                 }}
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}
+                className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 border-2 border-black hover:border-orange-600 uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
               >
-                Сбросить фильтры
+                <Trash2 className="w-5 h-5" />
+                <span className="relative">СБРОСИТЬ ФИЛЬТРЫ</span>
+                <div className="absolute top-1 left-1 w-3 h-3 bg-black group-hover:bg-orange-600 transition-colors"></div>
               </button>
               
               <button
                 onClick={() => window.location.href = '/create-listing'}
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#28a745',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}
+                className="group relative bg-gray-900 hover:bg-orange-600 text-orange-100 hover:text-black font-black px-8 py-4 border-2 border-orange-600 hover:border-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
               >
-                Подать объявление
+                <Plus className="w-5 h-5" />
+                <span className="relative">ПОДАТЬ ОБЪЯВЛЕНИЕ</span>
+                <div className="absolute top-1 right-1 w-3 h-3 bg-orange-600 group-hover:bg-black transition-colors"></div>
               </button>
             </div>
           </div>
@@ -309,7 +338,7 @@ const SearchPage = () => {
             
             {/* Пагинация */}
             {totalPages > 1 && (
-              <div style={{ marginTop: '40px' }}>
+              <div className="mt-8">
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
@@ -319,35 +348,44 @@ const SearchPage = () => {
             )}
 
             {/* Информация о результатах */}
-            <div style={{
-              marginTop: '20px',
-              padding: '15px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '4px',
-              textAlign: 'center',
-              fontSize: '14px',
-              color: '#666'
-            }}>
-              Показано {((currentPage - 1) * 20) + 1}-{Math.min(currentPage * 20, totalCount)} из {totalCount.toLocaleString()} объявлений
+            <div className="mt-6 bg-gray-900 border-2 border-orange-600 p-4 text-center relative">
+              <div className="absolute top-1 left-1 w-2 h-2 bg-orange-600"></div>
+              <div className="absolute bottom-1 right-1 w-3 h-0.5 bg-white"></div>
+              <p className="text-orange-200 font-bold uppercase tracking-wide text-sm">
+                ПОКАЗАНО {((currentPage - 1) * 20) + 1}-{Math.min(currentPage * 20, totalCount)} ИЗ {totalCount.toLocaleString()} ОБЪЯВЛЕНИЙ
+              </p>
             </div>
           </>
         )}
 
         {/* Советы по поиску */}
         {!isLoading && totalCount > 0 && totalCount < 5 && (
-          <div style={{
-            marginTop: '30px',
-            padding: '20px',
-            backgroundColor: '#e7f3ff',
-            borderRadius: '8px',
-            border: '1px solid #b3d9ff'
-          }}>
-            <h4 style={{ marginTop: 0, color: '#0066cc' }}>💡 Советы для лучшего поиска:</h4>
-            <ul style={{ margin: 0, paddingLeft: '20px', color: '#0066cc' }}>
-              <li>Попробуйте расширить диапазон цен</li>
-              <li>Уберите некоторые фильтры</li>
-              <li>Рассмотрите другие города</li>
-              <li>Попробуйте похожие марки или модели</li>
+          <div className="mt-8 bg-blue-900 border-4 border-blue-600 p-6 relative">
+            <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+            <div className="absolute bottom-0 right-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="absolute top-4 left-4 w-3 h-3 bg-white"></div>
+            
+            <h4 className="text-xl font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-yellow-400" />
+              СОВЕТЫ ДЛЯ ЛУЧШЕГО ПОИСКА
+            </h4>
+            <ul className="text-blue-200 font-bold space-y-2">
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                ПОПРОБУЙТЕ РАСШИРИТЬ ДИАПАЗОН ЦЕН
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                УБЕРИТЕ НЕКОТОРЫЕ ФИЛЬТРЫ
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                РАССМОТРИТЕ ДРУГИЕ ГОРОДА
+              </li>
+              <li className="flex items-center">
+                <div className="w-2 h-2 bg-blue-400 mr-3"></div>
+                ПОПРОБУЙТЕ ПОХОЖИЕ МАРКИ ИЛИ МОДЕЛИ
+              </li>
             </ul>
           </div>
         )}

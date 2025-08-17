@@ -19,36 +19,25 @@ const PopularBrands = () => {
   if (brandsData.length === 0) return null;
 
   return (
-    <section style={{ marginBottom: '40px' }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '20px'
-      }}>
-        <h2 style={{ margin: 0 }}>Популярные марки</h2>
+    <section className="mb-16">
+      <div className="flex justify-between items-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-wider m-0">
+          ПОПУЛЯРНЫЕ
+          <span className="text-orange-500"> БРЕНДЫ</span>
+        </h2>
         <Link 
           to="/search"
-          style={{
-            color: '#007bff',
-            textDecoration: 'none',
-            fontSize: '14px'
-          }}
+          className="group relative bg-white hover:bg-orange-600 text-black hover:text-white font-black px-6 py-3 text-sm uppercase tracking-wider transition-all duration-300 transform hover:scale-105"
         >
-          Все марки →
+          <div className="absolute inset-0 border-2 border-black transition-colors"></div>
+          <span className="relative">ВСЕ МАРКИ →</span>
         </Link>
       </div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-        gap: '15px'
-      }}>
-
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {brandsData.data ? brandsData.data.map(brand => (
           <BrandCard key={brand.brand_id} brand={brand} />
-        ))
-      : <></>}
+        )) : <></>}
       </div>
     </section>
   );
@@ -56,108 +45,67 @@ const PopularBrands = () => {
 
 const BrandCard = ({ brand }) => {
   console.log("Проблема в BrandCard", brand)
+  
   return (
     <Link
       to={`/search?brand_id=${brand.brand_id}`}
-      style={{
-        textDecoration: 'none',
-        color: 'inherit',
-        display: 'block'
-      }}
+      className="group block text-white hover:text-white no-underline"
     >
-      <div style={{
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        padding: '20px',
-        textAlign: 'center',
-        backgroundColor: 'white',
-        transition: 'all 0.2s',
-        cursor: 'pointer'
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
-      >
+      <div className="relative bg-gray-900 border-4 border-gray-700 hover:border-orange-500 transition-all duration-300 transform hover:scale-110 hover:shadow-2xl p-6 text-center overflow-hidden">
+        {/* Геометрические элементы фона */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-orange-600"></div>
+        <div className="absolute top-2 right-2 w-3 h-3 bg-orange-600 group-hover:bg-white transition-colors"></div>
+        <div className="absolute bottom-2 left-2 w-4 h-1 bg-white group-hover:bg-orange-600 transition-colors"></div>
+
         {/* Логотип */}
-        <div style={{
-          width: '60px',
-          height: '60px',
-          margin: '0 auto 15px',
-          backgroundColor: '#f8f9fa',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden'
-        }}>
+        <div className="relative w-16 h-16 mx-auto mb-4 bg-black border-2 border-orange-500 flex items-center justify-center overflow-hidden group-hover:bg-orange-600 transition-colors">
+          {/* Декоративные элементы */}
+          <div className="absolute top-1 left-1 w-2 h-2 bg-orange-500 group-hover:bg-black transition-colors"></div>
+          
           {brand.logo_url ? (
             <img
               src={brand.logo_url}
               alt={brand.brand_name}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain'
-              }}
+              className="max-w-full max-h-full object-contain filter group-hover:brightness-0 transition-all"
               onError={(e) => {
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'block';
               }}
             />
           ) : (
-            <div style={{
-              fontSize: '24px',
-              fontWeight: 'bold',
-              color: '#007bff'
-            }}>
+            <div className="text-2xl font-black text-orange-500 group-hover:text-black transition-colors">
               {brand.brand_name.charAt(0)}
             </div>
           )}
-          <div style={{
-            display: 'none',
-            fontSize: '24px',
-            fontWeight: 'bold',
-            color: '#007bff'
-          }}>
+          <div className="hidden text-2xl font-black text-orange-500 group-hover:text-black transition-colors">
             {brand.brand_name.charAt(0)}
           </div>
         </div>
 
         {/* Название */}
-        <h3 style={{
-          margin: '0 0 8px 0',
-          fontSize: '16px',
-          fontWeight: 'bold'
-        }}>
+        <h3 className="font-black text-base mb-2 text-white uppercase tracking-wider leading-tight">
           {brand.brand_name}
         </h3>
 
         {/* Количество объявлений */}
         {brand.listings_count && (
-          <p style={{
-            margin: 0,
-            fontSize: '14px',
-            color: '#666'
-          }}>
-            {brand.listings_count} объявлений
-          </p>
+          <div className="bg-orange-600 text-black font-bold px-2 py-1 text-xs mb-2 inline-block uppercase tracking-wide">
+            {brand.listings_count} АВТО
+          </div>
         )}
 
         {/* Страна происхождения */}
         {brand.country_origin && (
-          <p style={{
-            margin: '5px 0 0 0',
-            fontSize: '12px',
-            color: '#999'
-          }}>
+          <p className="text-gray-400 font-bold text-xs uppercase tracking-wider m-0">
             {brand.country_origin}
           </p>
         )}
+
+        {/* Hover эффект - дополнительные элементы */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <div className="absolute top-0 right-0 w-0 h-0 border-l-8 border-l-transparent border-b-8 border-b-orange-600"></div>
+          <div className="absolute bottom-0 left-0 w-0 h-0 border-r-8 border-r-transparent border-t-8 border-t-white"></div>
+        </div>
       </div>
     </Link>
   );

@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import {
+  Plus,
+  Calendar,
+  Eye,
+  Heart,
+  Clock,
+  Edit,
+  Pause,
+  Check,
+  Send,
+  RotateCcw,
+  Trash2,
+  FileText
+} from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 import Pagination from '../../components/Common/Pagination';
@@ -54,23 +68,30 @@ const MyListingsPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (isLoading) return <LoadingSpinner text="Загружаем ваши объявления..." />;
+  if (isLoading) {
+    return (
+      <div className="bg-black min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-white font-black text-xl mt-4 uppercase tracking-wider">
+            ЗАГРУЖАЕМ ОБЪЯВЛЕНИЯ...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
-      <div style={{
-        textAlign: 'center',
-        padding: '60px 20px',
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        border: '1px solid #ddd'
-      }}>
-        <h3 style={{ color: '#dc3545', marginBottom: '10px' }}>
-          Ошибка загрузки
-        </h3>
-        <p style={{ color: '#666' }}>
-          Не удалось загрузить объявления. Попробуйте обновить страницу.
-        </p>
+      <div className="bg-black min-h-screen flex items-center justify-center">
+        <div className="bg-gray-900 p-12 border-4 border-orange-600 text-center">
+          <h3 className="text-3xl font-black text-red-500 mb-4 uppercase tracking-wider">
+            ОШИБКА ЗАГРУЗКИ
+          </h3>
+          <p className="text-gray-300 font-bold uppercase">
+            НЕ УДАЛОСЬ ЗАГРУЗИТЬ ОБЪЯВЛЕНИЯ
+          </p>
+        </div>
       </div>
     );
   }
@@ -80,152 +101,144 @@ const MyListingsPage = () => {
   const totalCount = listings?.data?.total || 0;
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '20px'
-      }}>
-        <h1 style={{ margin: 0 }}>Мои объявления ({totalCount})</h1>
-        <Link
-          to="/create-listing"
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#28a745',
-            color: 'white',
-            textDecoration: 'none',
-            borderRadius: '4px',
-            fontWeight: 'bold'
-          }}
-        >
-          ➕ Подать объявление
-        </Link>
-      </div>
-
-      {/* Фильтры и сортировка */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '20px',
-        padding: '15px',
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        border: '1px solid #ddd'
-      }}>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <span style={{ fontSize: '14px', color: '#666' }}>Статус:</span>
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            style={{
-              padding: '8px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              backgroundColor: 'white'
-            }}
-          >
-            <option value="all">Все</option>
-            <option value="active">Активные</option>
-            <option value="draft">Черновики</option>
-            <option value="moderation">На модерации</option>
-            <option value="sold">Проданные</option>
-            <option value="archived">Архив</option>
-            <option value="expired">Истекшие</option>
-          </select>
+    <div className="bg-black min-h-screen text-white">
+      {/* Header Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-orange-600">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-24 h-24 border-4 border-orange-500 rotate-45"></div>
+          <div className="absolute top-20 right-20 w-16 h-16 bg-orange-600 rotate-12"></div>
         </div>
-
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <span style={{ fontSize: '14px', color: '#666' }}>Сортировка:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            style={{
-              padding: '8px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              backgroundColor: 'white'
-            }}
-          >
-            <option value="date_desc">Сначала новые</option>
-            <option value="date_asc">Сначала старые</option>
-            <option value="views_desc">По просмотрам</option>
-            <option value="price_desc">По цене (убыв.)</option>
-            <option value="price_asc">По цене (возр.)</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Список объявлений */}
-      {listingsData.length === 0 ? (
-        <div style={{
-          textAlign: 'center',
-          padding: '60px 20px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          border: '1px solid #ddd'
-        }}>
-          <div style={{ fontSize: '48px', marginBottom: '15px' }}>📋</div>
-          <h3 style={{ marginBottom: '10px' }}>
-            {statusFilter === 'all' ? 'У вас нет объявлений' : `Нет объявлений со статусом "${statusFilter}"`}
-          </h3>
-          <p style={{ color: '#666', marginBottom: '20px' }}>
-            Создайте первое объявление, чтобы начать продавать
-          </p>
-          <Link
-            to="/create-listing"
-            style={{
-              display: 'inline-block',
-              padding: '12px 24px',
-              backgroundColor: '#28a745',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              fontWeight: 'bold'
-            }}
-          >
-            Создать объявление
-          </Link>
-        </div>
-      ) : (
-        <>
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #ddd',
-            overflow: 'hidden'
-          }}>
-            {listingsData.map((listing, index) => (
-              <ListingItem
-                key={listing.listing_id}
-                listing={listing}
-                isLast={index === listingsData.length - 1}
-                onAction={handleAction}
-                onEdit={() => navigate(`/edit-listing/${listing.listing_id}`)}
-                onView={() => navigate(`/listings/${listing.listing_id}`)}
-              />
-            ))}
-          </div>
-
-          {totalPages > 1 && (
-            <div style={{ marginTop: '20px' }}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+        
+        <div className="relative z-10 px-4 py-16">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div>
+              <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-wider">
+                <span className="text-white">МОИ</span>
+                <span className="text-orange-500"> ОБЪЯВЛЕНИЯ</span>
+              </h1>
+              <p className="text-xl font-bold text-gray-300 uppercase">
+                ВСЕГО: {totalCount} ОБЪЯВЛЕНИЙ
+              </p>
             </div>
+            
+            <Link to="/create-listing">
+              <button className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 text-lg uppercase tracking-wider transition-all duration-300 transform hover:scale-105 mt-6 md:mt-0">
+                <div className="absolute inset-0 border-4 border-black group-hover:border-orange-600 transition-colors"></div>
+                <span className="relative group-hover:text-black flex items-center gap-2">
+                  <Plus size={20} />
+                  ПОДАТЬ ОБЪЯВЛЕНИЕ
+                </span>
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Filters Section */}
+      <div className="bg-gray-900 py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-black p-6 border-4 border-orange-600">
+            <div className="flex flex-col md:flex-row justify-between gap-6">
+              <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+                <span className="text-white font-black text-lg uppercase tracking-wider">СТАТУС:</span>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="bg-gray-900 text-white font-bold px-4 py-2 border-4 border-orange-600 focus:border-white outline-none uppercase tracking-wider"
+                >
+                  <option value="all">ВСЕ</option>
+                  <option value="active">АКТИВНЫЕ</option>
+                  <option value="draft">ЧЕРНОВИКИ</option>
+                  <option value="moderation">НА МОДЕРАЦИИ</option>
+                  <option value="sold">ПРОДАННЫЕ</option>
+                  <option value="archived">АРХИВ</option>
+                  <option value="expired">ИСТЕКШИЕ</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+                <span className="text-white font-black text-lg uppercase tracking-wider">СОРТИРОВКА:</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-gray-900 text-white font-bold px-4 py-2 border-4 border-orange-600 focus:border-white outline-none uppercase tracking-wider"
+                >
+                  <option value="date_desc">СНАЧАЛА НОВЫЕ</option>
+                  <option value="date_asc">СНАЧАЛА СТАРЫЕ</option>
+                  <option value="views_desc">ПО ПРОСМОТРАМ</option>
+                  <option value="price_desc">ПО ЦЕНЕ (УБЫВ.)</option>
+                  <option value="price_asc">ПО ЦЕНЕ (ВОЗР.)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Listings Section */}
+      <div className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          {listingsData.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="bg-gray-900 p-12 border-4 border-orange-600 inline-block">
+                <div className="mb-6">
+                  <FileText size={64} className="text-orange-500 mx-auto" />
+                </div>
+                <h3 className="text-3xl font-black text-white mb-4 uppercase tracking-wider">
+                  НЕТ ОБЪЯВЛЕНИЙ
+                </h3>
+                <p className="text-gray-300 font-bold text-lg uppercase mb-8">
+                  {statusFilter === 'all' 
+                    ? 'СОЗДАЙТЕ ПЕРВОЕ ОБЪЯВЛЕНИЕ' 
+                    : `НЕТ ОБЪЯВЛЕНИЙ СО СТАТУСОМ "${statusFilter.toUpperCase()}"`
+                  }
+                </p>
+                <Link to="/create-listing">
+                  <button className="group relative bg-orange-600 hover:bg-white text-black font-black px-8 py-4 text-lg uppercase tracking-wider transition-all duration-300 transform hover:scale-105">
+                    <div className="absolute inset-0 border-4 border-black group-hover:border-orange-600 transition-colors"></div>
+                    <span className="relative group-hover:text-black flex items-center gap-2">
+                      <Plus size={20} />
+                      СОЗДАТЬ ОБЪЯВЛЕНИЕ
+                    </span>
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-6">
+                {listingsData.map((listing, index) => (
+                  <ListingItem
+                    key={listing.listing_id}
+                    listing={listing}
+                    isLast={index === listingsData.length - 1}
+                    onAction={handleAction}
+                    onEdit={() => navigate(`/edit-listing/${listing.listing_id}`)}
+                    onView={() => navigate(`/listings/${listing.listing_id}`)}
+                  />
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="mt-12 flex justify-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 };
 
 const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
   const formatPrice = (price, currency) => {
-    if (!price) return 'Цена не указана';
+    if (!price) return 'ЦЕНА НЕ УКАЗАНА';
     return new Intl.NumberFormat('ru-KZ').format(price) + ' ' + (currency || '₸');
   };
 
@@ -235,146 +248,105 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
 
   const getStatusColor = (status) => {
     const colors = {
-      active: '#28a745',
-      draft: '#6c757d',
-      moderation: '#ffc107',
-      sold: '#007bff',
-      archived: '#6c757d',
-      expired: '#dc3545',
-      rejected: '#dc3545'
+      active: 'bg-green-600',
+      draft: 'bg-gray-600',
+      moderation: 'bg-yellow-600',
+      sold: 'bg-blue-600',
+      archived: 'bg-gray-600',
+      expired: 'bg-red-600',
+      rejected: 'bg-red-600'
     };
-    return colors[status] || '#6c757d';
+    return colors[status] || 'bg-gray-800';
   };
 
   const getStatusText = (status) => {
     const texts = {
-      active: 'Активно',
-      draft: 'Черновик',
-      moderation: 'На модерации',
-      sold: 'Продано',
-      archived: 'В архиве',
-      expired: 'Истек срок',
-      rejected: 'Отклонено'
+      active: 'АКТИВНО',
+      draft: 'ЧЕРНОВИК',
+      moderation: 'НА МОДЕРАЦИИ',
+      sold: 'ПРОДАНО',
+      archived: 'В АРХИВЕ',
+      expired: 'ИСТЕК СРОК',
+      rejected: 'ОТКЛОНЕНО'
     };
-    return texts[status] || status;
+    return texts[status] || status.toUpperCase();
   };
 
   return (
-    <div style={{
-      padding: '20px',
-      borderBottom: isLast ? 'none' : '1px solid #eee'
-    }}>
-      <div style={{ display: 'flex', gap: '20px' }}>
-        {/* Изображение */}
-        <div style={{
-          width: '150px',
-          height: '100px',
-          backgroundColor: '#f5f5f5',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          flexShrink: 0,
-          cursor: 'pointer'
-        }} onClick={onView}>
+    <div className="group bg-gray-900 hover:bg-gray-800 border-4 border-orange-600 transition-all duration-300 transform hover:scale-[1.02]">
+      <div className="p-6 flex flex-col lg:flex-row gap-6">
+        {/* Image */}
+        <div 
+          className="w-full lg:w-48 h-48 lg:h-32 bg-gray-800 border-4 border-black overflow-hidden cursor-pointer flex-shrink-0 group"
+          onClick={onView}
+        >
           <img
             src={listing.main_image_url || '/placeholder-car.jpg'}
             alt={listing.title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
-            }}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             onError={(e) => {
               e.target.src = '/placeholder-car.jpg';
             }}
           />
         </div>
 
-        {/* Информация */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: '10px'
-          }}>
-            <h3 style={{
-              margin: 0,
-              fontSize: '18px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              color: '#007bff'
-            }} onClick={onView}>
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-4 mb-4">
+            <h3 
+              className="text-2xl font-black text-white cursor-pointer hover:text-orange-500 transition-colors uppercase tracking-wide"
+              onClick={onView}
+            >
               {listing.title}
             </h3>
 
-            <div style={{
-              padding: '4px 8px',
-              borderRadius: '4px',
-              fontSize: '12px',
-              fontWeight: 'bold',
-              color: 'white',
-              backgroundColor: getStatusColor(listing.status),
-              whiteSpace: 'nowrap'
-            }}>
+            <div className={`${getStatusColor(listing.status)} text-white px-4 py-2 font-black text-sm uppercase tracking-wider border-2 border-black`}>
               {getStatusText(listing.status)}
             </div>
           </div>
 
-          <div style={{
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: '#007bff',
-            marginBottom: '10px'
-          }}>
+          <div className="text-3xl font-black text-orange-500 mb-4 uppercase">
             {formatPrice(listing.price, listing.currency_code)}
           </div>
 
-          <div style={{
-            display: 'flex',
-            gap: '20px',
-            fontSize: '14px',
-            color: '#666',
-            marginBottom: '15px'
-          }}>
-            <span>📅 {formatDate(listing.created_date)}</span>
-            <span>👁 {listing.view_count || 0} просмотров</span>
-            <span>❤️ {listing.favorite_count || 0} в избранном</span>
+          <div className="flex flex-wrap gap-6 text-gray-300 font-bold mb-6">
+            <span className="flex items-center gap-2 uppercase tracking-wide">
+              <Calendar size={16} className="text-orange-500" />
+              {formatDate(listing.created_date)}
+            </span>
+            <span className="flex items-center gap-2 uppercase tracking-wide">
+              <Eye size={16} className="text-orange-500" />
+              {listing.view_count || 0} ПРОСМОТРОВ
+            </span>
+            <span className="flex items-center gap-2 uppercase tracking-wide">
+              <Heart size={16} className="text-orange-500" />
+              {listing.favorite_count || 0} В ИЗБРАННОМ
+            </span>
             {listing.expires_date && (
-              <span>⏰ До {formatDate(listing.expires_date)}</span>
+              <span className="flex items-center gap-2 uppercase tracking-wide">
+                <Clock size={16} className="text-orange-500" />
+                ДО {formatDate(listing.expires_date)}
+              </span>
             )}
           </div>
 
-          {/* Действия */}
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          {/* Actions */}
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={onView}
-              style={{
-                padding: '6px 12px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '12px'
-              }}
+              className="bg-blue-600 hover:bg-blue-500 text-white font-black px-4 py-2 text-sm uppercase tracking-wider transition-colors border-2 border-black flex items-center gap-2"
             >
-              👁 Посмотреть
+              <Eye size={14} />
+              ПОСМОТРЕТЬ
             </button>
 
             {(listing.status === 'active' || listing.status === 'draft') && (
               <button
                 onClick={onEdit}
-                style={{
-                  padding: '6px 12px',
-                  backgroundColor: '#ffc107',
-                  color: '#333',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '12px'
-                }}
+                className="bg-yellow-600 hover:bg-yellow-500 text-black font-black px-4 py-2 text-sm uppercase tracking-wider transition-colors border-2 border-black flex items-center gap-2"
               >
-                ✏️ Редактировать
+                <Edit size={14} />
+                РЕДАКТИРОВАТЬ
               </button>
             )}
 
@@ -382,31 +354,17 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
               <>
                 <button
                   onClick={() => onAction(listing.listing_id, 'deactivate', 'Деактивировать объявление?')}
-                  style={{
-                    padding: '6px 12px',
-                    backgroundColor: '#6c757d',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '12px'
-                  }}
+                  className="bg-gray-600 hover:bg-gray-500 text-white font-black px-4 py-2 text-sm uppercase tracking-wider transition-colors border-2 border-black flex items-center gap-2"
                 >
-                  ⏸ Снять с публикации
+                  <Pause size={14} />
+                  СНЯТЬ
                 </button>
                 <button
                   onClick={() => onAction(listing.listing_id, 'mark_sold', 'Отметить как проданное?')}
-                  style={{
-                    padding: '6px 12px',
-                    backgroundColor: '#28a745',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '12px'
-                  }}
+                  className="bg-green-600 hover:bg-green-500 text-white font-black px-4 py-2 text-sm uppercase tracking-wider transition-colors border-2 border-black flex items-center gap-2"
                 >
-                  ✅ Продано
+                  <Check size={14} />
+                  ПРОДАНО
                 </button>
               </>
             )}
@@ -414,50 +372,29 @@ const ListingItem = ({ listing, isLast, onAction, onEdit, onView }) => {
             {listing.status === 'draft' && (
               <button
                 onClick={() => onAction(listing.listing_id, 'publish')}
-                style={{
-                  padding: '6px 12px',
-                  backgroundColor: '#28a745',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '12px'
-                }}
+                className="bg-green-600 hover:bg-green-500 text-white font-black px-4 py-2 text-sm uppercase tracking-wider transition-colors border-2 border-black flex items-center gap-2"
               >
-                📤 Опубликовать
+                <Send size={14} />
+                ОПУБЛИКОВАТЬ
               </button>
             )}
 
             {listing.status === 'expired' && (
               <button
                 onClick={() => onAction(listing.listing_id, 'renew')}
-                style={{
-                  padding: '6px 12px',
-                  backgroundColor: '#17a2b8',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '12px'
-                }}
+                className="bg-cyan-600 hover:bg-cyan-500 text-white font-black px-4 py-2 text-sm uppercase tracking-wider transition-colors border-2 border-black flex items-center gap-2"
               >
-                🔄 Продлить
+                <RotateCcw size={14} />
+                ПРОДЛИТЬ
               </button>
             )}
 
             <button
               onClick={() => onAction(listing.listing_id, 'delete', 'Удалить объявление безвозвратно?')}
-              style={{
-                padding: '6px 12px',
-                backgroundColor: '#dc3545',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '12px'
-              }}
+              className="bg-red-600 hover:bg-red-500 text-white font-black px-4 py-2 text-sm uppercase tracking-wider transition-colors border-2 border-black flex items-center gap-2"
             >
-              🗑 Удалить
+              <Trash2 size={14} />
+              УДАЛИТЬ
             </button>
           </div>
         </div>
